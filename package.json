@@ -1,0 +1,28 @@
+{
+  "name": "wt-helper-app",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "tauri": "tauri"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^1",
+    "vite-plugin-vuetify": "^2.0.3",
+    "vue": "^3.3.4",
+    "vue-router": "4",
+    "vuetify": "^3.6.8"
+  },
+  "devDependencies": {
+    "@mdi/font": "^7.4.47",
+    "@tauri-apps/cli": "^1",
+    "@vitejs/plugin-vue": "^5.0.4",
+    "sass": "^1.77.4",
+    "typescript": "^5.0.2",
+    "vite": "^5.0.0",
+    "vue-tsc": "^1.8.5"
+  }
+}
