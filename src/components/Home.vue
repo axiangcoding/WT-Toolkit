@@ -7,64 +7,40 @@ const router = useRouter()
 
 const appMenu = [
     {
-        key: "wt-paint",
+        key: "wt-skins",
         title: "自定义涂装管理",
         subtitle: "管理《战争雷霆》的自定义涂装文件",
         description: "战雷的涂装安装/卸载太麻烦？不知道游戏的目录在哪里？想快捷管理自定义涂装？试试这个工具吧",
     },
-    // {
-    //     key: "TBD1",
-    //     title: "占位符1",
-    //     subtitle: "占位符1",
-    //     description: "占位符1",
-    // },
-    // {
-    //     key: "TBD2",
-    //     title: "占位符2",
-    //     subtitle: "占位符2",
-    //     description: "占位符2",
-    // },
-    // {
-    //     key: "TBD3",
-    //     title: "占位符3",
-    //     subtitle: "占位符3",
-    //     description: "占位符3",
-    // },
-    // {
-    //     key: "TBD4",
-    //     title: "占位符4",
-    //     subtitle: "占位符4",
-    //     description: "占位符4",
-    // },
-    // {
-    //     key: "TBD5",
-    //     title: "占位符5",
-    //     subtitle: "占位符5",
-    //     description: "占位符5",
-    // },
-    // {
-    //     key: "TBD6",
-    //     title: "占位符6",
-    //     subtitle: "占位符6",
-    //     description: "占位符6",
-    // },
+    {
+        key: "setting",
+        title: "设置",
+        subtitle: "一些功能需要进行设置才能正常使用",
+        description: "程序的正确运行需要一些设置，比如设置战雷的安装目录，设置目录等",
+    },
+    {
+        key: "about",
+        title: "关于APP",
+        subtitle: "关于这个APP的一些信息",
+        description: "由 B站UP主 摸鱼又开摆的三三 开发的一个小工具",
+    }
 ]
 
-import url1 from '@/assets/images/worldwar_window_bg_battle_for_caen.png'
-import url2 from '@/assets/images/worldwar_window_bg_chinese_farm.png'
-import url3 from '@/assets/images/worldwar_window_bg_el_alamein.png'
+import image1 from '@/assets/images/worldwar_window_bg_battle_for_caen.png'
+import image2 from '@/assets/images/worldwar_window_bg_chinese_farm.png'
+import image3 from '@/assets/images/worldwar_window_bg_el_alamein.png'
 
 const banner = [
     {
-        src: url1,
+        src: image1,
         cover: true
     },
     {
-        src: url2,
+        src: image2,
         cover: true
     },
     {
-        src: url3,
+        src: image3,
         cover: true
     }
 ]
@@ -80,11 +56,10 @@ function navigateTo(to: string) {
     <v-carousel hide-delimiters height="180" :cycle="true">
         <v-carousel-item v-for="(item, i) in banner" :key="i" :src="item.src" :cover="item.cover"></v-carousel-item>
     </v-carousel>
-    <!-- <div class="text-h4">来试试我们的小工具吧</div> -->
     <v-container>
         <v-row>
             <v-col cols="6" v-for="item in appMenu" :key="item.key">
-                <v-card class="" color="primary" hover @click="navigateTo(item.key)">
+                <v-card class="" color="primary" hover @click="navigateTo(item.key)" height="130">
                     <v-card-item>
                         <v-card-title>
                             {{ item.title }}
@@ -105,7 +80,4 @@ function navigateTo(to: string) {
 </template>
 
 
-<style scoped>
-
-
-</style>
+<style scoped></style>

@@ -17,6 +17,9 @@ const breadcrumbsItems = [
 ]
 </script>
 
-<template><v-breadcrumbs :items="breadcrumbsItems"></v-breadcrumbs></template>
+<template>
+    <v-breadcrumbs :items="breadcrumbsItems"></v-breadcrumbs>
+    
+</template>
 
 <style scoped></style>

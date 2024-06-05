@@ -43,7 +43,7 @@
     },
     "windows": [
       {
-        "title": "wt-helper-app",
+        "title": "三三的战雷小工具",
         "width": 1600,
         "height": 900,
         "center": true
@@ -55,7 +55,7 @@
     "bundle": {
       "active": true,
       "targets": "all",
-      "identifier": "com.github.axiangcoding",
+      "identifier": "com.github.axiangcoding.wt-helper-app",
       "icon": [
         "icons/32x32.png",
         "icons/128x128.png",

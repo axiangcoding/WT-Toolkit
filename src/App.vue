@@ -2,14 +2,21 @@
 
 import { onMounted, ref } from 'vue';
 import { getVersion } from '@tauri-apps/api/app';
+import { open } from '@tauri-apps/api/shell';
+import { getAppSettings } from './settings';
 
-const appVersion = ref<string>('');
+const appVersion = ref('');
 
 const drawer = ref(false);
 
 onMounted(async () => {
   appVersion.value = await getVersion();
+  await getAppSettings();
 })
+
+async function jumpToBiliBili() {
+  await open('https://space.bilibili.com/8696650')
+}
 
 </script>
 
@@ -20,7 +27,7 @@ onMounted(async () => {
         <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       </template>
 
-      <v-app-bar-title>WT小助手
+      <v-app-bar-title>三三的战雷小工具
         <v-chip color="info">
           v{{ appVersion }}
         </v-chip>
@@ -28,15 +35,14 @@ onMounted(async () => {
       </v-app-bar-title>
 
       <template v-slot:append>
-        <v-btn icon="mdi-heart"></v-btn>
-
-        <!-- <v-btn icon="mdi-magnify"></v-btn> -->
-        <!-- <v-btn icon="mdi-dots-vertical"></v-btn> -->
+        <v-btn prepend-icon="mdi-heart" @click="jumpToBiliBili">
+          关注作者
+        </v-btn>
       </template>
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" :location="$vuetify.display.mobile ? 'bottom' : undefined" temporary>
-      <v-list nav active-strategy="single-leaf" activated="wt-paint" color="primary">
+      <v-list nav active-strategy="single-leaf" activated="wt-skins" color="primary">
         <v-list-item to="/">
           <template v-slot:prepend>
             <v-icon icon="mdi-home"></v-icon>
@@ -44,7 +50,7 @@ onMounted(async () => {
           <v-list-item-title>主页</v-list-item-title>
         </v-list-item>
         <v-list-subheader>战雷小工具</v-list-subheader>
-        <v-list-item to="wt-paint">
+        <v-list-item to="wt-skins">
           <template v-slot:prepend>
             <v-icon icon="mdi-palette-outline"></v-icon>
           </template>
