@@ -180,7 +180,7 @@ async function selectPath(defaultPath: string) {
                 </v-text-field>
             </v-col>
             <v-col cols="12">
-                <v-text-field v-model="appSettings.wt_skins_backup_path" label="战雷自定义涂装备份目录" placeholder="请选择战雷自定义涂装的备份目录"
+                <v-text-field v-model="appSettings.wt_skins_backup_path" label="战争雷霆自定义涂装备份目录" placeholder="请选择战争雷霆自定义涂装的备份目录"
                     type="text" variant="outlined" clearable readonly>
                     <template v-slot:append>
                         <v-container>
