@@ -8,46 +8,46 @@ const router = useRouter()
 const appMenu = [
     {
         key: "wt-paint",
-        title: "一键安装涂装",
-        subtitle: "一键安装《战争雷霆》的涂装文件",
-        description: "战雷的涂装安装/卸载太麻烦？不知道游戏的目录在哪里？试试我们的工具，一键安装/卸载涂装",
+        title: "自定义涂装管理",
+        subtitle: "管理《战争雷霆》的自定义涂装文件",
+        description: "战雷的涂装安装/卸载太麻烦？不知道游戏的目录在哪里？想快捷管理自定义涂装？试试这个工具吧",
     },
-    {
-        key: "TBD1",
-        title: "占位符1",
-        subtitle: "占位符1",
-        description: "占位符1",
-    },
-    {
-        key: "TBD2",
-        title: "占位符2",
-        subtitle: "占位符2",
-        description: "占位符2",
-    },
-    {
-        key: "TBD3",
-        title: "占位符3",
-        subtitle: "占位符3",
-        description: "占位符3",
-    },
-    {
-        key: "TBD4",
-        title: "占位符4",
-        subtitle: "占位符4",
-        description: "占位符4",
-    },
-    {
-        key: "TBD5",
-        title: "占位符5",
-        subtitle: "占位符5",
-        description: "占位符5",
-    },
-    {
-        key: "TBD6",
-        title: "占位符6",
-        subtitle: "占位符6",
-        description: "占位符6",
-    },
+    // {
+    //     key: "TBD1",
+    //     title: "占位符1",
+    //     subtitle: "占位符1",
+    //     description: "占位符1",
+    // },
+    // {
+    //     key: "TBD2",
+    //     title: "占位符2",
+    //     subtitle: "占位符2",
+    //     description: "占位符2",
+    // },
+    // {
+    //     key: "TBD3",
+    //     title: "占位符3",
+    //     subtitle: "占位符3",
+    //     description: "占位符3",
+    // },
+    // {
+    //     key: "TBD4",
+    //     title: "占位符4",
+    //     subtitle: "占位符4",
+    //     description: "占位符4",
+    // },
+    // {
+    //     key: "TBD5",
+    //     title: "占位符5",
+    //     subtitle: "占位符5",
+    //     description: "占位符5",
+    // },
+    // {
+    //     key: "TBD6",
+    //     title: "占位符6",
+    //     subtitle: "占位符6",
+    //     description: "占位符6",
+    // },
 ]
 
 import url1 from '@/assets/images/worldwar_window_bg_battle_for_caen.png'

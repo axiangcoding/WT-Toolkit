@@ -15,6 +15,30 @@
       "shell": {
         "all": false,
         "open": true
+      },
+      "dialog": {
+        "all": false,
+        "ask": false,
+        "confirm": false,
+        "message": false,
+        "open": true,
+        "save": false
+      },
+      "path": {
+        "all": true
+      },
+      "fs": {
+        "all": true,
+        "copyFile": false,
+        "createDir": true,
+        "exists": true,
+        "readDir": true,
+        "readFile": true,
+        "removeDir": true,
+        "removeFile": true,
+        "renameFile": false,
+        "scope": ["$APPCONFIG/*","$CONFIG/*"],
+        "writeFile": true
       }
     },
     "windows": [

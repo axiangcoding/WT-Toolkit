@@ -48,9 +48,15 @@ onMounted(async () => {
           <template v-slot:prepend>
             <v-icon icon="mdi-palette-outline"></v-icon>
           </template>
-          <v-list-item-title>一键安装涂装</v-list-item-title>
+          <v-list-item-title>自定义涂装管理</v-list-item-title>
         </v-list-item>
         <v-list-subheader>APP 信息</v-list-subheader>
+        <v-list-item to="setting">
+          <template v-slot:prepend>
+            <v-icon icon="mdi-cog"></v-icon>
+          </template>
+          <v-list-item-title>设置</v-list-item-title>
+        </v-list-item>
         <v-list-item to="about">
           <template v-slot:prepend>
             <v-icon icon="mdi-information-outline"></v-icon>
