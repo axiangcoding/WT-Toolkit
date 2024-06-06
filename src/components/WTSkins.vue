@@ -151,7 +151,7 @@ watch(pathToLoad, async (newVal) => {
         <v-alert icon="mdi-alert-box" title="免责声明" variant="tonal" type="warning">
           本工具只会读取和写入《战争雷霆》游戏安装目录下的UserSkins文件夹，这个文件夹是游戏官方提供的自定义涂装文件夹，
           因此<strong>使用本工具不存在任何导致游戏账号被封禁的风险</strong>。
-          <div><strong>用户应当对自己所安装的涂装来源和内容负责。因恶意使用导致的任何问题，本工具和作者概不负责！</strong></div>
+          <div><strong>用户应当对自己所安装的涂装来源和内容负责。因用户不当使用导致的任何问题，本工具和作者概不负责！</strong></div>
 
 
         </v-alert>
