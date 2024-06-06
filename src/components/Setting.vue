@@ -2,7 +2,7 @@
 
 import { open } from '@tauri-apps/api/dialog';
 import { onMounted, ref } from 'vue'
-import { appConfigDir } from '@tauri-apps/api/path';
+import { appConfigDir, appLogDir } from '@tauri-apps/api/path';
 import { invoke } from '@tauri-apps/api';
 import { AppSettings, getAppSettings, getDefaultSettings, saveAppSettings } from '../settings';
 
@@ -26,9 +26,12 @@ const breadcrumbsItems = [
     },
 ]
 
-const snackbar = ref(false)
-const snackbarMessage = ref('')
-const snackbarColor = ref('success')
+
+const snackbar = ref({
+    show: false,
+    message: '',
+    color: 'success'
+})
 
 const appSettings = ref<AppSettings>({} as AppSettings)
 
@@ -38,14 +41,28 @@ onMounted(async () => {
 
 async function resetSettings() {
     appSettings.value = await getDefaultSettings()
-    snackbarMessage.value = '重置配置项为默认值'
-    snackbar.value = true
+    snackbar.value = {
+        show: true,
+        message: '重置设置成功',
+        color: 'success'
+    }
 }
 
 async function saveSettings() {
-    await saveAppSettings(appSettings.value)
-    snackbarMessage.value = '保存设置成功'
-    snackbar.value = true
+    try {
+        await saveAppSettings(appSettings.value)
+        snackbar.value = {
+            show: true,
+            message: '保存设置成功',
+            color: 'success'
+        }
+    } catch (error) {
+        snackbar.value = {
+            show: true,
+            message: `保存设置失败: ${error}`,
+            color: 'error'
+        }
+    }
 }
 
 function selectWTInstallPath() {
@@ -61,14 +78,20 @@ function selectWTInstallPath() {
 function autoSelectWTInstallPath() {
     invoke('auto_detected_wt_install_path').then((response) => {
         if (response === null) {
-            snackbarMessage.value = '未检测到战争雷霆游戏安装目录'
-            snackbarColor.value = 'error'
-            snackbar.value = true
+            snackbar.value = {
+                show: true,
+                message: '未检测到战争雷霆游戏安装目录',
+                color: 'error'
+            }
             return
         }
         appSettings.value.wt_install_path = response as string
-        snackbarMessage.value = '自动检测到战争雷霆游戏安装目录'
-        snackbar.value = true
+
+        snackbar.value = {
+            show: true,
+            message: '自动检测到战争雷霆游戏安装目录',
+            color: 'success'
+        }
     })
 }
 
@@ -86,14 +109,19 @@ function selectWTSettingPath() {
 function autoSelectWTSettingPath() {
     invoke('auto_detected_wt_setting_path').then((response) => {
         if (response === null) {
-            snackbarMessage.value = '未检测到战争雷霆游戏设置目录'
-            snackbarColor.value = 'error'
-            snackbar.value = true
+            snackbar.value = {
+                show: true,
+                message: '未检测到战争雷霆游戏设置目录',
+                color: 'error'
+            }
             return
         }
         appSettings.value.wt_setting_path = response as string
-        snackbarMessage.value = '自动检测到战争雷霆游戏设置目录'
-        snackbar.value = true
+        snackbar.value = {
+            show: true,
+            message: '自动检测到战争雷霆游戏设置目录',
+            color: 'success'
+        }
     })
 }
 
@@ -109,8 +137,13 @@ function selectSkinBackupPath() {
 
 
 async function openSettingFolder() {
-    let appConfigDirPath = await appConfigDir()
-    await invoke('show_in_folder', { path: appConfigDirPath })
+    let path = await appConfigDir()
+    await invoke('show_in_folder', { path: path })
+}
+
+async function openLogFolder() {
+    let path = await appLogDir()
+    await invoke('show_in_folder', { path: path })
 }
 
 async function showFolder(path: string) {
@@ -180,8 +213,8 @@ async function selectPath(defaultPath: string) {
                 </v-text-field>
             </v-col>
             <v-col cols="12">
-                <v-text-field v-model="appSettings.wt_skins_backup_path" label="战争雷霆自定义涂装备份目录" placeholder="请选择战争雷霆自定义涂装的备份目录"
-                    type="text" variant="outlined" clearable readonly>
+                <v-text-field v-model="appSettings.wt_skins_backup_path" label="战争雷霆自定义涂装备份目录"
+                    placeholder="请选择战争雷霆自定义涂装的备份目录" type="text" variant="outlined" clearable readonly>
                     <template v-slot:append>
                         <v-container>
                             <v-row>
@@ -197,7 +230,7 @@ async function selectPath(defaultPath: string) {
                     </template>
                 </v-text-field>
             </v-col>
-            <v-col cols="6" offset="6">
+            <v-col cols="12">
                 <v-container>
                     <v-row justify="end">
                         <v-col cols="auto">
@@ -209,15 +242,18 @@ async function selectPath(defaultPath: string) {
                         <v-col cols="auto">
                             <v-btn color="info" @click="openSettingFolder">打开配置文件夹</v-btn>
                         </v-col>
-                        <v-snackbar vertical v-model="snackbar" :color="snackbarColor">
-                            {{ snackbarMessage }}
-                        </v-snackbar>
+                        <v-col cols="auto">
+                            <v-btn color="info" @click="openLogFolder">
+                                打开日志文件夹</v-btn>
+                        </v-col>
                     </v-row>
                 </v-container>
             </v-col>
         </v-row>
     </v-container>
-
+    <v-snackbar vertical v-model="snackbar.show" :color="snackbar.color">
+        {{ snackbar.message }}
+    </v-snackbar>
 </template>
 
 <style scoped></style>

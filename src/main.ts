@@ -9,6 +9,9 @@ import router from './router'
 
 // Components
 import App from './App.vue'
+import { initFolder } from './settings'
 const vuetify = createVuetify()
+
+initFolder()
 
 createApp(App).use(vuetify).use(router).mount('#app')

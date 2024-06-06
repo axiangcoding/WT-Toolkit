@@ -208,6 +208,7 @@ watch(pathToLoad, async (newVal) => {
 
           <v-card-text>
             <!-- <div>涂装介绍：[无]</div> -->
+            <div>载具 {{ skin.vehicle_id }}</div>
             <div>空间占用 {{ (skin.size_bytes / 1024 / 1024).toFixed(2) }}MB</div>
           </v-card-text>
 

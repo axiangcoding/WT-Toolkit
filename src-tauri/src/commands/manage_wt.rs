@@ -94,12 +94,14 @@ pub fn get_user_skins_info(path: String) -> Vec<HashMap<String, String>> {
                 if !check_is_valid_folder_with_blk(&path) {
                     continue;
                 }
+                let vehicle_id = get_blk_name_in_folder(&path);
                 let folder_name = path.file_name().unwrap().to_string_lossy().to_string();
                 let size_kb = get_folder_size(&path);
                 let mut folder_map = HashMap::new();
                 folder_map.insert("name".to_string(), folder_name);
                 folder_map.insert("size_bytes".to_string(), size_kb.to_string());
                 folder_map.insert("path".to_string(), path.to_str().unwrap().to_string());
+                folder_map.insert("vehicle_id".to_string(), vehicle_id);
                 folder_info_vec.push(folder_map);
             }
         }
@@ -232,4 +234,19 @@ fn check_is_valid_folder_with_blk(path: &PathBuf) -> bool {
         }
     }
     return false;
+}
+
+fn get_blk_name_in_folder(path: &PathBuf) -> String {
+    for entry in fs::read_dir(path).unwrap() {
+        let entry = entry.unwrap();
+        let path = entry.path();
+        if path.is_file() {
+            if let Some(ext) = path.extension() {
+                if ext == "blk" {
+                    return path.file_stem().unwrap().to_string_lossy().to_string();
+                }
+            }
+        }
+    }
+    return "".to_string();
 }

@@ -1,5 +1,5 @@
 import { path } from "@tauri-apps/api";
-import { BaseDirectory, exists, readTextFile, writeTextFile } from "@tauri-apps/api/fs";
+import { BaseDirectory, createDir, exists, readTextFile, writeTextFile } from "@tauri-apps/api/fs";
 import { appDataDir } from "@tauri-apps/api/path";
 
 import { invoke } from "@tauri-apps/api";
@@ -22,6 +22,15 @@ export async function getDefaultSettings() {
     };
 
     return settings;
+}
+
+/**
+ * 初始化文件夹
+ */
+export async function initFolder() {
+    await createDir("", { dir: BaseDirectory.AppConfig, recursive: true });
+    await createDir("", { dir: BaseDirectory.AppData, recursive: true });
+    await createDir("", { dir: BaseDirectory.AppLog, recursive: true });
 }
 
 
