@@ -21,7 +21,7 @@ const items = [
     {
         color: 'success',
         icon: 'mdi-star-check',
-        title: 'v0.0.1',
+        title: 'v0.0.1-alpha.1',
         description: [
             '摸鱼又开摆的三三开发的“三三的战雷小工具”第一个版本！梦开始的地方！',
             '这个版本实现了针对战争雷霆自定义涂装管理的基本功能，方便使用者管理自己安装在游戏中的自定义涂装文件。',
