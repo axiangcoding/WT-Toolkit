@@ -1,8 +1,10 @@
 use std::{
     collections::HashMap,
-    fs,
+    fs, io,
     path::{Path, PathBuf},
 };
+
+use zip::ZipArchive;
 
 #[tauri::command]
 pub fn auto_detected_wt_install_path() -> String {
@@ -88,25 +90,10 @@ pub fn get_user_skins_info(path: String) -> Vec<HashMap<String, String>> {
             let path = entry.path();
 
             // 如果是文件夹，并且文件夹下有以.blk后缀的文件，就认为是皮肤文件夹
-
             if path.is_dir() {
-                let mut has_blk_file = false;
-                for entry in fs::read_dir(&path).unwrap() {
-                    let entry = entry.unwrap();
-                    let path = entry.path();
-                    if path.is_file() {
-                        if let Some(ext) = path.extension() {
-                            if ext == "blk" {
-                                has_blk_file = true;
-                                break;
-                            }
-                        }
-                    }
-                }
-                if !has_blk_file {
+                if !check_is_valid_folder_with_blk(&path) {
                     continue;
                 }
-
                 let folder_name = path.file_name().unwrap().to_string_lossy().to_string();
                 let size_kb = get_folder_size(&path);
                 let mut folder_map = HashMap::new();
@@ -119,4 +106,130 @@ pub fn get_user_skins_info(path: String) -> Vec<HashMap<String, String>> {
     }
 
     return folder_info_vec;
+}
+
+#[tauri::command]
+pub fn install_user_skin(skin_path: String, wt_install_path: String) -> Result<(), String> {
+    // 首先检查path是路径还是文件夹
+    // 如果是文件夹，则判断文件夹下是否有.blk文件，如果有，则复制这个文件夹到 wt_install_path 下
+
+    let skin_pb = PathBuf::from(&skin_path);
+    if !skin_pb.exists() {
+        return Err(format!("Path does not exist: {}", skin_pb.display()));
+    }
+    if skin_pb.is_dir() {
+        if !check_is_valid_folder_with_blk(&skin_pb) {
+            return Err(format!("Invalid skin folder: {}", skin_pb.display()));
+        }
+        let new_path = Path::new(&wt_install_path)
+            .join("UserSkins")
+            .join(skin_pb.file_name().unwrap());
+        if new_path.exists() {
+            return Err(format!(
+                "Skin folder already exists: {}",
+                new_path.display()
+            ));
+        }
+        // 文件夹及文件夹下的内容均复制过去
+        match copy_everything_to(&skin_pb, &new_path) {
+            Ok(_) => Ok(()),
+            Err(err) => Err(format!("Failed to copy skin folder: {}", err)),
+        }
+    } else {
+        // 处理压缩文件
+        let extension: &str = skin_pb.extension().and_then(|e| e.to_str()).unwrap_or("");
+        let temp_dir =
+            tempfile::tempdir().map_err(|e| format!("Failed to create temp dir: {}", e))?;
+        let temp_path = temp_dir.path();
+
+        match extension.to_lowercase().as_str() {
+            "zip" => {
+                let file = fs::File::open(&skin_pb)
+                    .map_err(|e| format!("Failed to open zip file: {}", e))?;
+                let mut archive =
+                    ZipArchive::new(file).map_err(|e| format!("Failed to read zip file: {}", e))?;
+                archive
+                    .extract(&temp_path)
+                    .map_err(|e| format!("Failed to extract zip file: {}", e))?;
+            }
+            "rar" => return Err(format!("not support rar file now")),
+            "7z" => {
+                sevenz_rust::decompress_file(&skin_pb, &temp_path)
+                    .map_err(|e| format!("Failed to extract 7z file: {}", e))?;
+            }
+            _ => return Err(format!("Unsupported file extension: {}", extension)),
+        }
+
+        // 查找解压后的文件夹
+        let mut extracted_folder = None;
+        for entry in
+            fs::read_dir(&temp_path).map_err(|e| format!("Failed to read temp dir: {}", e))?
+        {
+            let entry = entry.map_err(|e| format!("Failed to read temp dir entry: {}", e))?;
+            if entry.path().is_dir() {
+                extracted_folder = Some(entry.path());
+                break;
+            }
+        }
+
+        if let Some(extracted_folder) = extracted_folder {
+            if !check_is_valid_folder_with_blk(&extracted_folder) {
+                return Err(format!(
+                    "Invalid skin folder in archive: {}",
+                    extracted_folder.display()
+                ));
+            }
+            let new_path = Path::new(&wt_install_path)
+                .join("UserSkins")
+                .join(extracted_folder.file_name().unwrap());
+            if new_path.exists() {
+                return Err(format!(
+                    "Skin folder already exists: {}",
+                    new_path.display()
+                ));
+            }
+            match copy_everything_to(&extracted_folder, &new_path) {
+                Ok(_) => Ok(()),
+                Err(err) => Err(format!("Failed to copy extracted skin folder: {}", err)),
+            }
+        } else {
+            Err("No folder found in extracted archive".to_string())
+        }
+    }
+}
+
+fn copy_everything_to(old_path: &Path, new_path: &Path) -> io::Result<()> {
+    if old_path.is_dir() {
+        fs::create_dir(new_path)?;
+        for entry in fs::read_dir(old_path)? {
+            let entry = entry?;
+            let path = entry.path();
+            let new_path = new_path.join(path.file_name().unwrap());
+            copy_everything_to(&path, &new_path)?;
+        }
+    } else {
+        fs::copy(old_path, new_path)?;
+    }
+    Ok(())
+}
+
+fn check_is_valid_folder_with_blk(path: &PathBuf) -> bool {
+    if !path.exists() {
+        return false;
+    }
+    if !path.is_dir() {
+        return false;
+    }
+    for entry in fs::read_dir(path).unwrap() {
+        let entry = entry.unwrap();
+        let path = entry.path();
+        if path.is_file() {
+            if let Some(ext) = path.extension() {
+                if ext == "blk" {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
 }

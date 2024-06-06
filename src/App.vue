@@ -36,7 +36,10 @@ async function jumpToBiliBili() {
 
       <template v-slot:append>
         <v-btn prepend-icon="mdi-heart" @click="jumpToBiliBili">
-          关注作者
+          <template v-slot:prepend>
+            <v-icon color="red"></v-icon>
+          </template>
+          关注作者 - 摸鱼又开摆的三三
         </v-btn>
       </template>
     </v-app-bar>

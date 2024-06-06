@@ -1,7 +1,6 @@
 use std::fs;
 use std::path::Path;
 use std::process::Command;
-use tauri::command;
 
 #[tauri::command]
 pub fn show_in_folder(path: String) {
@@ -84,3 +83,5 @@ pub fn create_folder(path: String)  {
         fs::create_dir_all(path).unwrap();
     }
 }
+
+

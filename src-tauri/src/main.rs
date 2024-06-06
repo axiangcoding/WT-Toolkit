@@ -14,7 +14,8 @@ fn main() {
             commands::os::create_folder,
             commands::manage_wt::auto_detected_wt_install_path,
             commands::manage_wt::auto_detected_wt_setting_path,
-            commands::manage_wt::get_user_skins_info
+            commands::manage_wt::get_user_skins_info,
+            commands::manage_wt::install_user_skin
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

@@ -142,7 +142,7 @@ async function selectPath(defaultPath: string) {
                                 <v-col cols="auto">
                                     <v-btn color="warning" @click="autoSelectWTInstallPath">
                                         自动检测
-                                        <v-tooltip activator="parent" location="bottom">程序将自动检测游戏安装路径</v-tooltip>
+                                        <v-tooltip activator="parent" location="bottom">小工具将自动检测游戏安装路径</v-tooltip>
                                     </v-btn>
                                 </v-col>
                                 <v-col cols="auto">
@@ -165,7 +165,7 @@ async function selectPath(defaultPath: string) {
                                 <v-col cols="auto">
                                     <v-btn color="warning" @click="autoSelectWTSettingPath">
                                         自动检测
-                                        <v-tooltip activator="parent" location="bottom">程序将自动检测游戏设置路径</v-tooltip>
+                                        <v-tooltip activator="parent" location="bottom">小工具将自动检测游戏设置路径</v-tooltip>
                                     </v-btn>
                                 </v-col>
                                 <v-col cols="auto">

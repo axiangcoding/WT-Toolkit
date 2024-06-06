@@ -16,7 +16,7 @@ const appMenu = [
         key: "setting",
         title: "设置",
         subtitle: "一些功能需要进行设置才能正常使用",
-        description: "程序的正确运行需要一些设置，比如设置战雷的安装目录，设置目录等",
+        description: "小工具的正确运行需要一些设置，比如设置战雷的安装目录，设置目录等",
     },
     {
         key: "about",
