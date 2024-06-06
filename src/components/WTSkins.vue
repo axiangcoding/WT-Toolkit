@@ -85,7 +85,6 @@ async function deleteSkin(skin_folder_path: string) {
 function countTotalSize() {
   let totalSize = 0
   userSkins.value.forEach((skin: any) => {
-    // console.log(skin.size_bytes)
     totalSize += (skin.size_bytes / 1024 / 1024)
   })
   totalUserSkinsSizeInMB.value = totalSize
@@ -148,11 +147,15 @@ watch(pathToLoad, async (newVal) => {
           text="下载了自定义涂装后，你可以使用本工具进行一键安装。不过，在使用前，你还需要进入到 “设置”页面 配置好 “战争雷霆游戏安装目录” 配置项，这样小工具才能正确管理你的自定义涂装"
           type="info"></v-alert>
       </v-col>
-      <!-- <v-col cols="12">
-        <v-alert icon="mdi-alert-box" title="免责声明"
-          text="针对自定义涂装的任何操作均只限于读取和写入 战争雷霆游戏安装目录/UserSkins 下的文件，不会对游戏目录下的其他任何文件进行操作，因此不存在任何可能导致使用者游戏账号被封禁的可能。"
-          type="warning"></v-alert>
-      </v-col> -->
+      <v-col cols="12">
+        <v-alert icon="mdi-alert-box" title="免责声明" variant="tonal" type="warning">
+          本工具只会读取和写入《战争雷霆》游戏安装目录下的UserSkins文件夹，这个文件夹是游戏官方提供的自定义涂装文件夹，
+          因此<strong>使用本工具不存在任何导致游戏账号被封禁的风险</strong>。
+          <div><strong>用户应当对自己所安装的涂装来源和内容负责。因恶意使用导致的任何问题，本工具和作者概不负责！</strong></div>
+
+
+        </v-alert>
+      </v-col>
       <v-col cols="12">
         <span class="text-h5">一键安装自定义涂装！</span>
       </v-col>

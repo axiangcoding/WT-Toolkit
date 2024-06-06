@@ -53,8 +53,8 @@ function navigateTo(to: string) {
 
 
 <template>
-    <v-carousel hide-delimiters height="180" :cycle="true">
-        <v-carousel-item v-for="(item, i) in banner" :key="i" :src="item.src" :cover="item.cover"></v-carousel-item>
+    <v-carousel hide-delimiters height="180" :cycle="true" >
+        <v-carousel-item v-for="(item, i) in banner" :key="i" :src="item.src" :cover="item.cover" @contextmenu.prevent></v-carousel-item>
     </v-carousel>
     <v-container>
         <v-row>

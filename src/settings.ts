@@ -1,5 +1,5 @@
 import { path } from "@tauri-apps/api";
-import { BaseDirectory, createDir, exists, readTextFile, writeTextFile } from "@tauri-apps/api/fs";
+import { BaseDirectory, exists, readTextFile, writeTextFile } from "@tauri-apps/api/fs";
 import { appDataDir } from "@tauri-apps/api/path";
 
 import { invoke } from "@tauri-apps/api";

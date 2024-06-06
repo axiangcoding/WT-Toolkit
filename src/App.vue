@@ -9,6 +9,10 @@ const appVersion = ref('');
 
 const drawer = ref(false);
 
+const feedbackDialog = ref(false);
+
+import qqGroupQrCode from '@/assets/images/qrcode.jpg';
+
 onMounted(async () => {
   appVersion.value = await getVersion();
   await getAppSettings();
@@ -41,6 +45,11 @@ async function jumpToBiliBili() {
           </template>
           关注作者 - 摸鱼又开摆的三三
         </v-btn>
+        <v-btn prepend-icon="mdi-bug" @click="feedbackDialog = true">
+          <template v-slot:prepend>
+            <v-icon></v-icon>
+          </template>
+          反馈问题</v-btn>
       </template>
     </v-app-bar>
 
@@ -77,10 +86,20 @@ async function jumpToBiliBili() {
     <v-main class="align-center justify-center">
       <RouterView />
     </v-main>
-    <!-- <v-footer>
-      33的神秘APP
-    </v-footer> -->
   </v-app>
+  <v-dialog v-model="feedbackDialog" width="auto" transition="dialog-top-transition">
+    <v-card max-width="400" prepend-icon="mdi-bug" s>
+      <template v-slot:title>
+        报告 BUG
+      </template>
+      <v-card-text>
+        加入开发者QQ群反馈问题
+
+        <v-img :src="qqGroupQrCode" width="auto" />
+      </v-card-text>
+      <v-card-actions><v-btn color="success" text="好的" @click="feedbackDialog = false"></v-btn></v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <style scoped></style>
