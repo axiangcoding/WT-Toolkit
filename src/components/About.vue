@@ -19,9 +19,8 @@ const breadcrumbsItems = [
 
 const items = [
     {
-        color: 'primary',
-        icon: 'mdi-star',
         title: 'v0.0.1',
+        latest: false,
         subtitle: '三三开发的“三三的战雷小工具”第一个版本！梦开始的地方！',
         description: [
             '这个版本实现了针对战争雷霆自定义涂装管理的基本功能，方便使用者管理自己安装在游戏中的自定义涂装文件。',
@@ -29,15 +28,23 @@ const items = [
         ],
     },
     {
-        color: 'success',
-        icon: 'mdi-star-check',
         title: 'v0.0.2',
+        latest: false,
         subtitle: '这个版本主要完善了用户体验，调整了界面布局等',
         description: [
             '修复了无法设置配置项的问题',
             '优化了自定义涂装管理界面的体验',
         ],
     },
+    {
+        title: 'v0.0.3',
+        latest: true,
+        subtitle: '这个版本主要强化自定义涂装管理功能，并增加了一些额外的新功能',
+        description: [
+            '自定义涂装管理支持嵌套目录',
+            '支持备份涂装文件',
+        ],
+    }
 ]
 </script>
 
@@ -45,13 +52,15 @@ const items = [
     <v-breadcrumbs :items="breadcrumbsItems"></v-breadcrumbs>
     <v-container>
         <v-row>
-            <v-col>
+            <v-col cols="6">
                 <v-timeline side="end">
-                    <v-timeline-item v-for="item in items" :key="item.title" size="small" :dot-color="item.color">
-                        <v-card :color="item.color" :prepend-icon="item.icon" :value="true" variant="outlined"
-                            width="700">
+                    <v-timeline-item v-for="item in items" :key="item.title" size="small"
+                        :dot-color="item.latest ? 'success' : 'primary'">
+                        <v-card :color="item.latest ? 'success' : 'primary'"
+                            :prepend-icon="item.latest ? 'mdi-star-check' : 'mdi-star'" :value="true" variant="outlined"
+                            width="480">
                             <template v-slot:title>
-                                {{ item.title }} {{ item.color === 'success' ? '- 最新版本' : '' }}
+                                {{ item.title }} {{ item.latest ? '- 最新版本' : '' }}
                             </template>
                             <v-card-subtitle>{{ item.subtitle }}</v-card-subtitle>
                             <v-card-text>

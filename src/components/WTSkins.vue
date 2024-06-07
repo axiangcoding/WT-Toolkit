@@ -71,7 +71,7 @@ async function loadUserSkins() {
     return
   }
 
-  userSkins.value = await invoke('get_user_skins_info', { path: user_skin_path })
+  userSkins.value = await invoke('get_user_skins', { wtInstallPath: user_skin_path })
   countTotalSize()
   snackbar.value = {
     show: true,
@@ -107,7 +107,7 @@ async function deleteSkin(skin_folder_path: string) {
 function countTotalSize() {
   let totalSize = 0
   userSkins.value.forEach((skin: any) => {
-    totalSize += (skin.size_bytes / 1024 / 1024)
+    totalSize += (skin.folder_size / 1024 / 1024)
   })
   totalUserSkinsSizeInMB.value = totalSize
 }
@@ -214,8 +214,11 @@ watch(showConfirmSkinDialog, async (newVal) => {
         <div class="text-h5">已安装的自定义涂装</div>
       </v-col>
       <v-col cols="6" align="right">
+
         <v-chip>总空间占用：{{ totalUserSkinsSizeInMB.toFixed(2) }} MB</v-chip>
         <v-divider class="mx-3" vertical />
+        <v-btn color="primary" icon="mdi-sort" @click=""></v-btn>
+        <v-divider class="mx-1" vertical />
         <v-btn color="primary" icon="mdi-refresh" @click="loadUserSkins"></v-btn>
       </v-col>
 
@@ -248,12 +251,12 @@ watch(showConfirmSkinDialog, async (newVal) => {
   <v-dialog v-model="deleteSkinDialog.show" width="auto">
     <v-card prepend-icon="mdi-alert">
       <template v-slot:title>
-        <span class="font-weight-black">删除自定义涂装 {{ deleteSkinDialog.data.name }}</span>
+        <span class="font-weight-black">删除自定义涂装 {{ deleteSkinDialog.data.skin_name }}</span>
       </template>
       <v-card-title></v-card-title>
       <v-card-text>删除后无法恢复，确定要删除这个自定义皮肤吗？我们建议您备份后再删除</v-card-text>
       <template v-slot:actions>
-        <v-btn color="error" text="确定" @click="deleteSkin(deleteSkinDialog.data.path)"></v-btn>
+        <v-btn color="error" text="确定" @click="deleteSkin(deleteSkinDialog.data.full_path)"></v-btn>
         <v-btn text="取消" @click="deleteSkinDialog.show = false"></v-btn>
       </template>
     </v-card>

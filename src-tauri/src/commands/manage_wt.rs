@@ -1,14 +1,13 @@
 use std::{
-    collections::HashMap,
     fs, io,
+    os::windows::fs::MetadataExt,
     path::{Path, PathBuf},
 };
-
+use walkdir::WalkDir;
 use zip::ZipArchive;
 
 #[tauri::command]
 pub fn auto_detected_wt_install_path() -> Result<String, String> {
-    // 定义一个列表
     let paths_to_scan: Vec<PathBuf>;
 
     if cfg!(target_os = "windows") {
@@ -21,13 +20,11 @@ pub fn auto_detected_wt_install_path() -> Result<String, String> {
             PathBuf::from("H:\\Program Files\\Steam\\steamapps\\common\\War Thunder"),
         ];
     } else if cfg!(target_os = "linux") {
-        // 在Linux下常见的Steam路径
         paths_to_scan = vec![
             PathBuf::from("/home/user/.local/share/Steam/steamapps/common/War Thunder"),
             PathBuf::from("/usr/local/share/Steam/steamapps/common/War Thunder"),
         ];
     } else if cfg!(target_os = "macos") {
-        // 在MacOS下常见的Steam路径
         paths_to_scan = vec![PathBuf::from(
             "/Users/user/Library/Application Support/Steam/steamapps/common/War Thunder",
         )];
@@ -35,7 +32,6 @@ pub fn auto_detected_wt_install_path() -> Result<String, String> {
         paths_to_scan = vec![];
     }
 
-    // 遍历列表
     for path in paths_to_scan {
         if check_is_folder_contains_wt_launcher(&path) {
             return Ok(path.to_str().unwrap().to_string());
@@ -59,62 +55,19 @@ pub fn auto_detected_wt_setting_path() -> String {
     return "".to_string();
 }
 
-fn get_folder_size(path: &Path) -> u64 {
-    let mut size = 0;
-
-    for entry in fs::read_dir(path).unwrap() {
-        let entry = entry.unwrap();
-        let path = entry.path();
-
-        if path.is_dir() {
-            size += get_folder_size(&path);
-        } else {
-            size += entry.metadata().unwrap().len();
-        }
-    }
-
-    return size;
-}
-
-#[tauri::command]
-pub fn get_user_skins_info(path: String) -> Vec<HashMap<String, String>> {
-    let mut folder_info_vec = Vec::new();
-    let dir = Path::new(&path).join("UserSkins");
-    if dir.is_dir() {
-        for entry in fs::read_dir(dir).unwrap() {
-            let entry = entry.unwrap();
-            let path = entry.path();
-
-            // 如果是文件夹，并且文件夹下有以.blk后缀的文件，就认为是皮肤文件夹
-            if path.is_dir() {
-                if !check_is_folder_contains_blk_file(&path) {
-                    continue;
-                }
-                let vehicle_id = get_blk_name_in_folder(&path);
-                let folder_name = path.file_name().unwrap().to_string_lossy().to_string();
-                let size_kb = get_folder_size(&path);
-                let mut folder_map = HashMap::new();
-                folder_map.insert("name".to_string(), folder_name);
-                folder_map.insert("size_bytes".to_string(), size_kb.to_string());
-                folder_map.insert("path".to_string(), path.to_str().unwrap().to_string());
-                folder_map.insert("vehicle_id".to_string(), vehicle_id);
-                folder_info_vec.push(folder_map);
-            }
-        }
-    }
-
-    return folder_info_vec;
-}
-
 #[tauri::command]
 pub fn install_user_skin(skin_path: String, wt_install_path: String) -> Result<(), String> {
-    // 首先检查path是路径还是文件夹
-    // 如果是文件夹，则判断文件夹下是否有.blk文件，如果有，则复制这个文件夹到 wt_install_path 下
-
     let skin_pb = PathBuf::from(&skin_path);
     if !skin_pb.exists() {
         return Err(format!("Path does not exist: {}", skin_pb.display()));
     }
+    // 如果涂装文件夹不存在，则创建
+    let skin_base_path = Path::new(&wt_install_path).join("UserSkins");
+    if !skin_base_path.exists() {
+        fs::create_dir_all(skin_base_path).unwrap();
+    }
+    // 首先检查path是路径还是文件夹
+    // 如果是文件夹，则判断文件夹下是否有.blk文件，如果有，则复制这个文件夹到 wt_install_path 下
     if skin_pb.is_dir() {
         if !check_is_folder_contains_blk_file(&skin_pb) {
             return Err(format!("Invalid skin folder: {}", skin_pb.display()));
@@ -128,8 +81,6 @@ pub fn install_user_skin(skin_path: String, wt_install_path: String) -> Result<(
                 new_path.display()
             ));
         }
-        // FIXME：如果UserSkins文件夹不存在，会报错，需要创建UserSkins文件夹
-        // 文件夹及文件夹下的内容均复制过去
         match copy_everything_to(&skin_pb, &new_path) {
             Ok(_) => Ok(()),
             Err(err) => Err(format!("Failed to copy skin folder: {}", err)),
@@ -187,7 +138,6 @@ pub fn install_user_skin(skin_path: String, wt_install_path: String) -> Result<(
                     new_path.display()
                 ));
             }
-            // FIXME：如果UserSkins文件夹不存在，会报错，需要创建UserSkins文件夹
             match copy_everything_to(&extracted_folder, &new_path) {
                 Ok(_) => Ok(()),
                 Err(err) => Err(format!("Failed to copy extracted skin folder: {}", err)),
@@ -226,7 +176,6 @@ fn check_is_folder_contains_wt_launcher(path: &Path) -> bool {
 
 fn copy_everything_to(old_path: &Path, new_path: &Path) -> io::Result<()> {
     if old_path.is_dir() {
-
         fs::create_dir(new_path)?;
         for entry in fs::read_dir(old_path)? {
             let entry = entry?;
@@ -261,17 +210,77 @@ fn check_is_folder_contains_blk_file(path: &PathBuf) -> bool {
     return false;
 }
 
-fn get_blk_name_in_folder(path: &PathBuf) -> String {
-    for entry in fs::read_dir(path).unwrap() {
+#[derive(Debug, serde::Serialize)]
+pub struct UserSkinInfo {
+    vehicle_id: String,
+    skin_name: String,
+    full_path: String,
+    resources: Vec<String>,
+    folder_size: u64,
+}
+
+fn calculate_directory_size(path: &Path) -> io::Result<u64> {
+    let mut total_size = 0;
+    for entry in WalkDir::new(path) {
+        let entry = entry?;
+        if entry.file_type().is_file() {
+            total_size += entry.metadata()?.len();
+        }
+    }
+    Ok(total_size)
+}
+
+#[tauri::command]
+pub fn get_user_skins(wt_install_path: String) -> Result<Vec<UserSkinInfo>, String> {
+    let skin_base_path = Path::new(&wt_install_path).join("UserSkins");
+
+    if !skin_base_path.exists() {
+        return Err("UserSkins folder not found".to_string());
+    }
+    let mut infos = Vec::new();
+    for entry in WalkDir::new(&skin_base_path).min_depth(1).max_depth(10) {
         let entry = entry.unwrap();
-        let path = entry.path();
-        if path.is_file() {
-            if let Some(ext) = path.extension() {
-                if ext == "blk" {
-                    return path.file_stem().unwrap().to_string_lossy().to_string();
+        if entry.file_type().is_dir() {
+            let mut blk_files = Vec::new();
+            let mut resources = Vec::new();
+            for inner_entry in WalkDir::new(entry.path()).min_depth(1).max_depth(1) {
+                let inner_entry = inner_entry.unwrap();
+                if inner_entry.file_type().is_file() {
+                    if let Some(ext) = inner_entry.path().extension() {
+                        if ext == "blk" {
+                            blk_files.push(inner_entry);
+                        } else {
+                            resources.push(inner_entry.path().to_string_lossy().to_string());
+                        }
+                    }
                 }
+            }
+
+            if blk_files.len() > 0 {
+                let skin_base_path_str = skin_base_path.to_str().unwrap().to_string();
+                let vehicle_id = blk_files[0]
+                    .path()
+                    .file_stem()
+                    .unwrap()
+                    .to_string_lossy()
+                    .to_string();
+                let skin_name = entry
+                    .path()
+                    .strip_prefix(&skin_base_path_str)
+                    .unwrap()
+                    .to_string_lossy()
+                    .to_string();
+                let full_path = entry.path().to_string_lossy().to_string();
+                let folder_size = calculate_directory_size(entry.path()).unwrap();
+                infos.push(UserSkinInfo {
+                    vehicle_id,
+                    skin_name,
+                    full_path,
+                    resources,
+                    folder_size,
+                });
             }
         }
     }
-    return "".to_string();
+    Ok(infos)
 }
