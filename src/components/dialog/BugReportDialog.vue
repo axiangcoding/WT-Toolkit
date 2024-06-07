@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import qqGroupQrCode from '@/assets/images/qrcode.jpg';
 
-const show = defineModel()
+const show = defineModel<boolean>()
 
 </script>
 
 <template>
     <v-dialog v-model="show" width="auto">
-        <v-card max-width="400" prepend-icon="mdi-bug" s>
+        <v-card max-width="450" prepend-icon="mdi-bug">
             <template v-slot:title>
                 报告 BUG
             </template>

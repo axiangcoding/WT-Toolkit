@@ -27,7 +27,7 @@ async function showSkin(skin_folder_path: string) {
         </v-card-text>
 
         <v-card-actions>
-            <v-btn color="primary" text="查看" @click="showSkin(props.skinMetadata.path)"></v-btn>
+            <v-btn color="primary" text="查看文件夹" @click="showSkin(props.skinMetadata.path)"></v-btn>
             <!-- <v-btn color="warning" text="备份"></v-btn> -->
             <v-btn color="error" text="删除" @click="$emit('delete-skin', props.skinMetadata)"></v-btn>
 

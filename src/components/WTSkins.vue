@@ -7,6 +7,8 @@ import { listen } from '@tauri-apps/api/event';
 import { open } from '@tauri-apps/api/dialog';
 import UserSkinCard from './card/UserSkinCard.vue';
 import CommonSnackbar from './snackbar/CommonSnackbar.vue';
+import LoadUserSkinDialog from './dialog/LoadUserSkinDialog.vue';
+
 
 const breadcrumbsItems = [
   {
@@ -32,7 +34,10 @@ const totalUserSkinsSizeInMB = ref(0)
 
 const showEmptyState = ref(false)
 
+const showConfirmSkinDialog = ref(false)
+
 const pathToLoad = ref('')
+const installLoading = ref(false)
 
 const snackbar = ref({
   show: false,
@@ -130,25 +135,38 @@ async function selectSkinPath(directory: boolean) {
   }
 }
 
+async function startLoadSkin() {
+  try {
+    installLoading.value = true
+    await invoke('install_user_skin', { skinPath: pathToLoad.value, wtInstallPath: appSettings.value.wt_install_path })
+    await loadUserSkins()
+    pathToLoad.value = ''
+    snackbar.value = {
+      show: true,
+      message: '自定义涂装安装成功',
+      color: 'success'
+    }
+  } catch (error) {
+    pathToLoad.value = ''
+    snackbar.value = {
+      show: true,
+      message: error as string,
+      color: 'error'
+    }
+  } finally {
+    installLoading.value = false
+  }
+}
+
 watch(pathToLoad, async (newVal) => {
   if (newVal) {
-    try {
-      await invoke('install_user_skin', { skinPath: newVal, wtInstallPath: appSettings.value.wt_install_path })
-      await loadUserSkins()
-      pathToLoad.value = ''
-      snackbar.value = {
-        show: true,
-        message: '自定义涂装安装成功',
-        color: 'success'
-      }
-    } catch (error) {
-      pathToLoad.value = ''
-      snackbar.value = {
-        show: true,
-        message: error as string,
-        color: 'error'
-      }
-    }
+    showConfirmSkinDialog.value = true
+  }
+})
+
+watch(showConfirmSkinDialog, async (newVal) => {
+  if (!newVal) {
+    pathToLoad.value = ''
   }
 })
 
@@ -156,6 +174,7 @@ watch(pathToLoad, async (newVal) => {
 
 
 <template>
+
   <v-breadcrumbs :items="breadcrumbsItems"></v-breadcrumbs>
   <v-container>
     <v-row>
@@ -175,6 +194,7 @@ watch(pathToLoad, async (newVal) => {
         <span class="text-h5">一键安装自定义涂装！</span>
       </v-col>
       <v-col cols="12" align="center">
+
         <v-card border="dashed" variant="outlined" :disabled="appSettings.wt_install_path == null">
           <v-card-title>选择自定义涂装的压缩包或者文件夹</v-card-title>
           <v-card-text>
@@ -189,7 +209,6 @@ watch(pathToLoad, async (newVal) => {
           </v-card-actions>
 
         </v-card>
-
       </v-col>
       <v-col cols="6">
         <div class="text-h5">已安装的自定义涂装</div>
@@ -240,6 +259,10 @@ watch(pathToLoad, async (newVal) => {
     </v-card>
   </v-dialog>
   <CommonSnackbar v-model="snackbar" />
+  <LoadUserSkinDialog v-model="showConfirmSkinDialog" :skin-path="pathToLoad" @confirm="startLoadSkin" />
+  <v-overlay :model-value="installLoading" class="align-center justify-center" persistent>
+    <v-progress-circular :size="70" :width="7" color="primary" indeterminate></v-progress-circular>
+  </v-overlay>
 </template>
 
 <style scoped></style>
