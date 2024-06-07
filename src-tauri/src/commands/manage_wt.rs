@@ -128,6 +128,7 @@ pub fn install_user_skin(skin_path: String, wt_install_path: String) -> Result<(
                 new_path.display()
             ));
         }
+        // FIXME：如果UserSkins文件夹不存在，会报错，需要创建UserSkins文件夹
         // 文件夹及文件夹下的内容均复制过去
         match copy_everything_to(&skin_pb, &new_path) {
             Ok(_) => Ok(()),
@@ -186,6 +187,7 @@ pub fn install_user_skin(skin_path: String, wt_install_path: String) -> Result<(
                     new_path.display()
                 ));
             }
+            // FIXME：如果UserSkins文件夹不存在，会报错，需要创建UserSkins文件夹
             match copy_everything_to(&extracted_folder, &new_path) {
                 Ok(_) => Ok(()),
                 Err(err) => Err(format!("Failed to copy extracted skin folder: {}", err)),
@@ -224,6 +226,7 @@ fn check_is_folder_contains_wt_launcher(path: &Path) -> bool {
 
 fn copy_everything_to(old_path: &Path, new_path: &Path) -> io::Result<()> {
     if old_path.is_dir() {
+
         fs::create_dir(new_path)?;
         for entry in fs::read_dir(old_path)? {
             let entry = entry?;
