@@ -7,7 +7,7 @@ use std::{
 use zip::ZipArchive;
 
 #[tauri::command]
-pub fn auto_detected_wt_install_path() -> String {
+pub fn auto_detected_wt_install_path() -> Result<String, String> {
     // 定义一个列表
     let paths_to_scan: Vec<PathBuf>;
 
@@ -37,15 +37,11 @@ pub fn auto_detected_wt_install_path() -> String {
 
     // 遍历列表
     for path in paths_to_scan {
-        if path.exists() {
-            // 检查目录下的launcher.exe（在Linux上可能是launcher或其他可执行文件）是否存在
-            let launcher_path = path.join("launcher.exe"); // 在Linux上这个可能是不同的
-            if launcher_path.exists() {
-                return path.to_str().unwrap().to_string();
-            }
+        if check_is_folder_contains_wt_launcher(&path) {
+            return Ok(path.to_str().unwrap().to_string());
         }
     }
-    "".to_string()
+    return Err("War Thunder install path not found".to_string());
 }
 
 #[tauri::command]
@@ -91,7 +87,7 @@ pub fn get_user_skins_info(path: String) -> Vec<HashMap<String, String>> {
 
             // 如果是文件夹，并且文件夹下有以.blk后缀的文件，就认为是皮肤文件夹
             if path.is_dir() {
-                if !check_is_valid_folder_with_blk(&path) {
+                if !check_is_folder_contains_blk_file(&path) {
                     continue;
                 }
                 let vehicle_id = get_blk_name_in_folder(&path);
@@ -120,7 +116,7 @@ pub fn install_user_skin(skin_path: String, wt_install_path: String) -> Result<(
         return Err(format!("Path does not exist: {}", skin_pb.display()));
     }
     if skin_pb.is_dir() {
-        if !check_is_valid_folder_with_blk(&skin_pb) {
+        if !check_is_folder_contains_blk_file(&skin_pb) {
             return Err(format!("Invalid skin folder: {}", skin_pb.display()));
         }
         let new_path = Path::new(&wt_install_path)
@@ -175,7 +171,7 @@ pub fn install_user_skin(skin_path: String, wt_install_path: String) -> Result<(
         }
 
         if let Some(extracted_folder) = extracted_folder {
-            if !check_is_valid_folder_with_blk(&extracted_folder) {
+            if !check_is_folder_contains_blk_file(&extracted_folder) {
                 return Err(format!(
                     "Invalid skin folder in archive: {}",
                     extracted_folder.display()
@@ -200,6 +196,32 @@ pub fn install_user_skin(skin_path: String, wt_install_path: String) -> Result<(
     }
 }
 
+#[tauri::command]
+pub fn check_is_valid_wt_install_path(path: String) -> bool {
+    let path = Path::new(&path);
+    check_is_folder_contains_wt_launcher(path)
+}
+
+// Check if the folder contains the War Thunder launcher
+// TODO: Maybe not working on Linux and MacOS
+fn check_is_folder_contains_wt_launcher(path: &Path) -> bool {
+    if !path.exists() {
+        return false;
+    }
+    if !path.is_dir() {
+        return false;
+    }
+    let launcher_names = vec!["launcher.exe"];
+
+    for name in launcher_names {
+        let launcher_path = path.join(name);
+        if launcher_path.exists() {
+            return true;
+        }
+    }
+    return false;
+}
+
 fn copy_everything_to(old_path: &Path, new_path: &Path) -> io::Result<()> {
     if old_path.is_dir() {
         fs::create_dir(new_path)?;
@@ -215,7 +237,7 @@ fn copy_everything_to(old_path: &Path, new_path: &Path) -> io::Result<()> {
     Ok(())
 }
 
-fn check_is_valid_folder_with_blk(path: &PathBuf) -> bool {
+fn check_is_folder_contains_blk_file(path: &PathBuf) -> bool {
     if !path.exists() {
         return false;
     }

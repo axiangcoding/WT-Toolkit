@@ -6,7 +6,7 @@ import { appConfigDir, appLogDir } from '@tauri-apps/api/path';
 import { invoke } from '@tauri-apps/api';
 import { AppSettings, getAppSettings, getDefaultSettings, saveAppSettings } from '../settings';
 
-
+import CommonSnackbar from './snackbar/CommonSnackbar.vue';
 
 
 const breadcrumbsItems = [
@@ -75,24 +75,21 @@ function selectWTInstallPath() {
     })
 }
 
-function autoSelectWTInstallPath() {
-    invoke('auto_detected_wt_install_path').then((response) => {
-        if (response === null) {
-            snackbar.value = {
-                show: true,
-                message: '未检测到战争雷霆游戏安装目录',
-                color: 'error'
-            }
-            return
-        }
-        appSettings.value.wt_install_path = response as string
-
+async function autoSelectWTInstallPath() {
+    try {
+        appSettings.value.wt_install_path = await invoke('auto_detected_wt_install_path')
         snackbar.value = {
             show: true,
-            message: '自动检测到战争雷霆游戏安装目录',
+            message: '自动检测到战争雷霆游戏安装目录！',
             color: 'success'
         }
-    })
+    } catch (error) {
+        snackbar.value = {
+            show: true,
+            message: `自动检测游戏安装目录失败: ${error}`,
+            color: 'error'
+        }
+    }
 }
 
 function selectWTSettingPath() {
@@ -251,9 +248,7 @@ async function selectPath(defaultPath: string) {
             </v-col>
         </v-row>
     </v-container>
-    <v-snackbar vertical v-model="snackbar.show" :color="snackbar.color">
-        {{ snackbar.message }}
-    </v-snackbar>
+    <CommonSnackbar v-model="snackbar" />
 </template>
 
 <style scoped></style>

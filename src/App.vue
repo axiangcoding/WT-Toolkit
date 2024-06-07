@@ -4,14 +4,11 @@ import { onMounted, ref } from 'vue';
 import { getVersion } from '@tauri-apps/api/app';
 import { open } from '@tauri-apps/api/shell';
 import { getAppSettings } from './settings';
+import BugReportDialog from './components/dialog/BugReportDialog.vue';
 
 const appVersion = ref('');
-
 const drawer = ref(false);
-
 const feedbackDialog = ref(false);
-
-import qqGroupQrCode from '@/assets/images/qrcode.jpg';
 
 onMounted(async () => {
   appVersion.value = await getVersion();
@@ -87,19 +84,7 @@ async function jumpToBiliBili() {
       <RouterView />
     </v-main>
   </v-app>
-  <v-dialog v-model="feedbackDialog" width="auto" transition="dialog-top-transition">
-    <v-card max-width="400" prepend-icon="mdi-bug" s>
-      <template v-slot:title>
-        报告 BUG
-      </template>
-      <v-card-text>
-        加入开发者QQ群反馈问题
-
-        <v-img :src="qqGroupQrCode" width="auto" />
-      </v-card-text>
-      <v-card-actions><v-btn color="success" text="好的" @click="feedbackDialog = false"></v-btn></v-card-actions>
-    </v-card>
-  </v-dialog>
+  <BugReportDialog v-model="feedbackDialog" />
 </template>
 
 <style scoped></style>

@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import image1 from '@/assets/images/china_ground_newmodificationresearch.png'
+
 import { onMounted, ref, watch } from 'vue';
 import { invoke } from '@tauri-apps/api';
 import { AppSettings, getAppSettings } from '../settings';
 import { listen } from '@tauri-apps/api/event';
 import { open } from '@tauri-apps/api/dialog';
+import UserSkinCard from './card/UserSkinCard.vue';
+import CommonSnackbar from './snackbar/CommonSnackbar.vue';
 
 const breadcrumbsItems = [
   {
@@ -43,6 +45,15 @@ onMounted(async () => {
   await loadUserSkins()
 
   await listen("tauri://file-drop", async (event) => {
+    if (appSettings.value.wt_install_path == null) {
+      snackbar.value = {
+        show: true,
+        message: '请先配置战争雷霆游戏安装目录',
+        color: 'warning'
+      }
+      return
+    }
+
     let payload: string[] = event.payload as string[]
     pathToLoad.value = payload[0]
   })
@@ -64,21 +75,27 @@ async function loadUserSkins() {
   }
 }
 
-async function showSkin(skin_folder_path: string) {
-  await invoke('show_in_folder', { path: skin_folder_path })
-}
+const deleteSkinDialog = ref({
+  show: false,
+  data: {} as any
+})
 
-const deleteSkinDialog = ref(false)
-const deleteSkinDialogData = ref<any>({})
+
 
 async function openDeleteSkinDialog(skin: any) {
-  deleteSkinDialog.value = true
-  deleteSkinDialogData.value = skin
+  deleteSkinDialog.value = {
+    show: true,
+    data: skin
+
+  }
 }
 
 async function deleteSkin(skin_folder_path: string) {
   await invoke('delete_folder', { path: skin_folder_path })
-  deleteSkinDialog.value = false
+  deleteSkinDialog.value = {
+    show: false,
+    data: {}
+  }
   await loadUserSkins()
 }
 
@@ -153,13 +170,12 @@ watch(pathToLoad, async (newVal) => {
           <div><strong>用户应当对自己所安装的涂装来源和内容负责。因用户不当使用导致的任何问题，本工具和作者概不负责！</strong></div>
         </v-alert>
       </v-col>
-      
+
       <v-col cols="12">
         <span class="text-h5">一键安装自定义涂装！</span>
       </v-col>
       <v-col cols="12" align="center">
-
-        <v-card border="dashed" variant="outlined">
+        <v-card border="dashed" variant="outlined" :disabled="appSettings.wt_install_path == null">
           <v-card-title>选择自定义涂装的压缩包或者文件夹</v-card-title>
           <v-card-text>
             <div>小工具支持通过两种形式选择需要安装的自定义涂装</div>
@@ -171,7 +187,9 @@ watch(pathToLoad, async (newVal) => {
             <v-btn color="primary" @click="selectSkinPath(false)">选择压缩包</v-btn>
 
           </v-card-actions>
+
         </v-card>
+
       </v-col>
       <v-col cols="6">
         <div class="text-h5">已安装的自定义涂装</div>
@@ -199,25 +217,7 @@ watch(pathToLoad, async (newVal) => {
       </v-col>
 
       <v-col cols="4" v-for="skin in userSkins" :key="skin.name" v-show="!showEmptyState">
-        <v-card>
-          <v-img class="align-end text-white" height="200" :src="image1" cover>
-            <v-card-title>{{ skin.name }}</v-card-title>
-          </v-img>
-
-          <v-card-text>
-            <!-- <div>涂装介绍：[无]</div> -->
-            <div>载具 {{ skin.vehicle_id }}</div>
-            <div>空间占用 {{ (skin.size_bytes / 1024 / 1024).toFixed(2) }}MB</div>
-          </v-card-text>
-
-          <v-card-actions>
-            <v-btn color="primary" text="查看" @click="showSkin(skin.path)"></v-btn>
-            <!-- <v-btn color="warning" text="备份"></v-btn> -->
-            <v-btn color="error" text="删除" @click="openDeleteSkinDialog(skin)"></v-btn>
-
-          </v-card-actions>
-        </v-card>
-
+        <UserSkinCard :skinMetadata="skin" @delete-skin="openDeleteSkinDialog" />
       </v-col>
     </v-row>
     <!-- <v-row>
@@ -226,22 +226,20 @@ watch(pathToLoad, async (newVal) => {
       </v-col>
     </v-row> -->
   </v-container>
-  <v-dialog v-model="deleteSkinDialog" width="auto">
+  <v-dialog v-model="deleteSkinDialog.show" width="auto">
     <v-card prepend-icon="mdi-alert">
       <template v-slot:title>
-        <span class="font-weight-black">删除自定义涂装 {{ deleteSkinDialogData.name }}</span>
+        <span class="font-weight-black">删除自定义涂装 {{ deleteSkinDialog.data.name }}</span>
       </template>
       <v-card-title></v-card-title>
       <v-card-text>删除后无法恢复，确定要删除这个自定义皮肤吗？我们建议您备份后再删除</v-card-text>
       <template v-slot:actions>
-        <v-btn color="error" text="确定" @click="deleteSkin(deleteSkinDialogData.path)"></v-btn>
-        <v-btn text="取消" @click="deleteSkinDialog = false"></v-btn>
+        <v-btn color="error" text="确定" @click="deleteSkin(deleteSkinDialog.data.path)"></v-btn>
+        <v-btn text="取消" @click="deleteSkinDialog.show = false"></v-btn>
       </template>
     </v-card>
   </v-dialog>
-  <v-snackbar vertical v-model="snackbar.show" :color="snackbar.color">
-    {{ snackbar.message }}
-  </v-snackbar>
+  <CommonSnackbar v-model="snackbar" />
 </template>
 
 <style scoped></style>
