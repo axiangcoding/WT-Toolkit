@@ -10,7 +10,11 @@ import router from './router'
 // Components
 import App from './App.vue'
 import { initFolder } from './settings'
-const vuetify = createVuetify()
+import { md3 } from 'vuetify/blueprints'
+
+const vuetify = createVuetify(
+    { blueprint: md3 }
+)
 
 initFolder()
 

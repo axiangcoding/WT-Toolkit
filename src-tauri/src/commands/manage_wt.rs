@@ -1,6 +1,5 @@
 use std::{
     fs, io,
-    os::windows::fs::MetadataExt,
     path::{Path, PathBuf},
 };
 use walkdir::WalkDir;

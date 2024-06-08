@@ -73,6 +73,7 @@ async function loadUserSkins() {
 
   userSkins.value = await invoke('get_user_skins', { wtInstallPath: user_skin_path })
   countTotalSize()
+  sortUserSKins()
   snackbar.value = {
     show: true,
     message: '自定义涂装列表加载成功',
@@ -158,6 +159,19 @@ async function startLoadSkin() {
   }
 }
 
+const sortOrder = ref(1)
+
+function sortUserSKins() {
+  userSkins.value = userSkins.value.sort((a: any, b: any) => {
+    if (sortOrder.value === 1) {
+      return a.skin_name.localeCompare(b.skin_name)
+    } else {
+      return b.skin_name.localeCompare(a.skin_name)
+    }
+  })
+  sortOrder.value = sortOrder.value * -1
+}
+
 watch(pathToLoad, async (newVal) => {
   if (newVal) {
     showConfirmSkinDialog.value = true
@@ -217,7 +231,7 @@ watch(showConfirmSkinDialog, async (newVal) => {
 
         <v-chip>总空间占用：{{ totalUserSkinsSizeInMB.toFixed(2) }} MB</v-chip>
         <v-divider class="mx-3" vertical />
-        <v-btn color="primary" icon="mdi-sort" @click=""></v-btn>
+        <v-btn color="primary" icon="mdi-sort" @click="sortUserSKins"></v-btn>
         <v-divider class="mx-1" vertical />
         <v-btn color="primary" icon="mdi-refresh" @click="loadUserSkins"></v-btn>
       </v-col>

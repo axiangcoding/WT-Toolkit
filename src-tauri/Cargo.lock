@@ -4059,6 +4059,7 @@ dependencies = [
  "tauri-build",
  "tempfile",
  "walkdir",
+ "winreg",
  "zip",
 ]
 

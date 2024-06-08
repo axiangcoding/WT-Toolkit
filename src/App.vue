@@ -29,7 +29,7 @@ async function jumpToBiliBili() {
       </template>
 
       <v-app-bar-title>三三的战雷小工具
-        <v-chip color="info">
+        <v-chip color="green" variant="flat" rounded>
           v{{ appVersion }}
         </v-chip>
 
