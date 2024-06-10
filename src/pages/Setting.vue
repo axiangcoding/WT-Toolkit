@@ -6,7 +6,7 @@ import { appConfigDir, appLogDir } from '@tauri-apps/api/path';
 import { invoke } from '@tauri-apps/api';
 import { AppSettings, getAppSettings, getDefaultSettings, saveAppSettings } from '../settings';
 
-import CommonSnackbar from './snackbar/CommonSnackbar.vue';
+import CommonSnackbar from '../components/snackbar/CommonSnackbar.vue';
 
 
 const breadcrumbsItems = [

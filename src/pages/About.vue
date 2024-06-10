@@ -38,10 +38,19 @@ const items = [
     },
     {
         title: 'v0.0.3',
-        latest: true,
+        latest: false,
         subtitle: '这个版本主要强化自定义涂装管理功能，并增加了一些额外的新功能',
         description: [
             '自定义涂装管理支持嵌套目录',
+        ],
+    },
+    {
+        title: 'v0.0.4',
+        latest: true,
+        subtitle: 'TBD',
+        description: [
+            'TBD',
+            'TBD',
         ],
     }
 ]

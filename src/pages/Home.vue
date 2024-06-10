@@ -9,8 +9,14 @@ const appMenu = [
     {
         key: "wt-skins",
         title: "自定义涂装管理",
-        subtitle: "管理《战争雷霆》的自定义涂装文件",
-        description: "战雷的涂装安装/卸载太麻烦？不知道游戏的目录在哪里？想快捷管理自定义涂装？试试这个工具吧",
+        subtitle: "管理《战争雷霆》的自定义涂装",
+        description: "战雷的自定义涂装安装/卸载太麻烦？不知道游戏的目录在哪里？想快捷管理自定义涂装？试试这个工具吧",
+    },
+    {
+        key: "wt-sight",
+        title: "自定义瞄具管理",
+        subtitle: "管理《战争雷霆》的自定义瞄具",
+        description: "战雷的自定义瞄具安装/卸载太麻烦？试试这个工具吧",
     },
     {
         key: "setting",

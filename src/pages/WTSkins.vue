@@ -5,9 +5,9 @@ import { invoke } from '@tauri-apps/api';
 import { AppSettings, getAppSettings } from '../settings';
 import { listen } from '@tauri-apps/api/event';
 import { open } from '@tauri-apps/api/dialog';
-import UserSkinCard from './card/UserSkinCard.vue';
-import CommonSnackbar from './snackbar/CommonSnackbar.vue';
-import LoadUserSkinDialog from './dialog/LoadUserSkinDialog.vue';
+import UserSkinCard from '../components/card/UserSkinCard.vue';
+import CommonSnackbar from '../components/snackbar/CommonSnackbar.vue';
+import LoadUserSkinDialog from '../components/dialog/LoadUserSkinDialog.vue';
 
 
 const breadcrumbsItems = [

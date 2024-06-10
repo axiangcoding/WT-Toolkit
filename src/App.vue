@@ -65,6 +65,12 @@ async function jumpToBiliBili() {
           </template>
           <v-list-item-title>自定义涂装管理</v-list-item-title>
         </v-list-item>
+        <v-list-item to="wt-sight">
+          <template v-slot:prepend>
+            <v-icon icon="mdi-crosshairs-gps"></v-icon>
+          </template>
+          <v-list-item-title>自定义瞄具管理</v-list-item-title>
+        </v-list-item>
         <v-list-subheader>APP 信息</v-list-subheader>
         <v-list-item to="setting">
           <template v-slot:prepend>
