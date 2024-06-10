@@ -73,7 +73,7 @@ async function loadUserSkins() {
 
   userSkins.value = await invoke('get_user_skins', { wtInstallPath: user_skin_path })
   countTotalSize()
-  sortUserSKins()
+  // sortUserSKins()
   snackbar.value = {
     show: true,
     message: '自定义涂装列表加载成功',

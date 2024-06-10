@@ -11,11 +11,19 @@ import router from './router'
 import App from './App.vue'
 import { initFolder } from './settings'
 import { md3 } from 'vuetify/blueprints'
+import { createI18n } from 'vue-i18n'
 
 const vuetify = createVuetify(
     { blueprint: md3 }
 )
 
+const i18n = createI18n({})
+
 initFolder()
 
-createApp(App).use(vuetify).use(router).mount('#app')
+const app = createApp(App)
+
+app.use(vuetify)
+    .use(i18n)
+    .use(router)
+    .mount('#app')
