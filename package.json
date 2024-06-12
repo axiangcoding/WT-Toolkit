@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
-    "lint": "vue-tsc --noEmit",
+    "tsc": "vue-tsc --noEmit",
+    "lint": "prettier ./src --check",
+    "format": "prettier ./src --write",
     "preview": "vite preview",
     "tauri": "tauri"
   },
@@ -22,6 +24,7 @@
     "@mdi/font": "^7.4.47",
     "@tauri-apps/cli": "^1",
     "@vitejs/plugin-vue": "^5.0.4",
+    "prettier": "3.3.2",
     "sass": "^1.77.4",
     "typescript": "^5.0.2",
     "vite": "^5.0.0",
