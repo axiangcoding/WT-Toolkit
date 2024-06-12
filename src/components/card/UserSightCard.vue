@@ -42,7 +42,6 @@ async function showSight(folder_path: string) {
         >{{ item }}</v-chip
       >
 
-     
       <!-- {{ props.sightMetadata }} -->
     </v-card-text>
 

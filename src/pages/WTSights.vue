@@ -130,7 +130,7 @@ watch(showConfirmSightDialog, async (newVal) => {
 const page = ref(1);
 const search = shallowRef("");
 
-function filterUserSights(value: string, query: string, item?: any) {
+function filterUserSights(value: string, query: string, _item?: any) {
   if (!query) return true;
   if (value.toLowerCase().includes(query.toLowerCase())) {
     return true;

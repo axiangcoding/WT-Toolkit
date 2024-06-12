@@ -100,7 +100,6 @@ async function deleteSkin(skin_folder_path: string) {
   await loadUserSkins();
 }
 
-
 const sizeInStr = ref("");
 
 function countTotalSize() {
@@ -179,7 +178,7 @@ watch(showConfirmSkinDialog, async (newVal) => {
 const page = ref(1);
 const search = shallowRef("");
 
-function filterUserSkins(value: string, query: string, item?: any) {
+function filterUserSkins(value: string, query: string, _item?: any) {
   if (!query) return true;
   if (value.toLowerCase().includes(query.toLowerCase())) {
     return true;
@@ -283,9 +282,7 @@ function filterUserSkins(value: string, query: string, item?: any) {
         >
           <template v-slot:header>
             <v-toolbar color="white">
-              <v-chip>
-                总空间占用：{{ sizeInStr }}
-              </v-chip>
+              <v-chip> 总空间占用：{{ sizeInStr }} </v-chip>
 
               <v-spacer></v-spacer>
               <v-text-field

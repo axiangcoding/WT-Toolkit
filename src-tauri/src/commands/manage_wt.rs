@@ -208,8 +208,8 @@ fn decompress_file(pb: PathBuf, temp_path: &Path) -> Result<(), String> {
     let extension: &str = pb.extension().and_then(|e| e.to_str()).unwrap_or("");
     match extension.to_lowercase().as_str() {
         "zip" => {
-            let file = fs::File::open(&pb)
-                .map_err(|e| format!("Failed to open zip file: {}", e))?;
+            let file =
+                fs::File::open(&pb).map_err(|e| format!("Failed to open zip file: {}", e))?;
             let mut archive =
                 ZipArchive::new(file).map_err(|e| format!("Failed to read zip file: {}", e))?;
             archive
@@ -225,7 +225,6 @@ fn decompress_file(pb: PathBuf, temp_path: &Path) -> Result<(), String> {
     }
     Ok(())
 }
-
 
 #[tauri::command]
 pub fn check_is_valid_wt_install_path(path: String) -> bool {
