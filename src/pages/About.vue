@@ -44,8 +44,8 @@ const items = [
   {
     title: "v0.0.4",
     latest: true,
-    subtitle: "TBD",
-    description: ["TBD", "TBD"],
+    subtitle: "这个版本继续强化各项功能的可用性，并引入了一些新的能力",
+    description: ["自定义涂装管理界面新增筛选能力", "新增自定义瞄具管理功能"],
   },
 ];
 </script>
