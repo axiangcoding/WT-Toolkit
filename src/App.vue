@@ -1,24 +1,22 @@
 <script setup lang="ts">
+import { onMounted, ref } from "vue";
+import { getVersion } from "@tauri-apps/api/app";
+import { open } from "@tauri-apps/api/shell";
+import { getAppSettings } from "./settings";
+import BugReportDialog from "./components/dialog/BugReportDialog.vue";
 
-import { onMounted, ref } from 'vue';
-import { getVersion } from '@tauri-apps/api/app';
-import { open } from '@tauri-apps/api/shell';
-import { getAppSettings } from './settings';
-import BugReportDialog from './components/dialog/BugReportDialog.vue';
-
-const appVersion = ref('');
+const appVersion = ref("");
 const drawer = ref(false);
 const feedbackDialog = ref(false);
 
 onMounted(async () => {
   appVersion.value = await getVersion();
   await getAppSettings();
-})
+});
 
 async function jumpToBiliBili() {
-  await open('https://space.bilibili.com/8696650')
+  await open("https://space.bilibili.com/8696650");
 }
-
 </script>
 
 <template>
@@ -28,11 +26,11 @@ async function jumpToBiliBili() {
         <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       </template>
 
-      <v-app-bar-title>三三的战雷小工具
+      <v-app-bar-title>
+        三三的战雷小工具
         <v-chip color="green" variant="flat" rounded>
           v{{ appVersion }}
         </v-chip>
-
       </v-app-bar-title>
 
       <template v-slot:append>
@@ -46,12 +44,22 @@ async function jumpToBiliBili() {
           <template v-slot:prepend>
             <v-icon></v-icon>
           </template>
-          反馈问题</v-btn>
+          反馈问题
+        </v-btn>
       </template>
     </v-app-bar>
 
-    <v-navigation-drawer v-model="drawer" :location="$vuetify.display.mobile ? 'bottom' : undefined" temporary>
-      <v-list nav active-strategy="single-leaf" activated="wt-skins" color="primary">
+    <v-navigation-drawer
+      v-model="drawer"
+      :location="$vuetify.display.mobile ? 'bottom' : undefined"
+      temporary
+    >
+      <v-list
+        nav
+        active-strategy="single-leaf"
+        activated="wt-skins"
+        color="primary"
+      >
         <v-list-item to="/">
           <template v-slot:prepend>
             <v-icon icon="mdi-home"></v-icon>
