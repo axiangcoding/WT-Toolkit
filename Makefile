@@ -1,4 +1,4 @@
-.PHONY: dev build lint
+.PHONY: dev build lint format
 
 dev:
 	yarn tauri dev
@@ -8,3 +8,7 @@ build:
 
 lint:
 	yarn lint
+	cd src-tauri && cargo fmt --check
+
+format:
+	cd src-tauri && cargo fmt
