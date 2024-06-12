@@ -1,17 +1,32 @@
-import { createMemoryHistory, createRouter } from 'vue-router'
-
-
+import { createMemoryHistory, createRouter } from "vue-router";
 
 const routes = [
-    { path: '/', name: "home", component: () => import("@/components/Home.vue") },
-    { path: '/wt-skins', name: 'wt-skins', component: () => import("@/components/WTSkins.vue") },
-    { path: '/about', name: 'about', component: () => import("@/components/About.vue") },
-    { path: '/setting', name: 'setting', component: () => import("@/components/Setting.vue") }
-]
+  { path: "/", name: "home", component: () => import("@/pages/Home.vue") },
+  {
+    path: "/wt-sight",
+    name: "wt-sight",
+    component: () => import("@/pages/WTSights.vue"),
+  },
+  {
+    path: "/wt-skins",
+    name: "wt-skins",
+    component: () => import("@/pages/WTSkins.vue"),
+  },
+  {
+    path: "/about",
+    name: "about",
+    component: () => import("@/pages/About.vue"),
+  },
+  {
+    path: "/setting",
+    name: "setting",
+    component: () => import("@/pages/Setting.vue"),
+  },
+];
 
 const router = createRouter({
-    history: createMemoryHistory(),
-    routes,
-})
+  history: createMemoryHistory(),
+  routes,
+});
 
-export default router
+export default router;

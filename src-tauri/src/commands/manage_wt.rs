@@ -86,28 +86,11 @@ pub fn install_user_skin(skin_path: String, wt_install_path: String) -> Result<(
         }
     } else {
         // 处理压缩文件
-        let extension: &str = skin_pb.extension().and_then(|e| e.to_str()).unwrap_or("");
         let temp_dir =
             tempfile::tempdir().map_err(|e| format!("Failed to create temp dir: {}", e))?;
         let temp_path = temp_dir.path();
 
-        match extension.to_lowercase().as_str() {
-            "zip" => {
-                let file = fs::File::open(&skin_pb)
-                    .map_err(|e| format!("Failed to open zip file: {}", e))?;
-                let mut archive =
-                    ZipArchive::new(file).map_err(|e| format!("Failed to read zip file: {}", e))?;
-                archive
-                    .extract(&temp_path)
-                    .map_err(|e| format!("Failed to extract zip file: {}", e))?;
-            }
-            "rar" => return Err(format!("not support rar file now")),
-            "7z" => {
-                sevenz_rust::decompress_file(&skin_pb, &temp_path)
-                    .map_err(|e| format!("Failed to extract 7z file: {}", e))?;
-            }
-            _ => return Err(format!("Unsupported file extension: {}", extension)),
-        }
+        decompress_file(skin_pb, temp_path).unwrap();
 
         // 查找解压后的文件夹
         let mut extracted_folder = None;
@@ -145,6 +128,102 @@ pub fn install_user_skin(skin_path: String, wt_install_path: String) -> Result<(
             Err("No folder found in extracted archive".to_string())
         }
     }
+}
+
+#[tauri::command]
+pub fn install_user_sight(sight_path: String, wt_install_path: String) -> Result<(), String> {
+    let sight_pb = PathBuf::from(&sight_path);
+    if !sight_pb.exists() {
+        return Err(format!("Path does not exist: {}", sight_pb.display()));
+    }
+
+    let sight_base_path = Path::new(&wt_install_path).join("UserSights");
+    if !sight_base_path.exists() {
+        fs::create_dir_all(sight_base_path).unwrap();
+    }
+
+    if sight_pb.is_dir() {
+        if !check_is_folder_contains_blk_file(&sight_pb) {
+            return Err(format!("Invalid sight folder: {}", sight_pb.display()));
+        }
+        let new_path = Path::new(&wt_install_path)
+            .join("UserSights")
+            .join(sight_pb.file_name().unwrap());
+        if new_path.exists() {
+            return Err(format!(
+                "Sight folder already exists: {}",
+                new_path.display()
+            ));
+        }
+        match copy_everything_to(&sight_pb, &new_path) {
+            Ok(_) => Ok(()),
+            Err(err) => Err(format!("Failed to copy sight folder: {}", err)),
+        }
+    } else {
+        let temp_dir =
+            tempfile::tempdir().map_err(|e| format!("Failed to create temp dir: {}", e))?;
+        let temp_path = temp_dir.path();
+
+        decompress_file(sight_pb, temp_path).unwrap();
+
+        // 查找解压后的文件夹
+        let mut extracted_folder = None;
+        for entry in
+            fs::read_dir(&temp_path).map_err(|e| format!("Failed to read temp dir: {}", e))?
+        {
+            let entry = entry.map_err(|e| format!("Failed to read temp dir entry: {}", e))?;
+            if entry.path().is_dir() {
+                extracted_folder = Some(entry.path());
+                break;
+            }
+        }
+
+        if let Some(extracted_folder) = extracted_folder {
+            if !check_is_folder_contains_blk_file(&extracted_folder) {
+                return Err(format!(
+                    "Invalid sight folder in archive: {}",
+                    extracted_folder.display()
+                ));
+            }
+            let new_path = Path::new(&wt_install_path)
+                .join("UserSights")
+                .join(extracted_folder.file_name().unwrap());
+            if new_path.exists() {
+                return Err(format!(
+                    "Sight folder already exists: {}",
+                    new_path.display()
+                ));
+            }
+            match copy_everything_to(&extracted_folder, &new_path) {
+                Ok(_) => Ok(()),
+                Err(err) => Err(format!("Failed to copy extracted sight folder: {}", err)),
+            }
+        } else {
+            Err("No folder found in extracted archive".to_string())
+        }
+    }
+}
+
+fn decompress_file(pb: PathBuf, temp_path: &Path) -> Result<(), String> {
+    let extension: &str = pb.extension().and_then(|e| e.to_str()).unwrap_or("");
+    match extension.to_lowercase().as_str() {
+        "zip" => {
+            let file =
+                fs::File::open(&pb).map_err(|e| format!("Failed to open zip file: {}", e))?;
+            let mut archive =
+                ZipArchive::new(file).map_err(|e| format!("Failed to read zip file: {}", e))?;
+            archive
+                .extract(&temp_path)
+                .map_err(|e| format!("Failed to extract zip file: {}", e))?;
+        }
+        "rar" => return Err(format!("not support rar file now")),
+        "7z" => {
+            sevenz_rust::decompress_file(&pb, &temp_path)
+                .map_err(|e| format!("Failed to extract 7z file: {}", e))?;
+        }
+        _ => return Err(format!("Unsupported file extension: {}", extension)),
+    }
+    Ok(())
 }
 
 #[tauri::command]
@@ -276,6 +355,74 @@ pub fn get_user_skins(wt_install_path: String) -> Result<Vec<UserSkinInfo>, Stri
                     skin_name,
                     full_path,
                     resources,
+                    folder_size,
+                });
+            }
+        }
+    }
+    Ok(infos)
+}
+
+#[derive(Debug, serde::Serialize)]
+pub struct UserSightInfo {
+    vehicle_id: String,
+    folder_name: String,
+    full_path: String,
+    sight_names: Vec<String>,
+    folder_size: u64,
+}
+
+#[tauri::command]
+pub fn get_user_sights(wt_install_path: String) -> Result<Vec<UserSightInfo>, String> {
+    let skin_base_path = Path::new(&wt_install_path).join("UserSights");
+
+    if !skin_base_path.exists() {
+        return Err("UserSights folder not found".to_string());
+    }
+    let mut infos = Vec::new();
+    for entry in WalkDir::new(&skin_base_path).min_depth(1).max_depth(10) {
+        let entry = entry.unwrap();
+        if entry.file_type().is_dir() {
+            let mut sight_names = Vec::new();
+            for inner_entry in WalkDir::new(entry.path()).min_depth(1).max_depth(1) {
+                let inner_entry = inner_entry.unwrap();
+                if inner_entry.file_type().is_file() {
+                    if let Some(ext) = inner_entry.path().extension() {
+                        if ext == "blk" {
+                            sight_names.push(
+                                inner_entry
+                                    .path()
+                                    .file_stem()
+                                    .unwrap()
+                                    .to_string_lossy()
+                                    .to_string(),
+                            );
+                        }
+                    }
+                }
+            }
+
+            if sight_names.len() > 0 {
+                let skin_base_path_str = skin_base_path.to_str().unwrap().to_string();
+                let vehicle_id = entry
+                    .path()
+                    .file_stem()
+                    .unwrap()
+                    .to_string_lossy()
+                    .to_string();
+                let folder_name = entry
+                    .path()
+                    .strip_prefix(&skin_base_path_str)
+                    .unwrap()
+                    .to_string_lossy()
+                    .to_string();
+                let full_path = entry.path().to_string_lossy().to_string();
+                let folder_size = calculate_directory_size(entry.path()).unwrap();
+                infos.push(UserSightInfo {
+                    vehicle_id,
+                    folder_name,
+                    full_path,
+                    sight_names,
                     folder_size,
                 });
             }

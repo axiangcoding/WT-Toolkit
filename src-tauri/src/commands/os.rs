@@ -74,7 +74,7 @@ pub fn delete_folder(path: String) -> Result<(), String> {
 }
 
 #[tauri::command]
-pub fn create_folder(path: String)  {
+pub fn create_folder(path: String) {
     let path = Path::new(&path);
 
     // 检查路径是否存在
@@ -83,5 +83,3 @@ pub fn create_folder(path: String)  {
         fs::create_dir_all(path).unwrap();
     }
 }
-
-
