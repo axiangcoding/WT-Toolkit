@@ -5,7 +5,7 @@ const routes = [
   {
     path: "/wt-sight",
     name: "wt-sight",
-    component: () => import("@/pages/WTSight.vue"),
+    component: () => import("@/pages/WTSights.vue"),
   },
   {
     path: "/wt-skins",

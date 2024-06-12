@@ -39,6 +39,9 @@
         "renameFile": false,
         "scope": ["$APPCONFIG/*", "$CONFIG/*"],
         "writeFile": true
+      },
+      "window": {
+        "startDragging": true
       }
     },
     "windows": [

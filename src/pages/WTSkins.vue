@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, watch } from "vue";
+import { onMounted, ref, shallowRef, watch } from "vue";
 import { invoke } from "@tauri-apps/api";
 import { AppSettings, getAppSettings } from "../settings";
 import { listen } from "@tauri-apps/api/event";
@@ -28,7 +28,6 @@ const breadcrumbsItems = [
 const appSettings = ref<AppSettings>({} as AppSettings);
 
 const userSkins = ref<any>([]);
-const totalUserSkinsSizeInMB = ref(0);
 
 const showEmptyState = ref(false);
 
@@ -63,17 +62,16 @@ onMounted(async () => {
 });
 
 async function loadUserSkins() {
-  let user_skin_path = appSettings.value.wt_install_path;
-  if (!user_skin_path) {
+  let wtInstallPath = appSettings.value.wt_install_path;
+  if (!wtInstallPath) {
     showEmptyState.value = true;
     return;
   }
 
   userSkins.value = await invoke("get_user_skins", {
-    wtInstallPath: user_skin_path,
+    wtInstallPath: wtInstallPath,
   });
   countTotalSize();
-  // sortUserSKins()
   snackbar.value = {
     show: true,
     message: "自定义涂装列表加载成功",
@@ -102,12 +100,19 @@ async function deleteSkin(skin_folder_path: string) {
   await loadUserSkins();
 }
 
+
+const sizeInStr = ref("");
+
 function countTotalSize() {
   let totalSize = 0;
   userSkins.value.forEach((skin: any) => {
     totalSize += skin.folder_size / 1024 / 1024;
   });
-  totalUserSkinsSizeInMB.value = totalSize;
+  if (totalSize > 1024) {
+    sizeInStr.value = (totalSize / 1024).toFixed(2) + " GB";
+  } else {
+    sizeInStr.value = totalSize.toFixed(2) + " MB";
+  }
 }
 
 async function selectSkinPath(directory: boolean) {
@@ -159,19 +164,6 @@ async function startLoadSkin() {
   }
 }
 
-const sortOrder = ref(1);
-
-function sortUserSKins() {
-  userSkins.value = userSkins.value.sort((a: any, b: any) => {
-    if (sortOrder.value === 1) {
-      return a.skin_name.localeCompare(b.skin_name);
-    } else {
-      return b.skin_name.localeCompare(a.skin_name);
-    }
-  });
-  sortOrder.value = sortOrder.value * -1;
-}
-
 watch(pathToLoad, async (newVal) => {
   if (newVal) {
     showConfirmSkinDialog.value = true;
@@ -183,6 +175,17 @@ watch(showConfirmSkinDialog, async (newVal) => {
     pathToLoad.value = "";
   }
 });
+
+const page = ref(1);
+const search = shallowRef("");
+
+function filterUserSkins(value: string, query: string, item?: any) {
+  if (!query) return true;
+  if (value.toLowerCase().includes(query.toLowerCase())) {
+    return true;
+  }
+  return false;
+}
 </script>
 
 <template>
@@ -246,21 +249,9 @@ watch(showConfirmSkinDialog, async (newVal) => {
           </v-card-actions>
         </v-card>
       </v-col>
-      <v-col cols="6">
-        <div class="text-h5">已安装的自定义涂装</div>
+      <v-col cols="12">
+        <span class="text-h5">已加载的自定义涂装</span>
       </v-col>
-      <v-col cols="6" align="right">
-        <v-chip>总空间占用：{{ totalUserSkinsSizeInMB.toFixed(2) }} MB</v-chip>
-        <v-divider class="mx-3" vertical />
-        <v-btn color="primary" icon="mdi-sort" @click="sortUserSKins"></v-btn>
-        <v-divider class="mx-1" vertical />
-        <v-btn
-          color="primary"
-          icon="mdi-refresh"
-          @click="loadUserSkins"
-        ></v-btn>
-      </v-col>
-
       <v-col cols="12" v-show="showEmptyState">
         <v-empty-state
           icon="mdi-alert-circle-outline"
@@ -280,36 +271,76 @@ watch(showConfirmSkinDialog, async (newVal) => {
           </template>
         </v-empty-state>
       </v-col>
+      <v-col cols="12" v-show="!showEmptyState">
+        <v-data-iterator
+          :items="userSkins"
+          :items-per-page="6"
+          :search="search"
+          :custom-filter="filterUserSkins"
+          filter-keys="vehicle_id"
+          :page="page"
+          :sort-by="[{ key: 'vehicle_id', order: 'desc' }]"
+        >
+          <template v-slot:header>
+            <v-toolbar color="white">
+              <v-chip>
+                总空间占用：{{ sizeInStr }}
+              </v-chip>
 
-      <v-col
-        cols="4"
-        v-for="skin in userSkins"
-        :key="skin.name"
-        v-show="!showEmptyState"
-      >
-        <UserSkinCard
-          :skinMetadata="skin"
-          @delete-skin="openDeleteSkinDialog"
-        />
+              <v-spacer></v-spacer>
+              <v-text-field
+                v-model="search"
+                density="comfortable"
+                placeholder="筛选"
+                prepend-inner-icon="mdi-magnify"
+                style="max-width: 300px"
+                variant="outlined"
+                clearable
+                hide-details
+              ></v-text-field>
+
+              <v-btn
+                class="mx-2"
+                color="primary"
+                icon="mdi-refresh"
+                @click="loadUserSkins"
+              ></v-btn>
+            </v-toolbar>
+          </template>
+          <template v-slot:default="{ items }">
+            <v-row>
+              <v-col v-for="(item, i) in items" :key="i" cols="auto" md="4">
+                <UserSkinCard
+                  :skinMetadata="item.raw"
+                  @delete-skin="openDeleteSkinDialog"
+                />
+              </v-col>
+            </v-row>
+          </template>
+
+          <template v-slot:footer="{ pageCount, prevPage, nextPage }">
+            <v-pagination
+              v-model="page"
+              :length="pageCount"
+              @next="nextPage"
+              @prev="prevPage"
+            ></v-pagination>
+          </template>
+        </v-data-iterator>
       </v-col>
     </v-row>
-    <!-- <v-row>
-      <v-col cols="6" offset="6" align="right">
-        <v-btn color="info">查看备份文件夹</v-btn>
-      </v-col>
-    </v-row> -->
   </v-container>
   <v-dialog v-model="deleteSkinDialog.show" width="auto">
     <v-card prepend-icon="mdi-alert">
       <template v-slot:title>
-        <span class="font-weight-black"
-          >删除自定义涂装 {{ deleteSkinDialog.data.skin_name }}</span
-        >
+        <span class="font-weight-black">
+          删除自定义涂装 {{ deleteSkinDialog.data.skin_name }}
+        </span>
       </template>
       <v-card-title></v-card-title>
-      <v-card-text
-        >删除后无法恢复，确定要删除这个自定义皮肤吗？我们建议您备份后再删除</v-card-text
-      >
+      <v-card-text>
+        删除后无法恢复，确定要删除这个自定义皮肤吗？我们建议您备份后再删除
+      </v-card-text>
       <template v-slot:actions>
         <v-btn
           color="error"
