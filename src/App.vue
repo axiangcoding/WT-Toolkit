@@ -69,13 +69,13 @@ async function jumpToBiliBili() {
         <v-list-subheader>战雷小工具</v-list-subheader>
         <v-list-item to="wt-skins">
           <template v-slot:prepend>
-            <v-icon icon="mdi-palette-outline"></v-icon>
+            <v-icon icon="mdi-format-paint"></v-icon>
           </template>
           <v-list-item-title>自定义涂装管理</v-list-item-title>
         </v-list-item>
         <v-list-item to="wt-sight">
           <template v-slot:prepend>
-            <v-icon icon="mdi-crosshairs-gps"></v-icon>
+            <v-icon icon="mdi-crosshairs"></v-icon>
           </template>
           <v-list-item-title>自定义瞄具管理</v-list-item-title>
         </v-list-item>
@@ -88,7 +88,7 @@ async function jumpToBiliBili() {
         </v-list-item>
         <v-list-item to="about">
           <template v-slot:prepend>
-            <v-icon icon="mdi-information-outline"></v-icon>
+            <v-icon icon="mdi-information"></v-icon>
           </template>
           <v-list-item-title>关于</v-list-item-title>
         </v-list-item>

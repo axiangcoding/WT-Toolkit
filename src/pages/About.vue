@@ -43,7 +43,7 @@ const items = [
   },
   {
     title: "v0.0.4",
-    latest: true,
+    latest: false,
     subtitle: "这个版本继续强化各项功能的可用性，并引入了一些新的能力",
     description: ["自定义涂装管理界面新增筛选能力", "新增自定义瞄具管理功能"],
   },
@@ -51,7 +51,11 @@ const items = [
     title: "v0.0.5",
     latest: true,
     subtitle: "这个版本引入了一些新的能力，并修复了一些问题",
-    description: ["优化了代码结构，对较大文件的解压处理更加快速"],
+    description: [
+      "重构了代码，优化了较大文件的解压处理速度",
+      "重新设计了首页，新增了快捷链接"
+      
+    ],
   },
 ];
 </script>
