@@ -1,9 +1,10 @@
 use std::{
-    fs, io,
+    fs,
     path::{Path, PathBuf},
 };
 use walkdir::WalkDir;
-use zip::ZipArchive;
+
+use crate::tools;
 
 #[tauri::command]
 pub fn auto_detected_wt_install_path() -> Result<String, String> {
@@ -80,7 +81,7 @@ pub fn install_user_skin(skin_path: String, wt_install_path: String) -> Result<(
                 new_path.display()
             ));
         }
-        match copy_everything_to(&skin_pb, &new_path) {
+        match tools::fs::copy_folder(&skin_pb, &new_path) {
             Ok(_) => Ok(()),
             Err(err) => Err(format!("Failed to copy skin folder: {}", err)),
         }
@@ -90,7 +91,7 @@ pub fn install_user_skin(skin_path: String, wt_install_path: String) -> Result<(
             tempfile::tempdir().map_err(|e| format!("Failed to create temp dir: {}", e))?;
         let temp_path = temp_dir.path();
 
-        decompress_file(skin_pb, temp_path).unwrap();
+        tools::fs::decompress_file(skin_pb.as_path(), temp_path).unwrap();
 
         // 查找解压后的文件夹
         let mut extracted_folder = None;
@@ -120,7 +121,7 @@ pub fn install_user_skin(skin_path: String, wt_install_path: String) -> Result<(
                     new_path.display()
                 ));
             }
-            match copy_everything_to(&extracted_folder, &new_path) {
+            match tools::fs::copy_folder(&extracted_folder, &new_path) {
                 Ok(_) => Ok(()),
                 Err(err) => Err(format!("Failed to copy extracted skin folder: {}", err)),
             }
@@ -155,7 +156,7 @@ pub fn install_user_sight(sight_path: String, wt_install_path: String) -> Result
                 new_path.display()
             ));
         }
-        match copy_everything_to(&sight_pb, &new_path) {
+        match tools::fs::copy_folder(&sight_pb, &new_path) {
             Ok(_) => Ok(()),
             Err(err) => Err(format!("Failed to copy sight folder: {}", err)),
         }
@@ -164,7 +165,7 @@ pub fn install_user_sight(sight_path: String, wt_install_path: String) -> Result
             tempfile::tempdir().map_err(|e| format!("Failed to create temp dir: {}", e))?;
         let temp_path = temp_dir.path();
 
-        decompress_file(sight_pb, temp_path).unwrap();
+        tools::fs::decompress_file(sight_pb.as_path(), temp_path).unwrap();
 
         // 查找解压后的文件夹
         let mut extracted_folder = None;
@@ -194,7 +195,7 @@ pub fn install_user_sight(sight_path: String, wt_install_path: String) -> Result
                     new_path.display()
                 ));
             }
-            match copy_everything_to(&extracted_folder, &new_path) {
+            match tools::fs::copy_folder(&extracted_folder, &new_path) {
                 Ok(_) => Ok(()),
                 Err(err) => Err(format!("Failed to copy extracted sight folder: {}", err)),
             }
@@ -202,28 +203,6 @@ pub fn install_user_sight(sight_path: String, wt_install_path: String) -> Result
             Err("No folder found in extracted archive".to_string())
         }
     }
-}
-
-fn decompress_file(pb: PathBuf, temp_path: &Path) -> Result<(), String> {
-    let extension: &str = pb.extension().and_then(|e| e.to_str()).unwrap_or("");
-    match extension.to_lowercase().as_str() {
-        "zip" => {
-            let file =
-                fs::File::open(&pb).map_err(|e| format!("Failed to open zip file: {}", e))?;
-            let mut archive =
-                ZipArchive::new(file).map_err(|e| format!("Failed to read zip file: {}", e))?;
-            archive
-                .extract(&temp_path)
-                .map_err(|e| format!("Failed to extract zip file: {}", e))?;
-        }
-        "rar" => return Err(format!("not support rar file now")),
-        "7z" => {
-            sevenz_rust::decompress_file(&pb, &temp_path)
-                .map_err(|e| format!("Failed to extract 7z file: {}", e))?;
-        }
-        _ => return Err(format!("Unsupported file extension: {}", extension)),
-    }
-    Ok(())
 }
 
 #[tauri::command]
@@ -250,21 +229,6 @@ fn check_is_folder_contains_wt_launcher(path: &Path) -> bool {
         }
     }
     return false;
-}
-
-fn copy_everything_to(old_path: &Path, new_path: &Path) -> io::Result<()> {
-    if old_path.is_dir() {
-        fs::create_dir(new_path)?;
-        for entry in fs::read_dir(old_path)? {
-            let entry = entry?;
-            let path = entry.path();
-            let new_path = new_path.join(path.file_name().unwrap());
-            copy_everything_to(&path, &new_path)?;
-        }
-    } else {
-        fs::copy(old_path, new_path)?;
-    }
-    Ok(())
 }
 
 fn check_is_folder_contains_blk_file(path: &PathBuf) -> bool {
@@ -295,17 +259,6 @@ pub struct UserSkinInfo {
     full_path: String,
     resources: Vec<String>,
     folder_size: u64,
-}
-
-fn calculate_directory_size(path: &Path) -> io::Result<u64> {
-    let mut total_size = 0;
-    for entry in WalkDir::new(path) {
-        let entry = entry?;
-        if entry.file_type().is_file() {
-            total_size += entry.metadata()?.len();
-        }
-    }
-    Ok(total_size)
 }
 
 #[tauri::command]
@@ -349,7 +302,7 @@ pub fn get_user_skins(wt_install_path: String) -> Result<Vec<UserSkinInfo>, Stri
                     .to_string_lossy()
                     .to_string();
                 let full_path = entry.path().to_string_lossy().to_string();
-                let folder_size = calculate_directory_size(entry.path()).unwrap();
+                let folder_size = fs_extra::dir::get_size(entry.path()).unwrap();
                 infos.push(UserSkinInfo {
                     vehicle_id,
                     skin_name,
@@ -417,7 +370,7 @@ pub fn get_user_sights(wt_install_path: String) -> Result<Vec<UserSightInfo>, St
                     .to_string_lossy()
                     .to_string();
                 let full_path = entry.path().to_string_lossy().to_string();
-                let folder_size = calculate_directory_size(entry.path()).unwrap();
+                let folder_size = fs_extra::dir::get_size(entry.path()).unwrap();
                 infos.push(UserSightInfo {
                     vehicle_id,
                     folder_name,
