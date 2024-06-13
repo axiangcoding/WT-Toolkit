@@ -22,6 +22,7 @@ async function navigateTo(url: string) {
     <template v-slot:title>
       {{ props.data.title }}
       <v-chip
+        class="mx-1"
         v-show="props.data.isOfficial"
         variant="elevated"
         color="primary"
@@ -30,12 +31,22 @@ async function navigateTo(url: string) {
         官方
       </v-chip>
       <v-chip
+        class="mx-1"
         v-show="!props.data.isOfficial"
         variant="elevated"
         color="info"
         density="comfortable"
       >
         社区
+      </v-chip>
+      <v-chip
+        class="mx-1"
+        v-show="props.data.isLocal"
+        variant="elevated"
+        color="success"
+        density="comfortable"
+      >
+        本地
       </v-chip>
     </template>
     <v-card-subtitle>

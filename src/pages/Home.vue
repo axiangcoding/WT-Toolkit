@@ -67,6 +67,14 @@ const usefulLinks = [
     description:
       "国内最大的《战争雷霆》玩家创作研究、交流学习和分享涂装语音包等自定义内容的专业中文社交平台",
   },
+  {
+    key: "local8111",
+    url: "http://localhost:8111",
+    isOfficial: true,
+    isLocal: true,
+    title: "本地8111端口数据",
+    description: "战雷8111端口数据，显示实时战局信息和载具的一些实时数据。只在游戏开启的情况下内容",
+  },
 ];
 
 import image1 from "@/assets/images/worldwar_window_bg_battle_for_caen.png";

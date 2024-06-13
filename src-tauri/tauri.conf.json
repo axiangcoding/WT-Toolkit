@@ -41,7 +41,9 @@
         "writeFile": true
       },
       "window": {
-        "startDragging": true
+        "startDragging": true,
+        "show": true,
+        "create": true
       }
     },
     "windows": [
