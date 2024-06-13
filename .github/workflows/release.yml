@@ -3,7 +3,6 @@ on:
   push:
     tags:
       - "v*"
-  pull_request:
     branches:
       - main
   workflow_dispatch:
@@ -15,7 +14,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: [macos-latest, ubuntu-latest, windows-latest]
+        platform: 
+          # TODO 其他平台均支持打包，但未经过测试，故暂时屏蔽掉
+          # - "macos-latest"
+          # - "ubuntu-latest"
+          - "windows-latest"
     runs-on: ${{ matrix.platform }}
 
     steps:
@@ -41,12 +44,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "lts/*"
-          cache: "yarn" # Set this to npm, yarn or pnpm.
+          cache: "yarn" 
 
       - name: Install frontend dependencies
         # If you don't have `beforeBuildCommand` configured you may want to build your frontend here too.
-        run: yarn install # Change this to npm, yarn or pnpm.
-
+        run: yarn install 
       - name: Build the app
         uses: tauri-apps/tauri-action@v0
 
@@ -54,7 +56,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tagName: ${{ github.ref_name }} # This only works if your workflow triggers on new tags.
-          releaseName: "App Name v__VERSION__" # tauri-action replaces \_\_VERSION\_\_ with the app version.
+          releaseName: "wt-helper-app v__VERSION__" # tauri-action replaces \_\_VERSION\_\_ with the app version.
           releaseBody: "See the assets to download and install this version."
-          releaseDraft: true
-          prerelease: false
+          releaseDraft: false
+          prerelease: ${{ github.event_name == 'push' && contains(github.ref, 'refs/heads/main') && !startsWith(github.ref, 'refs/tags/v') }}
