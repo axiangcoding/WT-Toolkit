@@ -9,6 +9,7 @@ on:
 
 jobs:
   release:
+    name: Release on ${{ matrix.platform }}
     permissions:
       contents: write
     strategy:
