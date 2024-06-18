@@ -84,7 +84,7 @@ async function autoSelectWTInstallPath() {
   } catch (error) {
     snackbar.value = {
       show: true,
-      message: `自动检测游戏安装目录失败: ${error}`,
+      message: get_error_msg(error),
       color: "error",
     };
   }
@@ -100,33 +100,23 @@ function selectWTSettingPath() {
   });
 }
 
-function autoSelectWTSettingPath() {
-  invoke("auto_detected_wt_setting_path").then((response) => {
-    if (response === null) {
-      snackbar.value = {
-        show: true,
-        message: "未检测到战争雷霆游戏设置目录",
-        color: "error",
-      };
-      return;
-    }
-    appSettings.value.wt_setting_path = response as string;
+async function autoSelectWTSettingPath() {
+  try {
+    appSettings.value.wt_setting_path = await invoke(
+      "auto_detected_wt_setting_path",
+    );
     snackbar.value = {
       show: true,
       message: "自动检测到战争雷霆游戏设置目录",
       color: "success",
     };
-  });
-}
-
-function selectSkinBackupPath() {
-  // selectPath(appSettings.value.wt_skins_backup_path).then((path) => {
-  //   if (typeof path === "string") {
-  //     appSettings.value.wt_skins_backup_path = path;
-  //   } else if (Array.isArray(path)) {
-  //     appSettings.value.wt_skins_backup_path = path[0];
-  //   }
-  // });
+  } catch (error) {
+    snackbar.value = {
+      show: true,
+      message: get_error_msg(error),
+      color: "error",
+    };
+  }
 }
 
 async function openSettingFolder() {
@@ -234,36 +224,6 @@ async function selectPath(defaultPath: string) {
           </template>
         </v-text-field>
       </v-col>
-      <!-- <v-col cols="12">
-        <v-text-field
-          v-model="appSettings.wt_skins_backup_path"
-          label="战争雷霆自定义涂装备份目录"
-          placeholder="请选择战争雷霆自定义涂装的备份目录"
-          type="text"
-          variant="outlined"
-          clearable
-          readonly
-        >
-          <template v-slot:append>
-            <v-container>
-              <v-row>
-                <v-col cols="auto">
-                  <v-btn color="primary" @click="selectSkinBackupPath"
-                    >选择目录</v-btn
-                  >
-                </v-col>
-                <v-col cols="auto">
-                  <v-btn
-                    color="info"
-                    @click="showFolder(appSettings.wt_skins_backup_path)"
-                    >查看目录</v-btn
-                  >
-                </v-col>
-              </v-row>
-            </v-container>
-          </template>
-        </v-text-field>
-      </v-col> -->
       <v-col cols="12">
         <v-container>
           <v-row justify="end">

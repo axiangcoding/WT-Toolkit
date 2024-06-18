@@ -3,7 +3,6 @@ import { onMounted, ref } from "vue";
 import { getVersion } from "@tauri-apps/api/app";
 import { open } from "@tauri-apps/api/shell";
 import BugReportDialog from "./components/dialog/BugReportDialog.vue";
-import { invoke } from "@tauri-apps/api";
 
 const appVersion = ref("");
 const drawer = ref(false);

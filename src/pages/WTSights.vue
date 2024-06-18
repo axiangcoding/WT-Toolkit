@@ -8,6 +8,7 @@ import { open } from "@tauri-apps/api/dialog";
 import UserSightCard from "../components/card/UserSightCard.vue";
 import CommonSnackbar from "../components/snackbar/CommonSnackbar.vue";
 import LoadUserSightDialog from "../components/dialog/LoadUserSightDialog.vue";
+import { get_error_msg } from "../error_msg";
 
 const breadcrumbsItems = [
   {
@@ -181,7 +182,7 @@ async function startLoadSight() {
     pathToLoad.value = "";
     snackbar.value = {
       show: true,
-      message: error as string,
+      message: get_error_msg(error),
       color: "error",
     };
   } finally {

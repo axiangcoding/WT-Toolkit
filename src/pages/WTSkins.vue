@@ -6,6 +6,7 @@ import { open } from "@tauri-apps/api/dialog";
 import UserSkinCard from "../components/card/UserSkinCard.vue";
 import CommonSnackbar from "../components/snackbar/CommonSnackbar.vue";
 import LoadUserSkinDialog from "../components/dialog/LoadUserSkinDialog.vue";
+import { get_error_msg } from "../error_msg";
 
 const breadcrumbsItems = [
   {
@@ -156,7 +157,7 @@ async function startLoadSkin() {
     pathToLoad.value = "";
     snackbar.value = {
       show: true,
-      message: error as string,
+      message: get_error_msg(error),
       color: "error",
     };
   } finally {
