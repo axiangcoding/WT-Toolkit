@@ -7,9 +7,7 @@ use crate::{
 };
 
 #[tauri::command]
-pub fn get_app_config(
-    state: tauri::State<WrappedState>,
-) -> Result<AppConfig, RetCode> {
+pub fn get_app_config(state: tauri::State<WrappedState>) -> Result<AppConfig, RetCode> {
     Ok(state.lock().unwrap().as_ref().unwrap().config.clone())
 }
 

@@ -1,5 +1,3 @@
-use std::fs;
-use std::path::Path;
 use std::process::Command;
 
 #[tauri::command]
@@ -29,14 +27,4 @@ pub fn show_in_folder(path: String) {
 #[tauri::command]
 pub fn delete_folder(path: String) -> Result<(), String> {
     fs_extra::dir::remove(path).map_err(|e| e.to_string())
-}
-
-#[tauri::command]
-pub fn create_folder(path: String) -> Result<(), String> {
-    let path = Path::new(&path);
-
-    if !path.exists() {
-        fs::create_dir_all(path).map_err(|e| e.to_string())?;
-    }
-    Ok(())
 }

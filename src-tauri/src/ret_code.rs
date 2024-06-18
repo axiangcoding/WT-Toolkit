@@ -7,6 +7,12 @@ pub enum RetCode {
     GetAppSettingsFailed = 10000,
     SaveAppSettingsFailed = 10001,
     GetAppLogPathFailed = 10002,
+    AutoDetectedWtRootPathFailed = 20000,
+    AutoDetectedWtSettingPathFailed = 20001,
+    InstallUserSkinFailed = 20002,
+    InstallUserSightFailed = 20003,
+    GetUserSkinsFailed = 20004,
+    GetUserSightsFailed = 20005,
 }
 
 impl Serialize for RetCode {

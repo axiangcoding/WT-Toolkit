@@ -4,10 +4,12 @@ use std::{
 };
 use walkdir::WalkDir;
 
-use crate::tools;
+use log::warn;
+
+use crate::{ret_code::RetCode, tools, WrappedState};
 
 #[tauri::command]
-pub fn auto_detected_wt_root_path() -> Result<String, String> {
+pub fn auto_detected_wt_root_path() -> Result<String, RetCode> {
     let paths_to_scan: Vec<PathBuf>;
 
     if cfg!(target_os = "windows") {
@@ -37,12 +39,11 @@ pub fn auto_detected_wt_root_path() -> Result<String, String> {
             return Ok(path.to_str().unwrap().to_string());
         }
     }
-    return Err("War Thunder install path not found".to_string());
+    return Err(RetCode::AutoDetectedWtRootPathFailed);
 }
 
 #[tauri::command]
-pub fn auto_detected_wt_setting_path() -> String {
-    // 写一个rust代码，判断 %USERPROFILE%\Documents\My Games\WarThunder\Saves存不存在
+pub fn auto_detected_wt_setting_path() -> Result<String, RetCode> {
     let user_profile = std::env::var("USERPROFILE").unwrap();
     let path = std::path::Path::new(&user_profile)
         .join("Documents")
@@ -50,19 +51,32 @@ pub fn auto_detected_wt_setting_path() -> String {
         .join("WarThunder")
         .join("Saves");
     if path.exists() {
-        return path.to_str().unwrap().to_string();
+        return Ok(path.to_str().unwrap().to_string());
     }
-    return "".to_string();
+    return Err(RetCode::AutoDetectedWtSettingPathFailed);
 }
 
 #[tauri::command]
-pub fn install_user_skin(skin_path: String, wt_install_path: String) -> Result<(), String> {
+pub fn install_user_skin(
+    skin_path: String,
+    state: tauri::State<WrappedState>,
+) -> Result<(), RetCode> {
+    let wt_root_path = state
+        .lock()
+        .unwrap()
+        .as_ref()
+        .unwrap()
+        .config
+        .clone()
+        .wt_root_path;
+
     let skin_pb = PathBuf::from(&skin_path);
     if !skin_pb.exists() {
-        return Err(format!("Path does not exist: {}", skin_pb.display()));
+        warn!("Skin path not exists: {:?}", skin_pb);
+        return Err(RetCode::InstallUserSkinFailed);
     }
     // 如果涂装文件夹不存在，则创建
-    let skin_base_path = Path::new(&wt_install_path).join("UserSkins");
+    let skin_base_path = Path::new(&wt_root_path).join("UserSkins");
     if !skin_base_path.exists() {
         fs::create_dir_all(skin_base_path).unwrap();
     }
@@ -70,35 +84,34 @@ pub fn install_user_skin(skin_path: String, wt_install_path: String) -> Result<(
     // 如果是文件夹，则判断文件夹下是否有.blk文件，如果有，则复制这个文件夹到 wt_install_path 下
     if skin_pb.is_dir() {
         if !check_is_folder_contains_blk_file(&skin_pb) {
-            return Err(format!("Invalid skin folder: {}", skin_pb.display()));
+            warn!("Skin folder not contains blk file: {:?}", skin_pb);
+            return Err(RetCode::InstallUserSkinFailed);
         }
-        let new_path = Path::new(&wt_install_path)
+        let new_path = Path::new(&wt_root_path)
             .join("UserSkins")
             .join(skin_pb.file_name().unwrap());
         if new_path.exists() {
-            return Err(format!(
-                "Skin folder already exists: {}",
-                new_path.display()
-            ));
+            warn!("Skin folder already exists: {:?}", new_path);
+            return Err(RetCode::InstallUserSkinFailed);
         }
         match tools::fs::copy_folder(&skin_pb, &new_path) {
             Ok(_) => Ok(()),
-            Err(err) => Err(format!("Failed to copy skin folder: {}", err)),
+            Err(err) => {
+                warn!("Copy skin folder failed: {:?}", err);
+                Err(RetCode::InstallUserSkinFailed)
+            }
         }
     } else {
         // 处理压缩文件
-        let temp_dir =
-            tempfile::tempdir().map_err(|e| format!("Failed to create temp dir: {}", e))?;
+        let temp_dir = tempfile::tempdir().unwrap();
         let temp_path = temp_dir.path();
 
         tools::fs::decompress_file(skin_pb.as_path(), temp_path).unwrap();
 
         // 查找解压后的文件夹
         let mut extracted_folder = None;
-        for entry in
-            fs::read_dir(&temp_path).map_err(|e| format!("Failed to read temp dir: {}", e))?
-        {
-            let entry = entry.map_err(|e| format!("Failed to read temp dir entry: {}", e))?;
+        for entry in fs::read_dir(&temp_path).unwrap() {
+            let entry = entry.unwrap();
             if entry.path().is_dir() {
                 extracted_folder = Some(entry.path());
                 break;
@@ -107,72 +120,87 @@ pub fn install_user_skin(skin_path: String, wt_install_path: String) -> Result<(
 
         if let Some(extracted_folder) = extracted_folder {
             if !check_is_folder_contains_blk_file(&extracted_folder) {
-                return Err(format!(
-                    "Invalid skin folder in archive: {}",
-                    extracted_folder.display()
-                ));
+                warn!(
+                    "Extracted folder not contains blk file: {:?}",
+                    extracted_folder
+                );
+                return Err(RetCode::InstallUserSkinFailed);
             }
-            let new_path = Path::new(&wt_install_path)
+            let new_path = Path::new(&wt_root_path)
                 .join("UserSkins")
                 .join(extracted_folder.file_name().unwrap());
             if new_path.exists() {
-                return Err(format!(
-                    "Skin folder already exists: {}",
-                    new_path.display()
-                ));
+                warn!("Skin folder already exists: {:?}", new_path);
+                return Err(RetCode::InstallUserSkinFailed);
             }
             match tools::fs::copy_folder(&extracted_folder, &new_path) {
                 Ok(_) => Ok(()),
-                Err(err) => Err(format!("Failed to copy extracted skin folder: {}", err)),
+                Err(err) => {
+                    warn!("Copy skin folder failed: {:?}", err);
+                    Err(RetCode::InstallUserSkinFailed)
+                }
             }
         } else {
-            Err("No folder found in extracted archive".to_string())
+            warn!("Extracted folder not found");
+            Err(RetCode::InstallUserSkinFailed)
         }
     }
 }
 
 #[tauri::command]
-pub fn install_user_sight(sight_path: String, wt_install_path: String) -> Result<(), String> {
+pub fn install_user_sight(
+    sight_path: String,
+    state: tauri::State<WrappedState>,
+) -> Result<(), RetCode> {
+    let wt_root_path = state
+        .lock()
+        .unwrap()
+        .as_ref()
+        .unwrap()
+        .config
+        .clone()
+        .wt_root_path;
+
     let sight_pb = PathBuf::from(&sight_path);
     if !sight_pb.exists() {
-        return Err(format!("Path does not exist: {}", sight_pb.display()));
+        warn!("Sight path not exists: {:?}", sight_pb);
+        return Err(RetCode::InstallUserSightFailed);
     }
 
-    let sight_base_path = Path::new(&wt_install_path).join("UserSights");
+    let sight_base_path = Path::new(&wt_root_path).join("UserSights");
     if !sight_base_path.exists() {
         fs::create_dir_all(sight_base_path).unwrap();
     }
 
     if sight_pb.is_dir() {
         if !check_is_folder_contains_blk_file(&sight_pb) {
-            return Err(format!("Invalid sight folder: {}", sight_pb.display()));
+            warn!("Sight folder not contains blk file: {:?}", sight_pb);
+            return Err(RetCode::InstallUserSightFailed);
         }
-        let new_path = Path::new(&wt_install_path)
+        let new_path = Path::new(&wt_root_path)
             .join("UserSights")
             .join(sight_pb.file_name().unwrap());
         if new_path.exists() {
-            return Err(format!(
-                "Sight folder already exists: {}",
-                new_path.display()
-            ));
+            warn!("Sight folder already exists: {:?}", new_path);
+            return Err(RetCode::InstallUserSightFailed);
         }
         match tools::fs::copy_folder(&sight_pb, &new_path) {
             Ok(_) => Ok(()),
-            Err(err) => Err(format!("Failed to copy sight folder: {}", err)),
+            Err(err) => {
+                warn!("Copy sight folder failed: {:?}", err);
+                Err(RetCode::InstallUserSightFailed)
+            }
         }
     } else {
-        let temp_dir =
-            tempfile::tempdir().map_err(|e| format!("Failed to create temp dir: {}", e))?;
+        let temp_dir = tempfile::tempdir().unwrap();
         let temp_path = temp_dir.path();
 
         tools::fs::decompress_file(sight_pb.as_path(), temp_path).unwrap();
 
         // 查找解压后的文件夹
         let mut extracted_folder = None;
-        for entry in
-            fs::read_dir(&temp_path).map_err(|e| format!("Failed to read temp dir: {}", e))?
-        {
-            let entry = entry.map_err(|e| format!("Failed to read temp dir entry: {}", e))?;
+        for entry in fs::read_dir(&temp_path).unwrap() {
+            let entry = entry.unwrap();
             if entry.path().is_dir() {
                 extracted_folder = Some(entry.path());
                 break;
@@ -181,75 +209,31 @@ pub fn install_user_sight(sight_path: String, wt_install_path: String) -> Result
 
         if let Some(extracted_folder) = extracted_folder {
             if !check_is_folder_contains_blk_file(&extracted_folder) {
-                return Err(format!(
-                    "Invalid sight folder in archive: {}",
-                    extracted_folder.display()
-                ));
+                warn!(
+                    "Extracted folder not contains blk file: {:?}",
+                    extracted_folder
+                );
+                return Err(RetCode::InstallUserSightFailed);
             }
-            let new_path = Path::new(&wt_install_path)
+            let new_path = Path::new(&wt_root_path)
                 .join("UserSights")
                 .join(extracted_folder.file_name().unwrap());
             if new_path.exists() {
-                return Err(format!(
-                    "Sight folder already exists: {}",
-                    new_path.display()
-                ));
+                warn!("Sight folder already exists: {:?}", new_path);
+                return Err(RetCode::InstallUserSightFailed);
             }
             match tools::fs::copy_folder(&extracted_folder, &new_path) {
                 Ok(_) => Ok(()),
-                Err(err) => Err(format!("Failed to copy extracted sight folder: {}", err)),
-            }
-        } else {
-            Err("No folder found in extracted archive".to_string())
-        }
-    }
-}
-
-#[tauri::command]
-pub fn check_is_valid_wt_install_path(path: String) -> bool {
-    let path = Path::new(&path);
-    check_is_folder_contains_wt_launcher(path)
-}
-
-// Check if the folder contains the War Thunder launcher
-// TODO: Maybe not working on Linux and MacOS
-fn check_is_folder_contains_wt_launcher(path: &Path) -> bool {
-    if !path.exists() {
-        return false;
-    }
-    if !path.is_dir() {
-        return false;
-    }
-    let launcher_names = vec!["launcher.exe"];
-
-    for name in launcher_names {
-        let launcher_path = path.join(name);
-        if launcher_path.exists() {
-            return true;
-        }
-    }
-    return false;
-}
-
-fn check_is_folder_contains_blk_file(path: &PathBuf) -> bool {
-    if !path.exists() {
-        return false;
-    }
-    if !path.is_dir() {
-        return false;
-    }
-    for entry in fs::read_dir(path).unwrap() {
-        let entry = entry.unwrap();
-        let path = entry.path();
-        if path.is_file() {
-            if let Some(ext) = path.extension() {
-                if ext == "blk" {
-                    return true;
+                Err(_err) => {
+                    warn!("Copy sight folder failed: {:?}", _err);
+                    Err(RetCode::InstallUserSightFailed)
                 }
             }
+        } else {
+            warn!("Extracted folder not found");
+            Err(RetCode::InstallUserSightFailed)
         }
     }
-    return false;
 }
 
 #[derive(Debug, serde::Serialize)]
@@ -262,11 +246,21 @@ pub struct UserSkinInfo {
 }
 
 #[tauri::command]
-pub fn get_user_skins(wt_install_path: String) -> Result<Vec<UserSkinInfo>, String> {
-    let skin_base_path = Path::new(&wt_install_path).join("UserSkins");
+pub fn get_user_skins(state: tauri::State<WrappedState>) -> Result<Vec<UserSkinInfo>, RetCode> {
+    let wt_root_path = state
+        .lock()
+        .unwrap()
+        .as_ref()
+        .unwrap()
+        .config
+        .clone()
+        .wt_root_path;
+
+    let skin_base_path = Path::new(&wt_root_path).join("UserSkins");
 
     if !skin_base_path.exists() {
-        return Err("UserSkins folder not found".to_string());
+        warn!("UserSkins folder not found");
+        return Err(RetCode::GetUserSkinsFailed);
     }
     let mut infos = Vec::new();
     for entry in WalkDir::new(&skin_base_path).min_depth(1).max_depth(10) {
@@ -326,11 +320,21 @@ pub struct UserSightInfo {
 }
 
 #[tauri::command]
-pub fn get_user_sights(wt_install_path: String) -> Result<Vec<UserSightInfo>, String> {
-    let skin_base_path = Path::new(&wt_install_path).join("UserSights");
+pub fn get_user_sights(state: tauri::State<WrappedState>) -> Result<Vec<UserSightInfo>, RetCode> {
+    let wt_root_path = state
+        .lock()
+        .unwrap()
+        .as_ref()
+        .unwrap()
+        .config
+        .clone()
+        .wt_root_path;
+
+    let skin_base_path = Path::new(&wt_root_path).join("UserSights");
 
     if !skin_base_path.exists() {
-        return Err("UserSights folder not found".to_string());
+        warn!("UserSights folder not found");
+        return Err(RetCode::GetUserSightsFailed);
     }
     let mut infos = Vec::new();
     for entry in WalkDir::new(&skin_base_path).min_depth(1).max_depth(10) {
@@ -382,4 +386,45 @@ pub fn get_user_sights(wt_install_path: String) -> Result<Vec<UserSightInfo>, St
         }
     }
     Ok(infos)
+}
+
+// Check if the folder contains the War Thunder launcher
+// TODO: Maybe not working on Linux and MacOS
+fn check_is_folder_contains_wt_launcher(path: &Path) -> bool {
+    if !path.exists() {
+        return false;
+    }
+    if !path.is_dir() {
+        return false;
+    }
+    let launcher_names = vec!["launcher.exe"];
+
+    for name in launcher_names {
+        let launcher_path = path.join(name);
+        if launcher_path.exists() {
+            return true;
+        }
+    }
+    return false;
+}
+
+fn check_is_folder_contains_blk_file(path: &PathBuf) -> bool {
+    if !path.exists() {
+        return false;
+    }
+    if !path.is_dir() {
+        return false;
+    }
+    for entry in fs::read_dir(path).unwrap() {
+        let entry = entry.unwrap();
+        let path = entry.path();
+        if path.is_file() {
+            if let Some(ext) = path.extension() {
+                if ext == "blk" {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
 }

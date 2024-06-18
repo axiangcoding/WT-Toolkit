@@ -144,7 +144,6 @@ async function startLoadSkin() {
     installLoading.value = true;
     await invoke("install_user_skin", {
       skinPath: pathToLoad.value,
-      wtInstallPath: appSettings.value.wt_root_path,
     });
     await loadUserSkins();
     pathToLoad.value = "";

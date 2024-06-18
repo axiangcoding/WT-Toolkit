@@ -9,7 +9,6 @@ export function get_error_msg(error: any): string {
     case 10001:
       return "保存应用设置失败";
     default:
-      return `未知错误: ${err_code}`
+      return `未知错误: ${err_code}`;
   }
-
 }

@@ -11,9 +11,9 @@ use tauri::Manager;
 
 mod commands {
     pub mod log;
-    pub mod manage_wt;
     pub mod os;
     pub mod setting;
+    pub mod war_thunder;
 }
 
 mod tools {
@@ -26,7 +26,7 @@ mod ret_code;
 type WrappedState = Mutex<Option<MyState>>;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
-struct MyState {
+pub struct MyState {
     config: AppConfig,
 }
 
@@ -67,18 +67,16 @@ fn main() {
         .invoke_handler(tauri::generate_handler![
             commands::os::show_in_folder,
             commands::os::delete_folder,
-            commands::os::create_folder,
-            commands::manage_wt::auto_detected_wt_root_path,
-            commands::manage_wt::auto_detected_wt_setting_path,
-            commands::manage_wt::get_user_skins,
-            commands::manage_wt::get_user_sights,
-            commands::manage_wt::install_user_skin,
-            commands::manage_wt::install_user_sight,
-            commands::manage_wt::check_is_valid_wt_install_path,
             commands::setting::get_app_config,
             commands::setting::save_app_config,
             commands::setting::get_app_config_dir,
-            commands::log::get_app_log_dir
+            commands::log::get_app_log_dir,
+            commands::war_thunder::auto_detected_wt_root_path,
+            commands::war_thunder::auto_detected_wt_setting_path,
+            commands::war_thunder::install_user_skin,
+            commands::war_thunder::install_user_sight,
+            commands::war_thunder::get_user_skins,
+            commands::war_thunder::get_user_sights,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

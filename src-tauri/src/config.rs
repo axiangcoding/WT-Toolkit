@@ -6,8 +6,8 @@ use serde_json::json;
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct AppConfig {
-    wt_root_path: String,
-    wt_setting_path: String,
+    pub wt_root_path: String,
+    pub wt_setting_path: String,
 }
 
 const SETTING_FILE: &str = "config.json";
