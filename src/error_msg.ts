@@ -15,7 +15,6 @@ pub enum RetCode {
 }
 */
 
-
 export function get_error_msg(error: any): string {
   console.error("error", error);
   let err_code = error as number;
