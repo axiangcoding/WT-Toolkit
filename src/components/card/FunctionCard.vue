@@ -28,7 +28,7 @@ function navigateTo(to: string) {
     <v-card-subtitle>
       {{ props.data.subtitle }}
     </v-card-subtitle>
-    <v-card-text >
+    <v-card-text>
       {{ props.data.description }}
     </v-card-text>
   </v-card>

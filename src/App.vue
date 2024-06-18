@@ -2,8 +2,8 @@
 import { onMounted, ref } from "vue";
 import { getVersion } from "@tauri-apps/api/app";
 import { open } from "@tauri-apps/api/shell";
-import { getAppSettings } from "./settings";
 import BugReportDialog from "./components/dialog/BugReportDialog.vue";
+import { invoke } from "@tauri-apps/api";
 
 const appVersion = ref("");
 const drawer = ref(false);
@@ -45,7 +45,6 @@ const appInfo = [
 
 onMounted(async () => {
   appVersion.value = await getVersion();
-  await getAppSettings();
 });
 
 async function jumpToBiliBili() {

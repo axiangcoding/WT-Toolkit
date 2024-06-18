@@ -1,16 +1,10 @@
 <script setup lang="ts">
 import { open } from "@tauri-apps/api/dialog";
 import { onMounted, ref } from "vue";
-import { appConfigDir, appLogDir } from "@tauri-apps/api/path";
 import { invoke } from "@tauri-apps/api";
-import {
-  AppSettings,
-  getAppSettings,
-  getDefaultSettings,
-  saveAppSettings,
-} from "../settings";
 
 import CommonSnackbar from "../components/snackbar/CommonSnackbar.vue";
+import { get_error_msg } from "../error_msg";
 
 const breadcrumbsItems = [
   {
@@ -35,24 +29,26 @@ const snackbar = ref({
   color: "success",
 });
 
-const appSettings = ref<AppSettings>({} as AppSettings);
+const appSettings = ref<{
+  wt_root_path: string;
+  wt_setting_path: string;
+}>({} as any);
 
 onMounted(async () => {
-  appSettings.value = await getAppSettings();
+  try {
+    appSettings.value = await invoke("get_app_config");
+  } catch (error) {
+    snackbar.value = {
+      show: true,
+      message: get_error_msg(error),
+      color: "error",
+    };
+  }
 });
-
-async function resetSettings() {
-  appSettings.value = await getDefaultSettings();
-  snackbar.value = {
-    show: true,
-    message: "重置设置成功",
-    color: "success",
-  };
-}
 
 async function saveSettings() {
   try {
-    await saveAppSettings(appSettings.value);
+    await invoke("save_app_config", { config: appSettings.value });
     snackbar.value = {
       show: true,
       message: "保存设置成功",
@@ -61,27 +57,25 @@ async function saveSettings() {
   } catch (error) {
     snackbar.value = {
       show: true,
-      message: `保存设置失败: ${error}`,
+      message: get_error_msg(error),
       color: "error",
     };
   }
 }
 
 function selectWTInstallPath() {
-  selectPath(appSettings.value.wt_install_path).then((path) => {
+  selectPath(appSettings.value.wt_root_path).then((path) => {
     if (typeof path === "string") {
-      appSettings.value.wt_install_path = path;
+      appSettings.value.wt_root_path = path;
     } else if (Array.isArray(path)) {
-      appSettings.value.wt_install_path = path[0];
+      appSettings.value.wt_root_path = path[0];
     }
   });
 }
 
 async function autoSelectWTInstallPath() {
   try {
-    appSettings.value.wt_install_path = await invoke(
-      "auto_detected_wt_install_path",
-    );
+    appSettings.value.wt_root_path = await invoke("auto_detected_wt_root_path");
     snackbar.value = {
       show: true,
       message: "自动检测到战争雷霆游戏安装目录！",
@@ -126,22 +120,22 @@ function autoSelectWTSettingPath() {
 }
 
 function selectSkinBackupPath() {
-  selectPath(appSettings.value.wt_skins_backup_path).then((path) => {
-    if (typeof path === "string") {
-      appSettings.value.wt_skins_backup_path = path;
-    } else if (Array.isArray(path)) {
-      appSettings.value.wt_skins_backup_path = path[0];
-    }
-  });
+  // selectPath(appSettings.value.wt_skins_backup_path).then((path) => {
+  //   if (typeof path === "string") {
+  //     appSettings.value.wt_skins_backup_path = path;
+  //   } else if (Array.isArray(path)) {
+  //     appSettings.value.wt_skins_backup_path = path[0];
+  //   }
+  // });
 }
 
 async function openSettingFolder() {
-  let path = await appConfigDir();
+  let path = await invoke("get_app_config_dir");
   await invoke("show_in_folder", { path: path });
 }
 
 async function openLogFolder() {
-  let path = await appLogDir();
+  let path = await invoke("get_app_log_dir");
   await invoke("show_in_folder", { path: path });
 }
 
@@ -166,7 +160,7 @@ async function selectPath(defaultPath: string) {
     <v-row>
       <v-col cols="12">
         <v-text-field
-          v-model="appSettings.wt_install_path"
+          v-model="appSettings.wt_root_path"
           label="战争雷霆游戏安装目录"
           placeholder="请选择战争雷霆游戏的安装目录，用来管理和游戏相关的资源"
           type="text"
@@ -193,7 +187,7 @@ async function selectPath(defaultPath: string) {
                 <v-col cols="auto">
                   <v-btn
                     color="info"
-                    @click="showFolder(appSettings.wt_install_path)"
+                    @click="showFolder(appSettings.wt_root_path)"
                     >查看目录</v-btn
                   >
                 </v-col>
@@ -240,7 +234,7 @@ async function selectPath(defaultPath: string) {
           </template>
         </v-text-field>
       </v-col>
-      <v-col cols="12">
+      <!-- <v-col cols="12">
         <v-text-field
           v-model="appSettings.wt_skins_backup_path"
           label="战争雷霆自定义涂装备份目录"
@@ -269,15 +263,12 @@ async function selectPath(defaultPath: string) {
             </v-container>
           </template>
         </v-text-field>
-      </v-col>
+      </v-col> -->
       <v-col cols="12">
         <v-container>
           <v-row justify="end">
             <v-col cols="auto">
               <v-btn color="success" @click="saveSettings">保存设置</v-btn>
-            </v-col>
-            <v-col cols="auto">
-              <v-btn color="error" @click="resetSettings">重置为默认</v-btn>
             </v-col>
             <v-col cols="auto">
               <v-btn color="info" @click="openSettingFolder"

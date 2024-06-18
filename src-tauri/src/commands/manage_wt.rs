@@ -7,7 +7,7 @@ use walkdir::WalkDir;
 use crate::tools;
 
 #[tauri::command]
-pub fn auto_detected_wt_install_path() -> Result<String, String> {
+pub fn auto_detected_wt_root_path() -> Result<String, String> {
     let paths_to_scan: Vec<PathBuf>;
 
     if cfg!(target_os = "windows") {

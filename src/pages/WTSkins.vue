@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref, shallowRef, watch } from "vue";
 import { invoke } from "@tauri-apps/api";
-import { AppSettings, getAppSettings } from "../settings";
 import { listen } from "@tauri-apps/api/event";
 import { open } from "@tauri-apps/api/dialog";
 import UserSkinCard from "../components/card/UserSkinCard.vue";
@@ -25,7 +24,10 @@ const breadcrumbsItems = [
   },
 ];
 
-const appSettings = ref<AppSettings>({} as AppSettings);
+const appSettings = ref<{
+  wt_root_path: string;
+  wt_setting_path: string;
+}>({} as any);
 
 const userSkins = ref<any>([]);
 
@@ -43,11 +45,11 @@ const snackbar = ref({
 });
 
 onMounted(async () => {
-  appSettings.value = await getAppSettings();
+  appSettings.value = await invoke("get_app_config");
   await loadUserSkins();
 
   await listen("tauri://file-drop", async (event) => {
-    if (appSettings.value.wt_install_path == null) {
+    if (appSettings.value.wt_root_path == null) {
       snackbar.value = {
         show: true,
         message: "请先配置战争雷霆游戏安装目录",
@@ -62,7 +64,7 @@ onMounted(async () => {
 });
 
 async function loadUserSkins() {
-  let wtInstallPath = appSettings.value.wt_install_path;
+  let wtInstallPath = appSettings.value.wt_root_path;
   if (!wtInstallPath) {
     showEmptyState.value = true;
     return;
@@ -142,7 +144,7 @@ async function startLoadSkin() {
     installLoading.value = true;
     await invoke("install_user_skin", {
       skinPath: pathToLoad.value,
-      wtInstallPath: appSettings.value.wt_install_path,
+      wtInstallPath: appSettings.value.wt_root_path,
     });
     await loadUserSkins();
     pathToLoad.value = "";
@@ -225,7 +227,7 @@ function filterUserSkins(value: string, query: string, _item?: any) {
         <v-card
           border="dashed"
           variant="outlined"
-          :disabled="appSettings.wt_install_path == null"
+          :disabled="appSettings.wt_root_path == null"
         >
           <v-card-title>选择自定义涂装的压缩包或者文件夹</v-card-title>
           <v-card-text>

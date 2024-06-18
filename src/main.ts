@@ -9,15 +9,12 @@ import router from "./router";
 
 // Components
 import App from "./App.vue";
-import { initFolder } from "./settings";
 import { md3 } from "vuetify/blueprints";
 import { createI18n } from "vue-i18n";
 
 const vuetify = createVuetify({ blueprint: md3 });
 
 const i18n = createI18n({});
-
-initFolder();
 
 const app = createApp(App);
 
