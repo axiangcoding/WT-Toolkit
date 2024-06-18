@@ -9,6 +9,40 @@ const appVersion = ref("");
 const drawer = ref(false);
 const feedbackDialog = ref(false);
 
+const homeList = [
+  {
+    icon: "mdi-home",
+    title: "主页",
+    to: "/",
+  },
+];
+
+const wtTool = [
+  {
+    icon: "mdi-format-paint",
+    title: "自定义涂装管理",
+    to: "/wt-skins",
+  },
+  {
+    icon: "mdi-crosshairs",
+    title: "自定义瞄具管理",
+    to: "/wt-sight",
+  },
+];
+
+const appInfo = [
+  {
+    icon: "mdi-cog",
+    title: "设置",
+    to: "/setting",
+  },
+  {
+    icon: "mdi-information",
+    title: "关于",
+    to: "/about",
+  },
+];
+
 onMounted(async () => {
   appVersion.value = await getVersion();
   await getAppSettings();
@@ -60,37 +94,26 @@ async function jumpToBiliBili() {
         activated="wt-skins"
         color="primary"
       >
-        <v-list-item to="/">
+        <v-list-item v-for="item in homeList" :key="item.to" :to="item.to">
           <template v-slot:prepend>
-            <v-icon icon="mdi-home"></v-icon>
+            <v-icon :icon="item.icon"></v-icon>
           </template>
-          <v-list-item-title>主页</v-list-item-title>
+          <v-list-item-title>{{ item.title }}</v-list-item-title>
         </v-list-item>
+
         <v-list-subheader>战雷小工具</v-list-subheader>
-        <v-list-item to="wt-skins">
+        <v-list-item v-for="item in wtTool" :key="item.to" :to="item.to">
           <template v-slot:prepend>
-            <v-icon icon="mdi-format-paint"></v-icon>
+            <v-icon :icon="item.icon"></v-icon>
           </template>
-          <v-list-item-title>自定义涂装管理</v-list-item-title>
-        </v-list-item>
-        <v-list-item to="wt-sight">
-          <template v-slot:prepend>
-            <v-icon icon="mdi-crosshairs"></v-icon>
-          </template>
-          <v-list-item-title>自定义瞄具管理</v-list-item-title>
+          <v-list-item-title>{{ item.title }}</v-list-item-title>
         </v-list-item>
         <v-list-subheader>APP 信息</v-list-subheader>
-        <v-list-item to="setting">
+        <v-list-item v-for="item in appInfo" :key="item.to" :to="item.to">
           <template v-slot:prepend>
-            <v-icon icon="mdi-cog"></v-icon>
+            <v-icon :icon="item.icon"></v-icon>
           </template>
-          <v-list-item-title>设置</v-list-item-title>
-        </v-list-item>
-        <v-list-item to="about">
-          <template v-slot:prepend>
-            <v-icon icon="mdi-information"></v-icon>
-          </template>
-          <v-list-item-title>关于</v-list-item-title>
+          <v-list-item-title>{{ item.title }}</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>

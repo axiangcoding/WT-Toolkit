@@ -1,6 +1,7 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+
 mod commands {
     pub mod manage_wt;
     pub mod os;
@@ -10,10 +11,15 @@ mod tools {
     pub mod fs;
 }
 
-// Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
+mod config;
 
 fn main() {
     tauri::Builder::default()
+        .setup(|app| {
+            let app_config_dir = app.path_resolver().app_config_dir().unwrap();
+            config::check_config_file(&app_config_dir);
+            Ok(())
+        })
         .invoke_handler(tauri::generate_handler![
             commands::os::show_in_folder,
             commands::os::delete_folder,
