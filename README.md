@@ -1,6 +1,8 @@
 # WT-Toolkit | 战雷工具箱
 
-select language: [English](README.md) | [简体中文](README.zh-CN.md)
+[![Dependabot Updates](https://github.com/axiangcoding/WT-Toolkit/actions/workflows/dependabot/dependabot-updates/badge.svg)](https://github.com/axiangcoding/WT-Toolkit/actions/workflows/dependabot/dependabot-updates) [![Lint](https://github.com/axiangcoding/WT-Toolkit/actions/workflows/lint.yml/badge.svg)](https://github.com/axiangcoding/WT-Toolkit/actions/workflows/lint.yml) [![Release](https://github.com/axiangcoding/WT-Toolkit/actions/workflows/release.yml/badge.svg)](https://github.com/axiangcoding/WT-Toolkit/actions/workflows/release.yml)
+
+Select language: English | [简体中文](README.zh-CN.md)
 
 ## Introduction
 
