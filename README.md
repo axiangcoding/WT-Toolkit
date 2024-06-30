@@ -26,7 +26,11 @@ You can install the toolkit by downloading the latest release from the [release 
 
 ## Usage
 
-__Document is still working in progress.__
+**Document is still working in progress.**
+
+## Contributing
+
+**Document is still working in progress.**
 
 ## License
 
