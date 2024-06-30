@@ -49,6 +49,10 @@ onMounted(async () => {
 async function jumpToBiliBili() {
   await open("https://space.bilibili.com/8696650");
 }
+
+async function jumpToGithub() {
+  await open("https://github.com/axiangcoding/WT-Toolkit");
+}
 </script>
 
 <template>
@@ -77,6 +81,12 @@ async function jumpToBiliBili() {
             <v-icon></v-icon>
           </template>
           反馈问题
+        </v-btn>
+        <v-btn prepend-icon="mdi-github" @click="jumpToGithub">
+          <template v-slot:prepend>
+            <v-icon></v-icon>
+          </template>
+          开源项目
         </v-btn>
       </template>
     </v-app-bar>
