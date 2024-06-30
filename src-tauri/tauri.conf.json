@@ -7,7 +7,7 @@
   },
   "package": {
     "productName": "wt-helper-app",
-    "version": "0.0.4"
+    "version": "0.0.5"
   },
   "tauri": {
     "allowlist": {
@@ -41,7 +41,9 @@
         "writeFile": true
       },
       "window": {
-        "startDragging": true
+        "startDragging": true,
+        "show": true,
+        "create": true
       }
     },
     "windows": [
@@ -57,6 +59,15 @@
       "csp": null
     },
     "bundle": {
+      "windows": {
+        "wix": {
+          "language": ["en-US", "zh-CN"]
+        },
+        "nsis":{
+          "displayLanguageSelector": true,
+          "languages": ["English", "SimpChinese"]
+        }
+      },
       "active": true,
       "targets": "all",
       "identifier": "com.github.axiangcoding.wt-helper-app",

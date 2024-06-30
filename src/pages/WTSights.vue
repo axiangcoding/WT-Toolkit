@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref, shallowRef, watch } from "vue";
-import { AppSettings, getAppSettings } from "../settings";
+
 import { listen } from "@tauri-apps/api/event";
 import { invoke } from "@tauri-apps/api";
 import { open } from "@tauri-apps/api/dialog";
@@ -8,6 +8,7 @@ import { open } from "@tauri-apps/api/dialog";
 import UserSightCard from "../components/card/UserSightCard.vue";
 import CommonSnackbar from "../components/snackbar/CommonSnackbar.vue";
 import LoadUserSightDialog from "../components/dialog/LoadUserSightDialog.vue";
+import { get_error_msg } from "../error_msg";
 
 const breadcrumbsItems = [
   {
@@ -26,14 +27,17 @@ const breadcrumbsItems = [
   },
 ];
 
-const appSettings = ref<AppSettings>({} as AppSettings);
+const appSettings = ref<{
+  wt_root_path: string;
+  wt_setting_path: string;
+}>({} as any);
 
 onMounted(async () => {
-  appSettings.value = await getAppSettings();
+  appSettings.value = await invoke("get_app_config");
   await loadUserSights();
 
   await listen("tauri://file-drop", async (event) => {
-    if (appSettings.value.wt_install_path == null) {
+    if (appSettings.value.wt_root_path == null) {
       snackbar.value = {
         show: true,
         message: "请先配置战争雷霆游戏安装目录",
@@ -59,7 +63,7 @@ const snackbar = ref({
 });
 
 async function loadUserSights() {
-  let wtInstallPath = appSettings.value.wt_install_path;
+  let wtInstallPath = appSettings.value.wt_root_path;
   if (!wtInstallPath) {
     showEmptyState.value = true;
     return;
@@ -71,7 +75,7 @@ async function loadUserSights() {
   countTotalSize();
   snackbar.value = {
     show: true,
-    message: "自定义涂装列表加载成功",
+    message: "自定义瞄具列表加载成功",
     color: "success",
   };
 }
@@ -165,7 +169,7 @@ async function startLoadSight() {
     installLoading.value = true;
     await invoke("install_user_sight", {
       sightPath: pathToLoad.value,
-      wtInstallPath: appSettings.value.wt_install_path,
+      wtInstallPath: appSettings.value.wt_root_path,
     });
     await loadUserSights();
     pathToLoad.value = "";
@@ -178,7 +182,7 @@ async function startLoadSight() {
     pathToLoad.value = "";
     snackbar.value = {
       show: true,
-      message: error as string,
+      message: get_error_msg(error),
       color: "error",
     };
   } finally {
@@ -226,7 +230,7 @@ async function startLoadSight() {
         <v-card
           border="dashed"
           variant="outlined"
-          :disabled="appSettings.wt_install_path == null"
+          :disabled="appSettings.wt_root_path == null"
         >
           <v-card-title>选择自定义瞄具的压缩包或者文件夹</v-card-title>
           <v-card-text>
