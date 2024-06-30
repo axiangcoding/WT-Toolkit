@@ -19,6 +19,7 @@ We are supporting the following features now:
 And we are planning to support the following features in the future:
 
 - [ ] GUI support for [wt_ext_cli](https://github.com/Warthunder-Open-Source-Foundation/wt_ext_cli)
+- [ ] Multi-language support
 
 ## Installation
 
