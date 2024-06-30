@@ -14,3 +14,7 @@ lint:
 format:
 	yarn format
 	cd src-tauri && cargo fmt
+
+update:
+	yarn upgrade @tauri-apps/cli @tauri-apps/api --latest
+	cd src-tauri && cargo update
