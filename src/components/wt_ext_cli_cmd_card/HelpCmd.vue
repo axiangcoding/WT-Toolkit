@@ -1,14 +1,18 @@
 <script setup lang="ts">
 import { invoke } from "@tauri-apps/api";
 import { ref } from "vue";
+import { CmdResult } from "../../schema";
 
-const cmdOutput = ref("");
+const cmdOutput = ref<CmdResult>({} as any);
 
-const args = ref(["--help"]);
+const args = ref(["help"]);
 
 async function exec() {
   cmdOutput.value = await invoke("exec_wt_ext_cli", { args: args.value });
-  console.log(cmdOutput.value);
+}
+
+async function cleanOutput() {
+  cmdOutput.value = {} as any;
 }
 </script>
 
@@ -29,15 +33,35 @@ async function exec() {
   </v-list>
   <div class="d-flex ga-2">
     <v-btn color="primary" @click="exec">执行命令</v-btn>
-    <v-btn color="warning" @click="cmdOutput = ''"> 清空输出</v-btn>
+    <v-btn color="warning" @click="cleanOutput"> 清空输出</v-btn>
   </div>
 
   <v-divider class="my-3"></v-divider>
-  <v-code>{{ cmdOutput }}</v-code>
+
+  <v-list>
+    <v-list-item>
+      <v-list-item-title>执行结果</v-list-item-title>
+      <v-chip
+        variant="elevated"
+        color="success"
+        v-if="cmdOutput.code != null && cmdOutput.code == 0"
+      >
+        执行成功
+      </v-chip>
+      <v-chip
+        variant="elevated"
+        color="error"
+        v-if="cmdOutput.code != null && cmdOutput.code != 0"
+        >执行失败
+      </v-chip>
+    </v-list-item>
+    <v-list-item>
+      <v-list-item-title>内容输出</v-list-item-title>
+      <v-code class="console-box border-success">
+        {{ cmdOutput.stdout ? cmdOutput.stdout : cmdOutput.stderr }}
+      </v-code>
+    </v-list-item>
+  </v-list>
 </template>
 
-<style scoped>
-.v-code {
-  white-space: pre-line;
-}
-</style>
+<style scoped></style>

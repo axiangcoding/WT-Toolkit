@@ -2,12 +2,20 @@ use log::{debug, error};
 
 use crate::{ret_code::RetCode, WrappedState};
 
+#[derive(Debug, serde::Serialize)]
+pub struct CmdResult {
+    code: i32,
+    stdout: Option<String>,
+    stderr: Option<String>,
+}
+
 #[tauri::command]
 pub fn exec_wt_ext_cli(
     state: tauri::State<WrappedState>,
     args: Vec<String>,
-) -> Result<String, RetCode> {
+) -> Result<CmdResult, RetCode> {
     let wt_ext_cli_path = get_wt_ext_cli_path(state)?;
+    debug!("args: {:?}", args);
     let output = std::process::Command::new(wt_ext_cli_path)
         .args(args)
         .output()
@@ -15,19 +23,15 @@ pub fn exec_wt_ext_cli(
             error!("Failed to execute command: {}", e);
             RetCode::WTExtCliCommandFailed
         })?;
-    if !output.status.success() {
-        error!(
-            "Command failed with exit code: {}",
-            output.status.code().unwrap_or(-1)
-        );
-        return Err(RetCode::WTExtCliCommandFailed);
-    }
-    let output_str = String::from_utf8(output.stdout).map_err(|e| {
-        error!("Failed to parse command output: {}", e);
-        RetCode::WTExtCliCommandFailed
-    })?;
-    debug!("output: {}", output_str);
-    Ok(output_str)
+    let stdout = String::from_utf8(output.stdout).unwrap();
+    let stderr = String::from_utf8(output.stderr).unwrap();
+    debug!("stdout: {}", stdout);
+    debug!("stderr: {}", stderr);
+    Ok(CmdResult {
+        code: output.status.code().unwrap(),
+        stdout: Some(stdout),
+        stderr: Some(stderr),
+    })
 }
 
 fn get_wt_ext_cli_path(state: tauri::State<WrappedState>) -> Result<String, RetCode> {

@@ -9,3 +9,8 @@ scrollbar-width: none; / Firefox */
 html::-webkit-scrollbar {
   display: none;
 }
+
+.console-box {
+  min-height: 20px;
+  white-space: pre;
+}

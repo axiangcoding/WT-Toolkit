@@ -5,6 +5,8 @@ import { get_error_msg } from "../error_msg";
 import CommonSnackbar from "../components/snackbar/CommonSnackbar.vue";
 import VersionCmd from "../components/wt_ext_cli_cmd_card/VersionCmd.vue";
 import HelpCmd from "../components/wt_ext_cli_cmd_card/HelpCmd.vue";
+import UnpackRawBlkCmd from "../components/wt_ext_cli_cmd_card/UnpackRawBlkCmd.vue";
+import { CmdResult } from "../schema";
 
 const breadcrumbsItems = [
   {
@@ -35,9 +37,10 @@ const snackbar = ref({
 
 onMounted(async () => {
   try {
-    wtExtCliVersion.value = await invoke("exec_wt_ext_cli", {
+    let cmdResult: CmdResult = await invoke("exec_wt_ext_cli", {
       args: ["--version"],
     });
+    wtExtCliVersion.value = cmdResult.stdout ?? "";
   } catch (error) {
     snackbar.value = {
       show: true,
@@ -93,6 +96,7 @@ onMounted(async () => {
       <v-col cols="12">
         <v-card>
           <v-tabs v-model="commandTab" color="primary">
+            <v-tab value="unpackRawBlk">解包二进制 blk 文件</v-tab>
             <v-tab value="version">版本</v-tab>
             <v-tab value="help">帮助</v-tab>
           </v-tabs>
@@ -104,6 +108,9 @@ onMounted(async () => {
               </v-tabs-window-item>
               <v-tabs-window-item value="help">
                 <HelpCmd />
+              </v-tabs-window-item>
+              <v-tabs-window-item value="unpackRawBlk">
+                <UnpackRawBlkCmd />
               </v-tabs-window-item>
             </v-tabs-window>
           </v-card-text>
