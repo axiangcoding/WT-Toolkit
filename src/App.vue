@@ -27,6 +27,11 @@ const wtTool = [
     title: "自定义瞄具管理",
     to: "/wt-sight",
   },
+  {
+    icon: "mdi-package-variant",
+    title: "解包工具",
+    to: "/wt-ext-cli",
+  },
 ];
 
 const appInfo = [

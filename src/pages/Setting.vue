@@ -194,6 +194,7 @@ async function selectWTExtCliPath() {
                 <v-col cols="auto">
                   <v-btn
                     color="info"
+                    :disabled="appSettings.wt_root_path == null"
                     @click="showFolder(appSettings.wt_root_path)"
                     >查看目录</v-btn
                   >
@@ -232,6 +233,7 @@ async function selectWTExtCliPath() {
                 <v-col cols="auto">
                   <v-btn
                     color="info"
+                    :disabled="appSettings.wt_setting_path == null"
                     @click="showFolder(appSettings.wt_setting_path)"
                     >查看目录</v-btn
                   >
@@ -270,6 +272,7 @@ async function selectWTExtCliPath() {
                 <v-col cols="auto">
                   <v-btn
                     color="info"
+                    :disabled="appSettings.wt_ext_cli_path == null"
                     @click="showFolder(appSettings.wt_ext_cli_path)"
                     >查看目录</v-btn
                   >

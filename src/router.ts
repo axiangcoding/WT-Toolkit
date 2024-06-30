@@ -13,6 +13,11 @@ const routes = [
     component: () => import("@/pages/WTSkins.vue"),
   },
   {
+    path: "/wt-ext-cli",
+    name: "wt-ext-cli",
+    component: () => import("@/pages/WTExtCli.vue"),
+  },
+  {
     path: "/about",
     name: "about",
     component: () => import("@/pages/About.vue"),
