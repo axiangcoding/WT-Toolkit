@@ -132,6 +132,7 @@ async function selectOutputDir() {
   <div class="d-flex ga-2">
     <v-btn color="primary" @click="exec">执行命令</v-btn>
     <v-btn color="warning" @click="cleanOutput"> 清空输出</v-btn>
+    <!-- TODO 新增按钮打开输出的目录 -->
   </div>
 
   <v-divider class="my-3"></v-divider>
