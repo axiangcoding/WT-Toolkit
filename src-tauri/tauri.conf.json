@@ -59,6 +59,15 @@
       "csp": null
     },
     "bundle": {
+      "windows": {
+        "wix": {
+          "language": ["en-US", "zh-CN"]
+        },
+        "nsis":{
+          "displayLanguageSelector": true,
+          "languages": ["English", "SimpChinese"]
+        }
+      },
       "active": true,
       "targets": "all",
       "identifier": "com.github.axiangcoding.wt-helper-app",
