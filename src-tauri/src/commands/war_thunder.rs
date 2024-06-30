@@ -68,7 +68,8 @@ pub fn install_user_skin(
         .unwrap()
         .config
         .clone()
-        .wt_root_path;
+        .wt_root_path
+        .unwrap();
 
     let skin_pb = PathBuf::from(&skin_path);
     if !skin_pb.exists() {
@@ -159,7 +160,8 @@ pub fn install_user_sight(
         .unwrap()
         .config
         .clone()
-        .wt_root_path;
+        .wt_root_path
+        .unwrap();
 
     let sight_pb = PathBuf::from(&sight_path);
     if !sight_pb.exists() {
@@ -254,7 +256,8 @@ pub fn get_user_skins(state: tauri::State<WrappedState>) -> Result<Vec<UserSkinI
         .unwrap()
         .config
         .clone()
-        .wt_root_path;
+        .wt_root_path
+        .unwrap();
 
     let skin_base_path = Path::new(&wt_root_path).join("UserSkins");
 
@@ -328,7 +331,8 @@ pub fn get_user_sights(state: tauri::State<WrappedState>) -> Result<Vec<UserSigh
         .unwrap()
         .config
         .clone()
-        .wt_root_path;
+        .wt_root_path
+        .unwrap();
 
     let skin_base_path = Path::new(&wt_root_path).join("UserSights");
 

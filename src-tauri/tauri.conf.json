@@ -37,7 +37,7 @@
         "removeDir": true,
         "removeFile": true,
         "renameFile": false,
-        "scope": ["$APPCONFIG/*", "$CONFIG/*"],
+        "scope": ["$APPCONFIG/*", "$CONFIG/*", "$RESOURCE/*"],
         "writeFile": true
       },
       "window": {

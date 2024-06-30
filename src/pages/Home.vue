@@ -22,16 +22,16 @@ const commonFunctions = [
     key: "setting",
     icon: "mdi-cog",
     title: "设置",
-    subtitle: "小工具需要提前进行设置才能正常使用",
+    subtitle: "工具箱需要提前进行设置才能正常使用",
     description:
-      "小工具的正确运行需要一些设置，比如设置战雷的安装目录，设置目录等",
+      "工具箱的正确运行需要一些设置，比如设置战雷的安装目录，设置目录等",
   },
   {
     key: "about",
     icon: "mdi-information",
     title: "关于APP",
     subtitle: "关于这个APP的一些信息",
-    description: "由 B站UP主 摸鱼又开摆的三三 开发的一个小工具",
+    description: "由 B站UP主 摸鱼又开摆的三三 开发的一个工具箱",
   },
 ];
 

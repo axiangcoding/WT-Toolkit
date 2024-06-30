@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { open } from "@tauri-apps/api/dialog";
 import { onMounted, ref } from "vue";
-import { invoke } from "@tauri-apps/api";
+import { invoke, shell } from "@tauri-apps/api";
 
 import CommonSnackbar from "../components/snackbar/CommonSnackbar.vue";
 import { get_error_msg } from "../error_msg";
@@ -32,6 +32,7 @@ const snackbar = ref({
 const appSettings = ref<{
   wt_root_path: string;
   wt_setting_path: string;
+  wt_ext_cli_path: string;
 }>({} as any);
 
 onMounted(async () => {
@@ -141,6 +142,22 @@ async function selectPath(defaultPath: string) {
   });
   return selectedPath;
 }
+
+async function openWTExtCliDownloadPage() {
+  await shell.open(
+    "https://github.com/Warthunder-Open-Source-Foundation/wt_ext_cli/releases/latest",
+  );
+}
+
+async function selectWTExtCliPath() {
+  selectPath(appSettings.value.wt_ext_cli_path).then((path) => {
+    if (typeof path === "string") {
+      appSettings.value.wt_ext_cli_path = path;
+    } else if (Array.isArray(path)) {
+      appSettings.value.wt_ext_cli_path = path[0];
+    }
+  });
+}
 </script>
 
 <template>
@@ -164,9 +181,9 @@ async function selectPath(defaultPath: string) {
                 <v-col cols="auto">
                   <v-btn color="warning" @click="autoSelectWTInstallPath">
                     自动检测
-                    <v-tooltip activator="parent" location="bottom"
-                      >小工具将自动检测游戏安装路径</v-tooltip
-                    >
+                    <v-tooltip activator="parent" location="bottom">
+                      工具箱将自动检测游戏安装路径
+                    </v-tooltip>
                   </v-btn>
                 </v-col>
                 <v-col cols="auto">
@@ -202,9 +219,9 @@ async function selectPath(defaultPath: string) {
                 <v-col cols="auto">
                   <v-btn color="warning" @click="autoSelectWTSettingPath">
                     自动检测
-                    <v-tooltip activator="parent" location="bottom"
-                      >小工具将自动检测游戏设置路径</v-tooltip
-                    >
+                    <v-tooltip activator="parent" location="bottom">
+                      工具箱将自动检测游戏设置路径
+                    </v-tooltip>
                   </v-btn>
                 </v-col>
                 <v-col cols="auto">
@@ -216,6 +233,44 @@ async function selectPath(defaultPath: string) {
                   <v-btn
                     color="info"
                     @click="showFolder(appSettings.wt_setting_path)"
+                    >查看目录</v-btn
+                  >
+                </v-col>
+              </v-row>
+            </v-container>
+          </template>
+        </v-text-field>
+      </v-col>
+      <v-col cols="12">
+        <v-text-field
+          v-model="appSettings.wt_ext_cli_path"
+          label="wt_ext_cli解包工具目录"
+          placeholder="如果你需要使用wt_ext_cli解包工具，请选择解包工具的目录"
+          type="text"
+          variant="outlined"
+          clearable
+          readonly
+        >
+          <template v-slot:append>
+            <v-container>
+              <v-row>
+                <v-col cols="auto">
+                  <v-btn color="warning" @click="openWTExtCliDownloadPage">
+                    从官方仓库下载
+                    <v-tooltip activator="parent" location="bottom">
+                      从wt_ext_cli仓库下载工具并正确安装到你的操作系统中</v-tooltip
+                    >
+                  </v-btn>
+                </v-col>
+                <v-col cols="auto">
+                  <v-btn color="primary" @click="selectWTExtCliPath"
+                    >选择目录</v-btn
+                  >
+                </v-col>
+                <v-col cols="auto">
+                  <v-btn
+                    color="info"
+                    @click="showFolder(appSettings.wt_ext_cli_path)"
                     >查看目录</v-btn
                   >
                 </v-col>
