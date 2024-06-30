@@ -2,9 +2,7 @@ name: Release
 on:
   push:
     tags:
-      - "v*"
-    branches:
-      - main
+      - "v*" # Match any tag starting with "v"
   workflow_dispatch:
 
 jobs:
