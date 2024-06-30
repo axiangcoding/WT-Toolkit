@@ -6,7 +6,7 @@
     "distDir": "../dist"
   },
   "package": {
-    "productName": "wt-helper-app",
+    "productName": "wt-toolkit",
     "version": "0.0.5"
   },
   "tauri": {
@@ -48,7 +48,7 @@
     },
     "windows": [
       {
-        "title": "三三的战雷小工具",
+        "title": "WT-Toolkit | 战雷工具箱",
         "width": 1600,
         "height": 1000,
         "center": true,
@@ -63,14 +63,14 @@
         "wix": {
           "language": ["en-US", "zh-CN"]
         },
-        "nsis":{
+        "nsis": {
           "displayLanguageSelector": true,
           "languages": ["English", "SimpChinese"]
         }
       },
       "active": true,
       "targets": "all",
-      "identifier": "com.github.axiangcoding.wt-helper-app",
+      "identifier": "com.github.axiangcoding.wt-toolkit",
       "icon": [
         "icons/32x32.png",
         "icons/128x128.png",
