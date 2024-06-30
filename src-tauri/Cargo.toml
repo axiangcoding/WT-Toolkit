@@ -1,5 +1,5 @@
 [package]
-name = "wt-helper-app"
+name = "wt-toolkit"
 version = "0.0.0"
 description = "A Tauri App"
 authors = ["axiangcoding@gmail.com"]
