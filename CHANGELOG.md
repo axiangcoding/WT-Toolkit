@@ -16,7 +16,7 @@ Change log of WT-ToolKit. All notable changes to this project will be documented
 
 -->
 
-## v0.0.6 (2024-07-01)
+## [v0.0.6] - 2024-07-01
 
 This release is mainly to add support for [wt_ext_cli](https://github.com/Warthunder-Open-Source-Foundation/wt_ext_cli), and some bug fixes.
 
@@ -38,7 +38,7 @@ This release is mainly to add support for [wt_ext_cli](https://github.com/Warthu
 
 - Upgraded versions of dependency libraries to improve security
 
-## v0.0.5 (2024-06-14)
+## [v0.0.5] - 2024-06-14
 
 This release includes some changes and bug fixes.
 
@@ -50,7 +50,7 @@ This release includes some changes and bug fixes.
 
 - Refactored the code and optimized the decompression speed of large files
 
-## v0.0.4 (2024-06-13)
+## [v0.0.4] - 2024-06-13
 
 This release includes some changes and bug fixes.
 
@@ -59,7 +59,7 @@ This release includes some changes and bug fixes.
 - Added custom sight management function
 - Added the ability to filter custom skins
 
-## v0.0.3 (2024-06-08)
+## [v0.0.3] - 2024-06-08
 
 This release includes some changes and bug fixes.
 
@@ -71,7 +71,7 @@ This release includes some changes and bug fixes.
 
 - Fixed some bugs in the custom skins management
 
-## v0.0.2 (2024-06-07)
+## [v0.0.2] - 2024-06-07
 
 This release includes some changes and bug fixes.
 
@@ -83,7 +83,7 @@ This release includes some changes and bug fixes.
 
 - Fixed the problem of not being able to set configuration items.
 
-## v0.0.1 (2024-06-07)
+## [v0.0.1] - 2024-06-07
 
 First release of WT-ToolKit! Where the magic begins.
 
@@ -91,3 +91,10 @@ First release of WT-ToolKit! Where the magic begins.
 
 - Basic construction of the project
 - War Thunder Custom Skin Management
+
+[v0.0.6]: https://github.com/axiangcoding/WT-Toolkit/compare/v0.0.5...v0.0.6
+[v0.0.5]: https://github.com/axiangcoding/WT-Toolkit/compare/v0.0.4...v0.0.5
+[v0.0.4]: https://github.com/axiangcoding/WT-Toolkit/compare/v0.0.3...v0.0.4
+[v0.0.3]: https://github.com/axiangcoding/WT-Toolkit/compare/v0.0.2...v0.0.3
+[v0.0.2]: https://github.com/axiangcoding/WT-Toolkit/compare/v0.0.1...v0.0.2
+[v0.0.1]: https://github.com/axiangcoding/WT-Toolkit/tree/v0.0.1
