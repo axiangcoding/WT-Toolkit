@@ -12,8 +12,6 @@ import App from "./App.vue";
 import { md3 } from "vuetify/blueprints";
 import i18n from "./i18n";
 
-
-
 const vuetify = createVuetify({ blueprint: md3 });
 
 const app = createApp(App);
