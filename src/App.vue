@@ -3,10 +3,13 @@ import { onMounted, ref } from "vue";
 import { getVersion } from "@tauri-apps/api/app";
 import { open } from "@tauri-apps/api/shell";
 import BugReportDialog from "./components/dialog/BugReportDialog.vue";
+import { useI18n } from "vue-i18n";
 
 const appVersion = ref("");
 const drawer = ref(false);
 const feedbackDialog = ref(false);
+
+const { t } = useI18n();
 
 const homeList = [
   {
@@ -44,6 +47,13 @@ const appInfo = [
     icon: "mdi-information",
     title: "关于",
     to: "/about",
+  },
+];
+
+const followLinks = [
+  {
+    text: t("app.follow_links.bilibili"),
+    url: "https://space.bilibili.com/8696650",
   },
 ];
 
@@ -97,7 +107,7 @@ async function jumpToGithub() {
 
           <v-list>
             <v-list-item
-              v-for="(item, index) in $tm('app.follow_links') as any[]"
+              v-for="(item, index) in followLinks"
               :key="index"
               :value="index"
               append-icon="mdi-open-in-new"

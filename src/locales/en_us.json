@@ -4,11 +4,8 @@
     "follow": "Follow author on",
     "report_bug": "Report a bug",
     "github": "GitHub",
-    "follow_links": [
-      {
-        "text": "BiliBili",
-        "url": "https://space.bilibili.com/8696650"
-      }
-    ]
+    "follow_links": {
+      "bilibili": "Bilibili"
+    }
   }
 }
