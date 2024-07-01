@@ -18,11 +18,9 @@ Change log of WT-ToolKit. All notable changes to this project will be documented
 
 ## [v0.0.6] - 2024-07-01
 
-This release is mainly to add support for [wt_ext_cli](https://github.com/Warthunder-Open-Source-Foundation/wt_ext_cli), and some bug fixes.
-
 ### Added
 
-- Added GUI support for wt_ext_cli
+- Added GUI support for [wt_ext_cli](https://github.com/Warthunder-Open-Source-Foundation/wt_ext_cli), and some bug fixes.
 - Support update checking
 
 ### Changed
@@ -40,8 +38,6 @@ This release is mainly to add support for [wt_ext_cli](https://github.com/Warthu
 
 ## [v0.0.5] - 2024-06-14
 
-This release includes some changes and bug fixes.
-
 ### Added
 
 - New design of the homepage, added quick links in the homepage
@@ -52,16 +48,12 @@ This release includes some changes and bug fixes.
 
 ## [v0.0.4] - 2024-06-13
 
-This release includes some changes and bug fixes.
-
 ### Added
 
 - Added custom sight management function
 - Added the ability to filter custom skins
 
 ## [v0.0.3] - 2024-06-08
-
-This release includes some changes and bug fixes.
 
 ### Changed
 
@@ -73,8 +65,6 @@ This release includes some changes and bug fixes.
 
 ## [v0.0.2] - 2024-06-07
 
-This release includes some changes and bug fixes.
-
 ### Changed
 
 - Optimisation of the custom skins GUI
@@ -85,10 +75,9 @@ This release includes some changes and bug fixes.
 
 ## [v0.0.1] - 2024-06-07
 
-First release of WT-ToolKit! Where the magic begins.
-
 ### Added
 
+- First release of WT-ToolKit! Where the magic begins.
 - Basic construction of the project
 - War Thunder Custom Skin Management
 
