@@ -13,14 +13,9 @@
 
 ## 功能
 
-我们现在支持以下功能：
-
 - [x] 用户自定义皮肤管理
 - [x] 用户自定义瞄准镜管理
-
-我们计划未来支持以下功能：
-
-- [ ] 为 [wt_ext_cli](https://github.com/Warthunder-Open-Source-Foundation/wt_ext_cli) 提供 GUI 支持
+- [x] 为 [wt_ext_cli](https://github.com/Warthunder-Open-Source-Foundation/wt_ext_cli) 提供 GUI 支持
 - [ ] 多语言支持
 
 ## 安装
