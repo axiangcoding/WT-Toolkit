@@ -66,7 +66,7 @@ fn main() {
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
-            commands::os::show_in_folder,
+            commands::os::show_folder,
             commands::os::delete_folder,
             commands::setting::get_app_config,
             commands::setting::save_app_config,

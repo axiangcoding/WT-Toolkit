@@ -122,16 +122,16 @@ async function autoSelectWTSettingPath() {
 
 async function openSettingFolder() {
   let path = await invoke("get_app_config_dir");
-  await invoke("show_in_folder", { path: path });
+  await invoke("show_folder", { path: path });
 }
 
 async function openLogFolder() {
   let path = await invoke("get_app_log_dir");
-  await invoke("show_in_folder", { path: path });
+  await invoke("show_folder", { path: path });
 }
 
 async function showFolder(path: string) {
-  await invoke("show_in_folder", { path: path });
+  await invoke("show_folder", { path: path });
 }
 
 async function selectPath(defaultPath: string) {

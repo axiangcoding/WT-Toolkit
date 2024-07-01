@@ -1,7 +1,7 @@
 use std::process::Command;
 
 #[tauri::command]
-pub fn show_in_folder(path: String) {
+pub fn show_folder(path: String) {
     #[cfg(target_os = "windows")]
     {
         Command::new("explorer")

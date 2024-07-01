@@ -72,6 +72,10 @@ async function selectOutputDir() {
     }
   }
 }
+
+async function showOutputDir() {
+  await invoke("show_folder", { path: cmdArgs.value.outputDir });
+}
 </script>
 
 <template>
@@ -132,7 +136,9 @@ async function selectOutputDir() {
   <div class="d-flex ga-2">
     <v-btn color="primary" @click="exec">执行命令</v-btn>
     <v-btn color="warning" @click="cleanOutput"> 清空输出</v-btn>
-    <!-- TODO 新增按钮打开输出的目录 -->
+    <v-btn color="info" @click="showOutputDir" :disabled="!cmdArgs.outputDir">
+      打开输出目录
+    </v-btn>
   </div>
 
   <v-divider class="my-3"></v-divider>

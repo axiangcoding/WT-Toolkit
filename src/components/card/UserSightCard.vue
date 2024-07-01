@@ -7,7 +7,7 @@ const props = defineProps<{
 }>();
 
 async function showSight(folder_path: string) {
-  await invoke("show_in_folder", { path: folder_path });
+  await invoke("show_folder", { path: folder_path });
 }
 </script>
 
