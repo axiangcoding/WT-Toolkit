@@ -14,6 +14,7 @@ mod commands {
     pub mod os;
     pub mod setting;
     pub mod war_thunder;
+    pub mod wt_ext_cli;
 }
 
 mod tools {
@@ -65,7 +66,7 @@ fn main() {
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
-            commands::os::show_in_folder,
+            commands::os::show_folder,
             commands::os::delete_folder,
             commands::setting::get_app_config,
             commands::setting::save_app_config,
@@ -77,6 +78,7 @@ fn main() {
             commands::war_thunder::install_user_sight,
             commands::war_thunder::get_user_skins,
             commands::war_thunder::get_user_sights,
+            commands::wt_ext_cli::exec_wt_ext_cli,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

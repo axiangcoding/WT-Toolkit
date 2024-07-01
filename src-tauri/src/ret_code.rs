@@ -4,6 +4,7 @@ use serde::{Deserialize, Serialize};
 pub enum RetCode {
     Success = 0,
     Error = 1,
+    UnsupportedPlatform = 2,
     GetAppSettingsFailed = 10000,
     SaveAppSettingsFailed = 10001,
     GetAppLogPathFailed = 10002,
@@ -13,6 +14,8 @@ pub enum RetCode {
     InstallUserSightFailed = 20003,
     GetUserSkinsFailed = 20004,
     GetUserSightsFailed = 20005,
+    WTExtCliPathNotExist = 30000,
+    WTExtCliCommandFailed = 30001,
 }
 
 impl Serialize for RetCode {

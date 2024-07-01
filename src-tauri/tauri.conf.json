@@ -10,6 +10,12 @@
     "version": "0.0.6"
   },
   "tauri": {
+    "updater": {
+      "active": true,
+      "dialog": true,
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDhDRUFDMEREQUVCOTg4ODMKUldTRGlMbXUzY0RxakF4bHJlSHdqR0oyNGZBMGpaaWR6VnBsTmc5VW5HbGkrZlZjc2pacUlVYloK",
+      "endpoints": []
+    },
     "allowlist": {
       "all": false,
       "shell": {
@@ -37,7 +43,7 @@
         "removeDir": true,
         "removeFile": true,
         "renameFile": false,
-        "scope": ["$APPCONFIG/*", "$CONFIG/*"],
+        "scope": ["$APPCONFIG/*", "$CONFIG/*", "$RESOURCE/*"],
         "writeFile": true
       },
       "window": {

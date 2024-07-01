@@ -19,19 +19,26 @@ const commonFunctions = [
     description: "战雷的自定义瞄具安装/卸载太麻烦？试试这个工具吧",
   },
   {
+    key: "wt-ext-cli",
+    icon: "mdi-package-variant",
+    title: "解包工具",
+    subtitle: "解包《战争雷霆》的资源文件",
+    description: "解包战雷的资源文件，可以查看游戏的一些资源文件",
+  },
+  {
     key: "setting",
     icon: "mdi-cog",
     title: "设置",
-    subtitle: "小工具需要提前进行设置才能正常使用",
+    subtitle: "工具箱需要提前进行设置才能正常使用",
     description:
-      "小工具的正确运行需要一些设置，比如设置战雷的安装目录，设置目录等",
+      "工具箱的正确运行需要一些设置，比如设置战雷的安装目录，设置目录等",
   },
   {
     key: "about",
     icon: "mdi-information",
     title: "关于APP",
     subtitle: "关于这个APP的一些信息",
-    description: "由 B站UP主 摸鱼又开摆的三三 开发的一个小工具",
+    description: "由 B站UP主 摸鱼又开摆的三三 开发的一个工具箱",
   },
 ];
 

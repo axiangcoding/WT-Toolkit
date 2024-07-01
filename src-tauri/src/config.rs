@@ -6,8 +6,9 @@ use serde_json::json;
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct AppConfig {
-    pub wt_root_path: String,
-    pub wt_setting_path: String,
+    pub wt_root_path: Option<String>,
+    pub wt_setting_path: Option<String>,
+    pub wt_ext_cli_path: Option<String>,
 }
 
 const SETTING_FILE: &str = "config.json";
@@ -37,8 +38,9 @@ pub fn check_and_create_config_file(base_path: &PathBuf) -> Result<(), Box<dyn s
     if !config_full_path.exists() {
         debug!("config file not exists, create it");
         let default_config = json!(AppConfig {
-            wt_root_path: "".to_string(),
-            wt_setting_path: "".to_string(),
+            wt_root_path: Some("".to_string()),
+            wt_setting_path: Some("".to_string()),
+            wt_ext_cli_path: Some("".to_string()),
         });
         let default_config_str = serde_json::to_string_pretty(&default_config)?;
         std::fs::write(&config_full_path, default_config_str)?;
