@@ -23,6 +23,7 @@ This release is mainly to add support for [wt_ext_cli](https://github.com/Warthu
 ### Added
 
 - Added GUI support for wt_ext_cli
+- Support update checking
 
 ### Changed
 
