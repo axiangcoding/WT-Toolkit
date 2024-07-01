@@ -17,8 +17,11 @@ pub async fn exec_wt_ext_cli(
     let wt_ext_cli_path = get_wt_ext_cli_path(state)?;
     debug!("args: {:?}", args);
 
+    const CREATE_NO_WINDOW: u32 = 0x08000000;
+
     let output = tokio::process::Command::new(wt_ext_cli_path)
         .args(args)
+        .creation_flags(CREATE_NO_WINDOW)
         .output()
         .await
         .map_err(|e| {
