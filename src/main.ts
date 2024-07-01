@@ -10,11 +10,11 @@ import router from "./router";
 // Components
 import App from "./App.vue";
 import { md3 } from "vuetify/blueprints";
-import { createI18n } from "vue-i18n";
+import i18n from "./i18n";
+
+
 
 const vuetify = createVuetify({ blueprint: md3 });
-
-const i18n = createI18n({});
 
 const app = createApp(App);
 

@@ -51,8 +51,8 @@ onMounted(async () => {
   appVersion.value = await getVersion();
 });
 
-async function jumpToBiliBili() {
-  await open("https://space.bilibili.com/8696650");
+async function jumpTo(url: string) {
+  await open(url);
 }
 
 async function jumpToGithub() {
@@ -68,31 +68,45 @@ async function jumpToGithub() {
       </template>
 
       <v-app-bar-title>
-        战雷工具箱
+        {{ $t("app.title") }}
         <v-chip color="green" variant="flat" rounded>
           v{{ appVersion }}
         </v-chip>
       </v-app-bar-title>
 
       <template v-slot:append>
-        <v-btn prepend-icon="mdi-heart" @click="jumpToBiliBili">
-          <template v-slot:prepend>
-            <v-icon color="red"></v-icon>
-          </template>
-          关注作者 - 摸鱼又开摆的三三
-        </v-btn>
         <v-btn prepend-icon="mdi-bug" @click="feedbackDialog = true">
           <template v-slot:prepend>
             <v-icon></v-icon>
           </template>
-          反馈问题
+          {{ $t("app.report_bug") }}
         </v-btn>
         <v-btn prepend-icon="mdi-github" @click="jumpToGithub">
           <template v-slot:prepend>
             <v-icon></v-icon>
           </template>
-          开源项目
+          {{ $t("app.github") }}
         </v-btn>
+
+        <v-menu open-on-hover>
+          <template v-slot:activator="{ props }">
+            <v-btn v-bind="props" prepend-icon="mdi-account-group">
+              {{ $t("app.follow") }}
+            </v-btn>
+          </template>
+
+          <v-list>
+            <v-list-item
+              v-for="(item, index) in $tm('app.follow_links') as any[]"
+              :key="index"
+              :value="index"
+              append-icon="mdi-open-in-new"
+              @click="jumpTo(item.url)"
+            >
+              {{ item.text }}
+            </v-list-item>
+          </v-list>
+        </v-menu>
       </template>
     </v-app-bar>
 
