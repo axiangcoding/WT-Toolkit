@@ -8,6 +8,7 @@ import HelpCmd from "../components/wt_ext_cli_cmd_card/HelpCmd.vue";
 import UnpackRawBlkCmd from "../components/wt_ext_cli_cmd_card/UnpackRawBlkCmd.vue";
 import UnpackDxpAndGrpCmd from "../components/wt_ext_cli_cmd_card/UnpackDxpAndGrpCmd.vue";
 import UnpackVromf from "../components/wt_ext_cli_cmd_card/UnpackVromf.vue";
+import VromfVersion from "../components/wt_ext_cli_cmd_card/VromfVersion.vue";
 
 import { CmdResult } from "../schema";
 
@@ -102,6 +103,7 @@ onMounted(async () => {
             <v-tab value="unpackVromf">解包 Vromf 文件</v-tab>
             <v-tab value="unpackDxpAndGrp">解包 DXP 和 GRP 文件</v-tab>
             <v-tab value="unpackRawBlk">解包二进制 blk 文件</v-tab>
+            <v-tab value="vromfVersion">解析 Vromf 版本</v-tab>
             <v-tab value="version">版本</v-tab>
             <v-tab value="help">帮助</v-tab>
           </v-tabs>
@@ -113,6 +115,9 @@ onMounted(async () => {
               </v-tabs-window-item>
               <v-tabs-window-item value="unpackDxpAndGrp">
                 <UnpackDxpAndGrpCmd />
+              </v-tabs-window-item>
+              <v-tabs-window-item value="vromfVersion">
+                <VromfVersion />
               </v-tabs-window-item>
               <v-tabs-window-item value="unpackRawBlk">
                 <UnpackRawBlkCmd />
