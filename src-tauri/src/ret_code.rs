@@ -4,6 +4,7 @@ use serde::{Deserialize, Serialize};
 pub enum RetCode {
     Success = 0,
     Error = 1,
+    UnsupportedPlatform = 2,
     GetAppSettingsFailed = 10000,
     SaveAppSettingsFailed = 10001,
     GetAppLogPathFailed = 10002,

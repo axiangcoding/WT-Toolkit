@@ -17,17 +17,19 @@ pub async fn exec_wt_ext_cli(
     let wt_ext_cli_path = get_wt_ext_cli_path(state)?;
     debug!("args: {:?}", args);
 
-    const CREATE_NO_WINDOW: u32 = 0x08000000;
+    let mut command = tokio::process::Command::new(wt_ext_cli_path);
+    command.args(args);
 
-    let output = tokio::process::Command::new(wt_ext_cli_path)
-        .args(args)
-        .creation_flags(CREATE_NO_WINDOW)
-        .output()
-        .await
-        .map_err(|e| {
-            error!("Failed to execute command: {}", e);
-            RetCode::WTExtCliCommandFailed
-        })?;
+    #[cfg(target_os = "windows")]
+    {
+        const CREATE_NO_WINDOW: u32 = 0x08000000;
+        command.creation_flags(CREATE_NO_WINDOW);
+    }
+
+    let output = command.output().await.map_err(|e| {
+        error!("Failed to execute command: {}", e);
+        RetCode::WTExtCliCommandFailed
+    })?;
 
     let stdout = String::from_utf8(output.stdout).unwrap();
     let stderr = String::from_utf8(output.stderr).unwrap();
@@ -52,16 +54,24 @@ fn get_wt_ext_cli_path(state: tauri::State<WrappedState>) -> Result<String, RetC
         .wt_ext_cli_path
         .ok_or(RetCode::WTExtCliPathNotExist)?;
     debug!("wt_ext_cli_path: {}", wt_ext_cli_path);
-    // check if the path is a directory, and wt_ext_cli.exe exists
-    let wt_ext_cli_exec_path = std::path::Path::new(&wt_ext_cli_path).join("wt_ext_cli.exe");
+
+    let executable_name = if cfg!(target_os = "windows") {
+        "wt_ext_cli.exe"
+    } else {
+        "wt_ext_cli"
+    };
+
+    let wt_ext_cli_exec_path = std::path::Path::new(&wt_ext_cli_path).join(executable_name);
 
     if !wt_ext_cli_exec_path.exists() {
-        error!("wt_ext_cli.exe not found in the specified path");
+        error!("{} not found in the specified path", executable_name);
         return Err(RetCode::WTExtCliPathNotExist);
     }
+
     debug!(
         "wt_ext_cli_exec_path: {}",
         wt_ext_cli_exec_path.to_string_lossy()
     );
+
     Ok(wt_ext_cli_exec_path.to_string_lossy().to_string())
 }
