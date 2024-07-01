@@ -9,20 +9,20 @@ const cmdOutput = ref<CmdResult>({} as any);
 const cmdArgs = ref<{
   inputDir: string;
   outputDir: string;
-  format: string;
+  keepSuffix: boolean;
   help: boolean;
 }>({} as any);
 
 async function exec() {
-  let args = ["unpack_raw_blk"];
+  let args = ["unpack_dxp_and_grp"];
   if (cmdArgs.value.inputDir) {
     args.push("--input_dir", cmdArgs.value.inputDir);
   }
   if (cmdArgs.value.outputDir) {
     args.push("--output_dir", cmdArgs.value.outputDir);
   }
-  if (cmdArgs.value.format) {
-    args.push("--format", cmdArgs.value.format);
+  if (cmdArgs.value.keepSuffix) {
+    args.push("--keep_suffix");
   }
   if (cmdArgs.value.help) {
     args.push("--help");
@@ -44,16 +44,8 @@ async function selectPath() {
   return selectedPath;
 }
 
-async function selectFile() {
-  let selectedPath = await open({
-    directory: false,
-    multiple: false,
-  });
-  return selectedPath;
-}
-
 async function selectInputDir() {
-  let selectedPath = await selectFile();
+  let selectedPath = await selectPath();
   if (selectedPath != null) {
     if (typeof selectedPath == "string") {
       cmdArgs.value.inputDir = selectedPath;
@@ -85,11 +77,11 @@ const loading = ref(false);
   <v-list>
     <v-list-item>
       <v-list-item-title>命令</v-list-item-title>
-      <v-chip color="primary">wt-ext-cli unpack_raw_blk</v-chip>
+      <v-chip color="primary">wt-ext-cli unpack_dxp_and_grp</v-chip>
     </v-list-item>
     <v-list-item>
       <v-list-item-title>说明</v-list-item-title>
-      解压一个文件夹中的原始/二进制 blk 文件为解包格式
+      将文件夹和子文件夹中的 DXP 和 GRP 文件解压为文本格式文件
     </v-list-item>
     <v-list-item>
       <v-list-item-title>参数</v-list-item-title>
@@ -97,7 +89,7 @@ const loading = ref(false);
         <v-row dense>
           <v-col cols="6">
             <v-text-field
-              label="输入文件。需要解包的二进制 blk 文件"
+              label="输入目录。内含 DXP/GRP 文件的文件夹"
               append-inner-icon="mdi-folder"
               v-model="cmdArgs.inputDir"
               @click:append-inner="selectInputDir"
@@ -107,7 +99,7 @@ const loading = ref(false);
           </v-col>
           <v-col cols="6">
             <v-text-field
-              label="输出目录。将创建的包含新文件的目标文件夹"
+              label="输出目录。创建的目标文件夹将包含新文件，并保留文件结构"
               append-inner-icon="mdi-folder"
               v-model="cmdArgs.outputDir"
               @click:append-inner="selectOutputDir"
@@ -116,12 +108,11 @@ const loading = ref(false);
             </v-text-field>
           </v-col>
           <v-col cols="6">
-            <v-select
-              clearable
-              label="输出格式。可以是[Json、BlkText] 默认是Json"
-              :items="['Json', 'BlkText']"
-              v-model="cmdArgs.format"
-            ></v-select>
+            <v-switch
+              v-model="cmdArgs.keepSuffix"
+              label="最终 DXP/GRP 中的路径和名称后是否保留后缀"
+              color="primary"
+            ></v-switch>
           </v-col>
           <v-col cols="6">
             <v-switch

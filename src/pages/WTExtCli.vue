@@ -6,6 +6,9 @@ import CommonSnackbar from "../components/snackbar/CommonSnackbar.vue";
 import VersionCmd from "../components/wt_ext_cli_cmd_card/VersionCmd.vue";
 import HelpCmd from "../components/wt_ext_cli_cmd_card/HelpCmd.vue";
 import UnpackRawBlkCmd from "../components/wt_ext_cli_cmd_card/UnpackRawBlkCmd.vue";
+import UnpackDxpAndGrpCmd from "../components/wt_ext_cli_cmd_card/UnpackDxpAndGrpCmd.vue";
+import UnpackVromf from "../components/wt_ext_cli_cmd_card/UnpackVromf.vue";
+
 import { CmdResult } from "../schema";
 
 const breadcrumbsItems = [
@@ -27,7 +30,7 @@ const breadcrumbsItems = [
 
 const wtExtCliVersion = ref("");
 
-const commandTab = ref("one");
+const commandTab = ref("unpackVromf");
 
 const snackbar = ref({
   show: false,
@@ -96,6 +99,8 @@ onMounted(async () => {
       <v-col cols="12">
         <v-card>
           <v-tabs v-model="commandTab" color="primary">
+            <v-tab value="unpackVromf">解包 Vromf 文件</v-tab>
+            <v-tab value="unpackDxpAndGrp">解包 DXP 和 GRP 文件</v-tab>
             <v-tab value="unpackRawBlk">解包二进制 blk 文件</v-tab>
             <v-tab value="version">版本</v-tab>
             <v-tab value="help">帮助</v-tab>
@@ -103,14 +108,20 @@ onMounted(async () => {
 
           <v-card-text>
             <v-tabs-window v-model="commandTab">
+              <v-tabs-window-item value="unpackVromf">
+                <UnpackVromf />
+              </v-tabs-window-item>
+              <v-tabs-window-item value="unpackDxpAndGrp">
+                <UnpackDxpAndGrpCmd />
+              </v-tabs-window-item>
+              <v-tabs-window-item value="unpackRawBlk">
+                <UnpackRawBlkCmd />
+              </v-tabs-window-item>
               <v-tabs-window-item value="version">
                 <VersionCmd />
               </v-tabs-window-item>
               <v-tabs-window-item value="help">
                 <HelpCmd />
-              </v-tabs-window-item>
-              <v-tabs-window-item value="unpackRawBlk">
-                <UnpackRawBlkCmd />
               </v-tabs-window-item>
             </v-tabs-window>
           </v-card-text>

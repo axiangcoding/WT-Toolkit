@@ -9,12 +9,16 @@ const cmdOutput = ref<CmdResult>({} as any);
 const args = ref(["--version"]);
 
 async function exec() {
+  loading.value = true;
   cmdOutput.value = await invoke("exec_wt_ext_cli", { args: args.value });
+  loading.value = false;
 }
 
 async function cleanOutput() {
   cmdOutput.value = {} as any;
 }
+
+const loading = ref(false);
 </script>
 
 <template>
@@ -55,6 +59,13 @@ async function cleanOutput() {
         v-if="cmdOutput.code != null && cmdOutput.code != 0"
         >执行失败
       </v-chip>
+      <v-progress-linear
+        v-if="loading"
+        color="primary"
+        indeterminate
+        striped
+        height="10"
+      ></v-progress-linear>
     </v-list-item>
     <v-list-item>
       <v-list-item-title>内容输出</v-list-item-title>

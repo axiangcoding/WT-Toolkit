@@ -10,23 +10,27 @@ pub struct CmdResult {
 }
 
 #[tauri::command]
-pub fn exec_wt_ext_cli(
-    state: tauri::State<WrappedState>,
+pub async fn exec_wt_ext_cli(
+    state: tauri::State<'_, WrappedState>,
     args: Vec<String>,
 ) -> Result<CmdResult, RetCode> {
     let wt_ext_cli_path = get_wt_ext_cli_path(state)?;
     debug!("args: {:?}", args);
-    let output = std::process::Command::new(wt_ext_cli_path)
+
+    let output = tokio::process::Command::new(wt_ext_cli_path)
         .args(args)
         .output()
+        .await
         .map_err(|e| {
             error!("Failed to execute command: {}", e);
             RetCode::WTExtCliCommandFailed
         })?;
+
     let stdout = String::from_utf8(output.stdout).unwrap();
     let stderr = String::from_utf8(output.stderr).unwrap();
     debug!("stdout: {}", stdout);
     debug!("stderr: {}", stderr);
+
     Ok(CmdResult {
         code: output.status.code().unwrap(),
         stdout: Some(stdout),
