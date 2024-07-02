@@ -4,7 +4,6 @@ export interface CmdResult {
   stderr?: string;
 }
 
-
 export interface AppSettings {
   wt_root_path: string;
   wt_setting_path: string;
