@@ -1,5 +1,24 @@
 {
   "app": {
-    "title": "战雷工具箱"
+    "title": "战雷工具箱",
+    "follow": "关注作者",
+    "report_bug": "报告 BUG",
+    "language": "选择语言",
+    "follow_links": {
+      "bilibili": "Bilibili",
+      "github": "GitHub"
+    },
+    "nav_drawer": {
+      "sub_header": {
+        "wt_tools": "战雷工具集",
+        "app_info": "应用信息"
+      },
+      "home": "主页",
+      "wt_skins": "自定义涂装管理",
+      "wt_sight": "自定义瞄具管理",
+      "wt_ext_cli": "解包工具",
+      "settings": "设置",
+      "about": "关于"
+    }
   }
 }

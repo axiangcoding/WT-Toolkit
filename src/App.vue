@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { getVersion } from "@tauri-apps/api/app";
 import { open } from "@tauri-apps/api/shell";
 import BugReportDialog from "./components/dialog/BugReportDialog.vue";
@@ -13,15 +13,15 @@ const feedbackDialog = ref(false);
 
 const { t, locale } = useI18n();
 
-const homeList = [
+const homeList = computed(() => [
   {
     icon: "mdi-home",
     title: t("app.nav_drawer.home"),
     to: "/",
   },
-];
+]);
 
-const wtTool = [
+const wtTool = computed(() => [
   {
     icon: "mdi-format-paint",
     title: t("app.nav_drawer.wt_skins"),
@@ -37,9 +37,9 @@ const wtTool = [
     title: t("app.nav_drawer.wt_ext_cli"),
     to: "/wt-ext-cli",
   },
-];
+]);
 
-const appInfo = [
+const appInfo = computed(() => [
   {
     icon: "mdi-cog",
     title: t("app.nav_drawer.settings"),
@@ -50,9 +50,9 @@ const appInfo = [
     title: t("app.nav_drawer.about"),
     to: "/about",
   },
-];
+]);
 
-const followLinks = [
+const followLinks = computed(() => [
   {
     text: t("app.follow_links.bilibili"),
     url: "https://space.bilibili.com/8696650",
@@ -63,7 +63,7 @@ const followLinks = [
     url: "https://github.com/axiangcoding/WT-Toolkit",
     icon: "mdi-github",
   },
-];
+]);
 
 onMounted(async () => {
   appVersion.value = await getVersion();
