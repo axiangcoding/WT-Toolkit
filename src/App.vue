@@ -95,7 +95,7 @@ async function switchLanguage(target: string) {
       </template>
 
       <v-app-bar-title>
-        {{ $t("app.title") }}
+        {{ t("app.title") }}
         <v-chip color="green" variant="flat" rounded>
           v{{ appVersion }}
         </v-chip>
@@ -106,13 +106,13 @@ async function switchLanguage(target: string) {
           <template v-slot:prepend>
             <v-icon></v-icon>
           </template>
-          {{ $t("app.report_bug") }}
+          {{ t("app.report_bug") }}
         </v-btn>
 
         <v-menu open-on-hover>
           <template v-slot:activator="{ props }">
             <v-btn v-bind="props" prepend-icon="mdi-account-group">
-              {{ $t("app.follow") }}
+              {{ t("app.follow") }}
             </v-btn>
           </template>
 
@@ -132,7 +132,7 @@ async function switchLanguage(target: string) {
         <v-menu open-on-hover>
           <template v-slot:activator="{ props }">
             <v-btn v-bind="props" prepend-icon="mdi-translate">
-              {{ $t("app.language") }}
+              {{ t("app.language") }}
             </v-btn>
           </template>
           <v-list>
