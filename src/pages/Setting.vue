@@ -5,6 +5,7 @@ import { invoke, shell } from "@tauri-apps/api";
 
 import CommonSnackbar from "../components/snackbar/CommonSnackbar.vue";
 import { get_error_msg } from "../error_msg";
+import { AppSettings } from "../schema";
 
 const breadcrumbsItems = [
   {
@@ -29,11 +30,7 @@ const snackbar = ref({
   color: "success",
 });
 
-const appSettings = ref<{
-  wt_root_path: string;
-  wt_setting_path: string;
-  wt_ext_cli_path: string;
-}>({} as any);
+const appSettings = ref<AppSettings>({} as any);
 
 onMounted(async () => {
   try {

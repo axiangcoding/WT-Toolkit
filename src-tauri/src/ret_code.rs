@@ -8,6 +8,8 @@ pub enum RetCode {
     GetAppSettingsFailed = 10000,
     SaveAppSettingsFailed = 10001,
     GetAppLogPathFailed = 10002,
+    InvalidSettingKey = 10003,
+
     AutoDetectedWtRootPathFailed = 20000,
     AutoDetectedWtSettingPathFailed = 20001,
     InstallUserSkinFailed = 20002,

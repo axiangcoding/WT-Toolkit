@@ -3,9 +3,22 @@
     "title": "WarThunder Toolkit",
     "follow": "Follow author on",
     "report_bug": "Report Bug",
-    "github": "GitHub",
+    "language": "Language",
     "follow_links": {
-      "bilibili": "Bilibili"
+      "bilibili": "Bilibili",
+      "github": "GitHub"
+    },
+    "nav_drawer": {
+      "sub_header": {
+        "wt_tools": "Toolkit for WT",
+        "app_info": "App Info"
+      },
+      "home": "Home",
+      "wt_skins": "WT User Skins Manager",
+      "wt_sight": "WT User Sights Manager",
+      "wt_ext_cli": "WT Resource Extractor",
+      "settings": "Settings",
+      "about": "About"
     }
   }
 }

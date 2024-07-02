@@ -71,6 +71,7 @@ fn main() {
             commands::setting::get_app_config,
             commands::setting::save_app_config,
             commands::setting::get_app_config_dir,
+            commands::setting::update_app_config,
             commands::log::get_app_log_dir,
             commands::war_thunder::auto_detected_wt_root_path,
             commands::war_thunder::auto_detected_wt_setting_path,
