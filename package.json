@@ -18,16 +18,16 @@
     "vue": "^3.4.27",
     "vue-i18n": "9",
     "vue-router": "^4.3.3",
-    "vuetify": "^3.6.9"
+    "vuetify": "^3.6.11"
   },
   "devDependencies": {
     "@mdi/font": "^7.4.47",
     "@tauri-apps/cli": "^1",
     "@vitejs/plugin-vue": "^5.0.4",
     "prettier": "3.3.2",
-    "sass": "^1.77.5",
+    "sass": "^1.77.6",
     "typescript": "^5.0.2",
-    "vite": "^5.2.13",
+    "vite": "^5.3.2",
     "vue-tsc": "^2.0.21"
   },
   "packageManager": "yarn@1.22.19"
