@@ -20,5 +20,70 @@
       "settings": "设置",
       "about": "关于"
     }
+  },
+  "home": {
+    "common_function": "常用功能",
+    "quick_link": "快捷链接",
+    "copyright": "由axiangcoding开发，保留所有权利。",
+    "function": {
+      "wt_skins": {
+        "title": "自定义涂装管理",
+        "subtitle": "轻松管理战雷的自定义涂装。",
+        "description": "轻松安装、卸载和管理用户自定义皮肤。"
+      },
+      "wt_sight": {
+        "title": "自定义瞄具管理",
+        "subtitle": "轻松管理战雷的自定义瞄具。",
+        "description": "轻松安装、卸载和管理用户自定义瞄具。"
+      },
+      "wt_ext_cli": {
+        "title": "解包工具",
+        "subtitle": "轻松解包战雷资源文件。",
+        "description": "集成wt_ext_cli的GUI，使用GUI操作解包！"
+      },
+      "setting": {
+        "title": "设置",
+        "subtitle": "自定义应用程序设置。",
+        "description": "自定义应用程序设置，包括语言、游戏路径等。"
+      },
+      "about": {
+        "title": "关于",
+        "subtitle": "关于这个应用程序的信息。",
+        "description": "一些关于这个应用程序的信息。"
+      }
+    },
+    "link": {
+      "wtlive": {
+        "title": "WarThunder Live",
+        "description": "War Thunder官方社区，玩家可以分享游戏截图、视频、皮肤等。"
+      },
+      "wtwiki": {
+        "title": "WarThunder Wiki",
+        "description": "War Thunder官方维基，包含各种游戏信息，如车辆性能数据、战术技巧等。"
+      },
+      "wtforum": {
+        "title": "WarThunder 论坛",
+        "description": "War Thunder官方论坛，玩家可以交流游戏经验、提出建议等。"
+      },
+      "wtliker": {
+        "title": "战雷涂装中文站",
+        "description": "（中文社区）为War Thunder玩家创建、研究、交流和分享自定义内容，如皮肤和语音包。"
+      },
+      "wtdata": {
+        "title": "战雷热力图数据",
+        "description": "WarThunder 房间热图/趋势图，可以查看游戏的热图和趋势图。"
+      },
+      "local8111": {
+        "title": "本地端口 8111",
+        "description": "WarThunder 本地 8111 端口数据，显示实时游戏信息和一些车辆的实时数据。仅在游戏开启时提供内容。"
+      }
+    }
+  },
+  "card": {
+    "tag": {
+      "official": "官方",
+      "community": "社区",
+      "local": "本地"
+    }
   }
 }

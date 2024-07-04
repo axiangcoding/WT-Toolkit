@@ -20,5 +20,70 @@
       "settings": "Settings",
       "about": "About"
     }
+  },
+  "home": {
+    "common_function": "Common Function",
+    "quick_link": "Quick Link",
+    "copyright": "Developed by axiangcoding, All rights reserved.",
+    "function": {
+      "wt_skins": {
+        "title": "WT User Skins Manager",
+        "subtitle": "Manage your WT user skins easily.",
+        "description": "Easily install, uninstall and manage user custom skins."
+      },
+      "wt_sight": {
+        "title": "WT User Sights Manager",
+        "subtitle": "Manage your WT user sights easily.",
+        "description": "Easily install, uninstall and manage user custom sights."
+      },
+      "wt_ext_cli": {
+        "title": "WT Resource Extractor",
+        "subtitle": "Extract WT resource files easily.",
+        "description": "Integrated GUI for wt_ext_cli, use the GUI to operate unpacking!"
+      },
+      "setting": {
+        "title": "Settings",
+        "subtitle": "Customize the application settings.",
+        "description": "Customize the application settings, language, game path, etc."
+      },
+      "about": {
+        "title": "About",
+        "subtitle": "About the application.",
+        "description": "About the application, some information about this application."
+      }
+    },
+    "link": {
+      "wtlive": {
+        "title": "WarThunder Live",
+        "description": "Official community of War Thunder, where players can share their game screenshots, videos, skins, etc."
+      },
+      "wtwiki": {
+        "title": "WarThunder Wiki",
+        "description": "Official wiki of War Thunder, containing various information about the game, such as vehicle performance data, tactical skills, etc."
+      },
+      "wtforum": {
+        "title": "WarThunder Forum",
+        "description": "Official forum of War Thunder, where players can exchange game experience, make suggestions, etc."
+      },
+      "wtliker": {
+        "title": "WT Skins (CN)",
+        "description": "For War Thunder players to create, research, exchange and share custom content such as skins and voice packs."
+      },
+      "wtdata": {
+        "title": "WT Heat Map",
+        "description": "WarThunder room heat map/trend map, you can view the heat map and trend map of the game."
+      },
+      "local8111": {
+        "title": "Localhost 8111",
+        "description": "WarThunder 8111 port data, showing real-time game information and some real-time data of vehicles. Only content when the game is open."
+      }
+    }
+  },
+  "card": {
+    "tag": {
+      "official": "Official",
+      "community": "Community",
+      "local": "Local"
+    }
   }
 }

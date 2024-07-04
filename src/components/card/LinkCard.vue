@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { open } from "@tauri-apps/api/shell";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const props = defineProps<{
   data: any;
@@ -17,7 +20,7 @@ async function navigateTo(url: string) {
     hover
     prepend-icon="mdi-link-variant"
     @click="navigateTo(props.data.url)"
-    height="140"
+    height="160"
   >
     <template v-slot:title>
       {{ props.data.title }}
@@ -28,7 +31,7 @@ async function navigateTo(url: string) {
         color="primary"
         density="comfortable"
       >
-        官方
+        {{ t("card.tag.official") }}
       </v-chip>
       <v-chip
         class="mx-1"
@@ -37,7 +40,7 @@ async function navigateTo(url: string) {
         color="info"
         density="comfortable"
       >
-        社区
+        {{ t("card.tag.community") }}
       </v-chip>
       <v-chip
         class="mx-1"
@@ -46,7 +49,7 @@ async function navigateTo(url: string) {
         color="success"
         density="comfortable"
       >
-        本地
+        {{ t("card.tag.local") }}
       </v-chip>
     </template>
     <v-card-subtitle>
