@@ -77,6 +77,13 @@
         "title": "Localhost 8111",
         "description": "WarThunder 8111 port data, showing real-time game information and some real-time data of vehicles. Only content when the game is open."
       }
+    },
+    "link_card": {
+      "tag": {
+        "official": "Official",
+        "community": "Community",
+        "local": "Local"
+      }
     }
   },
   "setting": {
@@ -128,13 +135,6 @@
       "vromf_version": "Vromf Version",
       "version": "Version",
       "help": "Help"
-    }
-  },
-  "card": {
-    "tag": {
-      "official": "Official",
-      "community": "Community",
-      "local": "Local"
     }
   }
 }

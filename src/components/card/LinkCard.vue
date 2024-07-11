@@ -31,7 +31,7 @@ async function navigateTo(url: string) {
         color="primary"
         density="comfortable"
       >
-        {{ t("card.tag.official") }}
+        {{ t("home.link_card.tag.official") }}
       </v-chip>
       <v-chip
         class="mx-1"
@@ -40,7 +40,7 @@ async function navigateTo(url: string) {
         color="info"
         density="comfortable"
       >
-        {{ t("card.tag.community") }}
+        {{ t("home.link_card.tag.community") }}
       </v-chip>
       <v-chip
         class="mx-1"
@@ -49,7 +49,7 @@ async function navigateTo(url: string) {
         color="success"
         density="comfortable"
       >
-        {{ t("card.tag.local") }}
+        {{ t("home.link_card.tag.local") }}
       </v-chip>
     </template>
     <v-card-subtitle>

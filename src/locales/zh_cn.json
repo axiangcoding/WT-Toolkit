@@ -77,6 +77,13 @@
         "title": "本地端口 8111",
         "description": "WarThunder 本地 8111 端口数据，显示实时游戏信息和一些车辆的实时数据。仅在游戏开启时提供内容。"
       }
+    },
+    "link_card": {
+      "tag": {
+        "official": "官方",
+        "community": "社区",
+        "local": "本地"
+      }
     }
   },
   "setting": {
@@ -107,13 +114,6 @@
       "label": "WT 资源提取器 (WT_EXT_CLI) 路径",
       "placeholder": "请选择 WT_EXT_CLI 路径",
       "download_from_github_tooltip": "从 GitHub 下载 WT_EXT_CLI"
-    }
-  },
-  "card": {
-    "tag": {
-      "official": "官方",
-      "community": "社区",
-      "local": "本地"
     }
   }
 }
