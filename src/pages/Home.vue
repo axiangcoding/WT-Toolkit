@@ -33,13 +33,13 @@ const commonFunctions = computed(() => [
     subtitle: t("home.function.setting.subtitle"),
     description: t("home.function.setting.description"),
   },
-  {
-    key: "about",
-    icon: "mdi-information",
-    title: t("home.function.about.title"),
-    subtitle: t("home.function.about.subtitle"),
-    description: t("home.function.about.description"),
-  },
+  // {
+  //   key: "about",
+  //   icon: "mdi-information",
+  //   title: t("home.function.about.title"),
+  //   subtitle: t("home.function.about.subtitle"),
+  //   description: t("home.function.about.description"),
+  // },
 ]);
 
 const usefulLinks = computed(() => [

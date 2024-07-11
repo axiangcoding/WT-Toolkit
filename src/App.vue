@@ -45,11 +45,11 @@ const appInfo = computed(() => [
     title: t("app.nav_drawer.settings"),
     to: "/setting",
   },
-  {
-    icon: "mdi-information",
-    title: t("app.nav_drawer.about"),
-    to: "/about",
-  },
+  // {
+  //   icon: "mdi-information",
+  //   title: t("app.nav_drawer.about"),
+  //   to: "/about",
+  // },
 ]);
 
 const followLinks = computed(() => [
