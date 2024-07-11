@@ -79,6 +79,36 @@
       }
     }
   },
+  "setting": {
+    "save_setting_success": "Save setting success!",
+    "auto_detected_wt_root_path_success": "Auto detected WarThunder root path success!",
+    "auto_detected_wt_setting_path_success": "Auto detected WarThunder setting path success!",
+    "button": {
+      "auto_detect": "Auto Detect",
+      "manual_select": "Manual Select",
+      "open_folder": "Open Folder",
+      "download_from_github": "Download from GitHub",
+      "select_folder": "Select Folder",
+      "save": "Save",
+      "open_cfg_folder": "Open Config Folder",
+      "open_log_folder": "Open Log Folder"
+    },
+    "wt_root_path": {
+      "label": "WarThunder Root Path",
+      "placeholder": "Please select WarThunder root path",
+      "auto_detect_tooltip": "Auto detect WarThunder root path"
+    },
+    "wt_setting_path": {
+      "label": "WarThunder Setting Path",
+      "placeholder": "Please select WarThunder setting path",
+      "auto_detect_tooltip": "Auto detect WarThunder setting path"
+    },
+    "wt_ext_cli_path": {
+      "label": "WT Resource Extractor (WT_EXT_CLI) Path",
+      "placeholder": "Please select WT_EXT_CLI path",
+      "download_from_github_tooltip": "Download WT_EXT_CLI from GitHub"
+    }
+  },
   "card": {
     "tag": {
       "official": "Official",

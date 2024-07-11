@@ -79,6 +79,36 @@
       }
     }
   },
+  "setting": {
+    "save_setting_success": "设置保存成功！",
+    "auto_detected_wt_root_path_success": "自动检测到 战争雷霆 安装路径！",
+    "auto_detected_wt_setting_path_success": "自动检测到 战争雷霆 设置路径！",
+    "button": {
+      "auto_detect": "自动检测",
+      "manual_select": "手动选择",
+      "open_folder": "打开文件夹",
+      "download_from_github": "从 GitHub 下载",
+      "select_folder": "选择文件夹",
+      "save": "保存",
+      "open_cfg_folder": "打开配置文件夹",
+      "open_log_folder": "打开日志文件夹"
+    },
+    "wt_root_path": {
+      "label": "战争雷霆 安装路径",
+      "placeholder": "请选择 战争雷霆 安装路径",
+      "auto_detect_tooltip": "自动检测 战争雷霆 安装路径"
+    },
+    "wt_setting_path": {
+      "label": "战争雷霆 设置路径",
+      "placeholder": "请选择 战争雷霆 设置路径",
+      "auto_detect_tooltip": "自动检测 战争雷霆 设置路径"
+    },
+    "wt_ext_cli_path": {
+      "label": "WT 资源提取器 (WT_EXT_CLI) 路径",
+      "placeholder": "请选择 WT_EXT_CLI 路径",
+      "download_from_github_tooltip": "从 GitHub 下载 WT_EXT_CLI"
+    }
+  },
   "card": {
     "tag": {
       "official": "官方",

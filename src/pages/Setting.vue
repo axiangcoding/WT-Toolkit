@@ -1,28 +1,32 @@
 <script setup lang="ts">
 import { open } from "@tauri-apps/api/dialog";
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { invoke, shell } from "@tauri-apps/api";
 
 import CommonSnackbar from "../components/snackbar/CommonSnackbar.vue";
 import { get_error_msg } from "../error_msg";
 import { AppSettings } from "../schema";
 
-const breadcrumbsItems = [
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
+
+const breadcrumbsItems = computed(() => [
   {
-    title: "主页",
+    title: t("app.nav_drawer.home"),
     disabled: false,
     href: "/",
   },
   {
-    title: "APP 信息",
+    title: t("app.nav_drawer.sub_header.app_info"),
     disabled: true,
   },
   {
-    title: "设置",
+    title: t("app.nav_drawer.settings"),
     disabled: true,
     href: "/setting",
   },
-];
+]);
 
 const snackbar = ref({
   show: false,
@@ -49,7 +53,7 @@ async function saveSettings() {
     await invoke("save_app_config", { config: appSettings.value });
     snackbar.value = {
       show: true,
-      message: "保存设置成功",
+      message: t("setting.save_setting_success"),
       color: "success",
     };
   } catch (error) {
@@ -76,7 +80,7 @@ async function autoSelectWTInstallPath() {
     appSettings.value.wt_root_path = await invoke("auto_detected_wt_root_path");
     snackbar.value = {
       show: true,
-      message: "自动检测到战争雷霆游戏安装目录！",
+      message: t("setting.auto_detected_wt_root_path_success"),
       color: "success",
     };
   } catch (error) {
@@ -105,7 +109,7 @@ async function autoSelectWTSettingPath() {
     );
     snackbar.value = {
       show: true,
-      message: "自动检测到战争雷霆游戏设置目录",
+      message: t("setting.auto_detected_wt_setting_path_success"),
       color: "success",
     };
   } catch (error) {
@@ -165,8 +169,8 @@ async function selectWTExtCliPath() {
       <v-col cols="12">
         <v-text-field
           v-model="appSettings.wt_root_path"
-          label="战争雷霆游戏安装目录"
-          placeholder="请选择战争雷霆游戏的安装目录，用来管理和游戏相关的资源"
+          :label="t('setting.wt_root_path.label')"
+          :placeholder="t('setting.wt_root_path.placeholder')"
           type="text"
           variant="outlined"
           clearable
@@ -177,24 +181,25 @@ async function selectWTExtCliPath() {
               <v-row>
                 <v-col cols="auto">
                   <v-btn color="warning" @click="autoSelectWTInstallPath">
-                    自动检测
+                    {{ t("setting.button.auto_detect") }}
                     <v-tooltip activator="parent" location="bottom">
-                      工具箱将自动检测游戏安装路径
+                      {{ t("setting.wt_root_path.auto_detect_tooltip") }}
                     </v-tooltip>
                   </v-btn>
                 </v-col>
                 <v-col cols="auto">
-                  <v-btn color="primary" @click="selectWTInstallPath"
-                    >手动选择</v-btn
-                  >
+                  <v-btn color="primary" @click="selectWTInstallPath">
+                    {{ t("setting.button.manual_select") }}
+                  </v-btn>
                 </v-col>
                 <v-col cols="auto">
                   <v-btn
                     color="info"
                     :disabled="appSettings.wt_root_path == null"
                     @click="showFolder(appSettings.wt_root_path)"
-                    >查看目录</v-btn
                   >
+                    {{ t("setting.button.open_folder") }}
+                  </v-btn>
                 </v-col>
               </v-row>
             </v-container>
@@ -204,8 +209,8 @@ async function selectWTExtCliPath() {
       <v-col cols="12">
         <v-text-field
           v-model="appSettings.wt_setting_path"
-          label="战争雷霆游戏设置目录"
-          placeholder="请选择战争雷霆游戏的设置目录，用来管理和游戏设置相关的资源"
+          :label="t('setting.wt_setting_path.label')"
+          :placeholder="t('setting.wt_setting_path.placeholder')"
           type="text"
           variant="outlined"
           clearable
@@ -216,23 +221,24 @@ async function selectWTExtCliPath() {
               <v-row>
                 <v-col cols="auto">
                   <v-btn color="warning" @click="autoSelectWTSettingPath">
-                    自动检测
+                    {{ t("setting.button.auto_detect") }}
                     <v-tooltip activator="parent" location="bottom">
-                      工具箱将自动检测游戏设置路径
+                      {{ t("setting.wt_setting_path.auto_detect_tooltip") }}
                     </v-tooltip>
                   </v-btn>
                 </v-col>
                 <v-col cols="auto">
-                  <v-btn color="primary" @click="selectWTSettingPath"
-                    >手动选择</v-btn
-                  >
+                  <v-btn color="primary" @click="selectWTSettingPath">
+                    {{ t("setting.button.manual_select") }}
+                  </v-btn>
                 </v-col>
                 <v-col cols="auto">
                   <v-btn
                     color="info"
                     :disabled="appSettings.wt_setting_path == null"
                     @click="showFolder(appSettings.wt_setting_path)"
-                    >查看目录</v-btn
+                  >
+                    {{ t("setting.button.open_folder") }}</v-btn
                   >
                 </v-col>
               </v-row>
@@ -243,8 +249,8 @@ async function selectWTExtCliPath() {
       <v-col cols="12">
         <v-text-field
           v-model="appSettings.wt_ext_cli_path"
-          label="wt_ext_cli解包工具目录"
-          placeholder="如果你需要使用wt_ext_cli解包工具，请选择解包工具的目录"
+          :label="t('setting.wt_ext_cli_path.label')"
+          :placeholder="t('setting.wt_ext_cli_path.placeholder')"
           type="text"
           variant="outlined"
           clearable
@@ -255,15 +261,15 @@ async function selectWTExtCliPath() {
               <v-row>
                 <v-col cols="auto">
                   <v-btn color="warning" @click="openWTExtCliDownloadPage">
-                    从官方仓库下载
+                    {{ t("setting.button.download_from_github") }}
                     <v-tooltip activator="parent" location="bottom">
-                      从wt_ext_cli仓库下载工具并正确安装到你的操作系统中</v-tooltip
-                    >
+                      {{ t("setting.button.download_from_github") }}
+                    </v-tooltip>
                   </v-btn>
                 </v-col>
                 <v-col cols="auto">
-                  <v-btn color="primary" @click="selectWTExtCliPath"
-                    >选择目录</v-btn
+                  <v-btn color="primary" @click="selectWTExtCliPath">
+                    {{ t("setting.button.select_folder") }}</v-btn
                   >
                 </v-col>
                 <v-col cols="auto">
@@ -271,7 +277,8 @@ async function selectWTExtCliPath() {
                     color="info"
                     :disabled="appSettings.wt_ext_cli_path == null"
                     @click="showFolder(appSettings.wt_ext_cli_path)"
-                    >查看目录</v-btn
+                  >
+                    {{ t("setting.button.open_folder") }}</v-btn
                   >
                 </v-col>
               </v-row>
@@ -283,15 +290,19 @@ async function selectWTExtCliPath() {
         <v-container>
           <v-row justify="end">
             <v-col cols="auto">
-              <v-btn color="success" @click="saveSettings">保存设置</v-btn>
+              <v-btn color="success" @click="saveSettings">
+                {{ t("setting.button.save") }}
+              </v-btn>
             </v-col>
             <v-col cols="auto">
-              <v-btn color="info" @click="openSettingFolder"
-                >打开配置文件夹</v-btn
-              >
+              <v-btn color="info" @click="openSettingFolder">
+                {{ t("setting.button.open_cfg_folder") }}
+              </v-btn>
             </v-col>
             <v-col cols="auto">
-              <v-btn color="info" @click="openLogFolder"> 打开日志文件夹</v-btn>
+              <v-btn color="info" @click="openLogFolder">
+                {{ t("setting.button.open_log_folder") }}
+              </v-btn>
             </v-col>
           </v-row>
         </v-container>
