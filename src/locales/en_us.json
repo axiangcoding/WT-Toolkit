@@ -109,6 +109,27 @@
       "download_from_github_tooltip": "Download WT_EXT_CLI from GitHub"
     }
   },
+  "wt_ext_cli": {
+    "usage": {
+      "title": "Usage",
+      "content1": "This tool is a package for the open source unpacking tool wt_ext_cli. It aims to lower the threshold of unpacking and improve the ability of players to get first-hand game resources.",
+      "content2": "The current compatible version of wt_ext_cli is > v0.5.3, please contact the developer in case of incompatibility."
+    },
+    "disclaimer": {
+      "title": "Disclaimer",
+      "content1": "We strongly recommend copying the game resource files to a new directory for unpacking while the game is closed to avoid damage to the game files during the unpacking process.",
+      "content2": "Unpacking game resources is not a complicated job, but it requires you to have some knowledge. If you don't know how to use it properly, proceed with caution!"
+    },
+    "tool_detected_and_version": "Tool detected and version is",
+    "tab": {
+      "unpack_vromf": "Unpack Vromf",
+      "unpack_dxp_and_grp": "Unpack Dxp And Grp",
+      "unpack_raw_blk": "Unpack Raw Blk",
+      "vromf_version": "Vromf Version",
+      "version": "Version",
+      "help": "Help"
+    }
+  },
   "card": {
     "tag": {
       "official": "Official",
