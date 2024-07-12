@@ -152,7 +152,6 @@
         "exec_error": "Execution error!",
         "console_output": "Console Output"
       },
-
       "help": {
         "description": "Print this message or the help of the given subcommand(s)"
       },
@@ -191,5 +190,18 @@
         "show_help_label": "Show help message"
       }
     }
+  },
+  "error": {
+    "1": "Unknown Error",
+    "10000": "Failed to get application settings",
+    "10001": "Failed to save application settings",
+    "10002": "Failed to get application log path",
+    "20000": "Failed to auto-detect War Thunder game root directory",
+    "20001": "Failed to auto-detect War Thunder game setting directory",
+    "20002": "Failed to install user skin",
+    "20003": "Failed to install user sight",
+    "20004": "Failed to get user skins",
+    "20005": "Failed to get user sights",
+    "unknown": "Unknown Error: {err_code}"
   }
 }
