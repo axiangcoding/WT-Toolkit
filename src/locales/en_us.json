@@ -135,6 +135,61 @@
       "vromf_version": "Vromf Version",
       "version": "Version",
       "help": "Help"
+    },
+    "cmd_card": {
+      "button": {
+        "execute": "Execute",
+        "clean_output": "Clean Output",
+        "show_output_dir": "Show Output Dir"
+      },
+      "label": {
+        "command": "Command",
+        "description": "Description",
+        "args": "Arguments",
+        "none": "None",
+        "exec_result": "Execution Result",
+        "exec_success": "Execution success!",
+        "exec_error": "Execution error!",
+        "console_output": "Console Output"
+      },
+
+      "help": {
+        "description": "Print this message or the help of the given subcommand(s)"
+      },
+      "unpack_dxp_and_grp": {
+        "description": "Unpacks folder and subfolder DXP and GRP files to text-formatted file",
+        "input_dir_label": "Folder with DXP/GRP files inside",
+        "output_dir_label": "Target folder that will be created to contain new files, preserving file structure",
+        "keep_suffix_label": "Paths and Names inside the final DXP/GRP are always followed by \"water_garbage_pile_b_tex_d$hq*\" or random unicode chars \"u+4575\"",
+        "show_help_label": "Show help message"
+      },
+      "unpack_raw_blk": {
+        "description": "Unpacks a folder of raw/binary blk files into their unpacked format",
+        "input_dir_label": "Folder containing blk files, sub-folders will be recursively searched",
+        "output_dir_label": "Target folder that will be created to contain new files",
+        "format_label": "Output format, can be one of: [Json, BlkText] [default: Json]",
+        "show_help_label": "Show help message"
+      },
+      "unpack_vromf": {
+        "description": "Unpacks vromf into raw or human readable formats, such as Json or Blk",
+        "input_file_label": "A single vromf file, or a folder of Vromf files. Does not recurse subdirs",
+        "output_dir_label": "Target folder that will be created to contain new files",
+        "format_label": "Output format, can be one of: [Json, BlkText, Raw] [default: Json]",
+        "override_label": "Applies `override:` fields in every json",
+        "avif2png_label": "Converts all avif images to png. Can be one of [imagemagick, ffmpeg] [default: imagemagick]",
+        "crlf_label": "Returns files with \\r\\n instead of \\n newlines",
+        "zip_label": "Packs output into single zipfile",
+        "blk_extension_label": "Replaces all blk files extension to this when provided, leaves them unchanged otherwise",
+        "show_help_label": "Show help message"
+      },
+      "version": {
+        "description": "Print version"
+      },
+      "vromf_version": {
+        "description": "Prints version(s) from file or folder of vromfs",
+        "input_file_label": "A single vromf file, or a folder of Vromf files. Does not recurse subdirs",
+        "show_help_label": "Show help message"
+      }
     }
   }
 }

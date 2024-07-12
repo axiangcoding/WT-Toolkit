@@ -3,6 +3,7 @@ import { invoke } from "@tauri-apps/api";
 import { ref } from "vue";
 import { CmdResult } from "../../schema";
 import { open } from "@tauri-apps/api/dialog";
+import { useI18n } from "vue-i18n";
 
 const cmdOutput = ref<CmdResult>({} as any);
 
@@ -13,6 +14,7 @@ const cmdArgs = ref<{
   help: boolean;
 }>({} as any);
 
+const { t } = useI18n();
 async function exec() {
   let args = ["unpack_dxp_and_grp"];
   if (cmdArgs.value.inputDir) {
@@ -76,20 +78,28 @@ const loading = ref(false);
 <template>
   <v-list>
     <v-list-item>
-      <v-list-item-title>命令</v-list-item-title>
+      <v-list-item-title>
+        {{ t("wt_ext_cli.cmd_card.label.command") }}
+      </v-list-item-title>
       <v-chip color="primary">wt-ext-cli unpack_dxp_and_grp</v-chip>
     </v-list-item>
     <v-list-item>
-      <v-list-item-title>说明</v-list-item-title>
-      将文件夹和子文件夹中的 DXP 和 GRP 文件解压为文本格式文件
+      <v-list-item-title>
+        {{ t("wt_ext_cli.cmd_card.label.description") }}
+      </v-list-item-title>
+      {{ t("wt_ext_cli.cmd_card.unpack_dxp_and_grp.description") }}
     </v-list-item>
     <v-list-item>
-      <v-list-item-title>参数</v-list-item-title>
+      <v-list-item-title>
+        {{ t("wt_ext_cli.cmd_card.label.args") }}
+      </v-list-item-title>
       <v-container>
         <v-row dense>
           <v-col cols="6">
             <v-text-field
-              label="输入目录。内含 DXP/GRP 文件的文件夹"
+              :label="
+                t('wt_ext_cli.cmd_card.unpack_dxp_and_grp.input_dir_label')
+              "
               append-inner-icon="mdi-folder"
               v-model="cmdArgs.inputDir"
               @click:append-inner="selectInputDir"
@@ -99,7 +109,9 @@ const loading = ref(false);
           </v-col>
           <v-col cols="6">
             <v-text-field
-              label="输出目录。创建的目标文件夹将包含新文件，并保留文件结构"
+              :label="
+                t('wt_ext_cli.cmd_card.unpack_dxp_and_grp.output_dir_label')
+              "
               append-inner-icon="mdi-folder"
               v-model="cmdArgs.outputDir"
               @click:append-inner="selectOutputDir"
@@ -110,14 +122,18 @@ const loading = ref(false);
           <v-col cols="6">
             <v-switch
               v-model="cmdArgs.keepSuffix"
-              label="最终 DXP/GRP 中的路径和名称后是否保留后缀"
+              :label="
+                t('wt_ext_cli.cmd_card.unpack_dxp_and_grp.keep_suffix_label')
+              "
               color="primary"
             ></v-switch>
           </v-col>
           <v-col cols="6">
             <v-switch
               v-model="cmdArgs.help"
-              label="展示帮助信息"
+              :label="
+                t('wt_ext_cli.cmd_card.unpack_dxp_and_grp.show_help_label')
+              "
               color="primary"
             ></v-switch>
           </v-col>
@@ -126,10 +142,14 @@ const loading = ref(false);
     </v-list-item>
   </v-list>
   <div class="d-flex ga-2">
-    <v-btn color="primary" @click="exec">执行命令</v-btn>
-    <v-btn color="warning" @click="cleanOutput"> 清空输出</v-btn>
+    <v-btn color="primary" @click="exec">
+      {{ t("wt_ext_cli.cmd_card.button.execute") }}
+    </v-btn>
+    <v-btn color="warning" @click="cleanOutput">
+      {{ t("wt_ext_cli.cmd_card.button.clean_output") }}
+    </v-btn>
     <v-btn color="info" @click="showOutputDir" :disabled="!cmdArgs.outputDir">
-      打开输出目录
+      {{ t("wt_ext_cli.cmd_card.button.show_output_dir") }}
     </v-btn>
   </div>
 
@@ -137,19 +157,22 @@ const loading = ref(false);
 
   <v-list>
     <v-list-item>
-      <v-list-item-title>执行结果</v-list-item-title>
+      <v-list-item-title>
+        {{ t("wt_ext_cli.cmd_card.label.exec_result") }}
+      </v-list-item-title>
       <v-chip
         variant="elevated"
         color="success"
         v-if="cmdOutput.code != null && cmdOutput.code == 0"
       >
-        执行成功
+        {{ t("wt_ext_cli.cmd_card.label.exec_success") }}
       </v-chip>
       <v-chip
         variant="elevated"
         color="error"
         v-if="cmdOutput.code != null && cmdOutput.code != 0"
-        >执行失败
+      >
+        {{ t("wt_ext_cli.cmd_card.label.exec_error") }}
       </v-chip>
       <v-progress-linear
         v-if="loading"
@@ -160,7 +183,9 @@ const loading = ref(false);
       ></v-progress-linear>
     </v-list-item>
     <v-list-item>
-      <v-list-item-title>内容输出</v-list-item-title>
+      <v-list-item-title>
+        {{ t("wt_ext_cli.cmd_card.label.console_output") }}
+      </v-list-item-title>
       <v-code class="console-box border-success">
         {{ cmdOutput.stdout ? cmdOutput.stdout : cmdOutput.stderr }}
       </v-code>

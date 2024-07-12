@@ -115,5 +115,80 @@
       "placeholder": "请选择 WT_EXT_CLI 路径",
       "download_from_github_tooltip": "从 GitHub 下载 WT_EXT_CLI"
     }
+  },
+  "wt_ext_cli": {
+    "usage": {
+      "title": "用法",
+      "content1": "这个工具是开源解包工具wt_ext_cli的一个包。它旨在降低解包的门槛，提高玩家获取第一手游戏资源的能力。",
+      "content2": "当前兼容的wt_ext_cli版本是> v0.5.3，如果不兼容，请联系开发者。"
+    },
+    "disclaimer": {
+      "title": "免责声明",
+      "content1": "我们强烈建议在游戏关闭时将游戏资源文件复制到新目录进行解包，以避免在解包过程中损坏游戏文件。",
+      "content2": "解包游戏资源并不是一项复杂的工作，但需要您具备一些知识。如果您不知道如何正确使用，请谨慎操作！"
+    },
+    "tool_detected_and_version": "检测到的工具及版本为",
+    "tab": {
+      "unpack_vromf": "解包Vromf",
+      "unpack_dxp_and_grp": "解包Dxp和Grp",
+      "unpack_raw_blk": "解包Raw Blk",
+      "vromf_version": "Vromf版本",
+      "version": "版本",
+      "help": "帮助"
+    },
+    "cmd_card": {
+      "button": {
+        "execute": "执行命令",
+        "clean_output": "清理输出",
+        "show_output_dir": "显示输出目录"
+      },
+      "label": {
+        "command": "命令",
+        "description": "描述",
+        "args": "参数",
+        "none": "无",
+        "exec_result": "执行结果",
+        "exec_success": "执行成功！",
+        "exec_error": "执行错误！",
+        "console_output": "控制台输出"
+      },
+      "help": {
+        "description": "打印此消息或给定子命令的帮助信息"
+      },
+      "unpack_dxp_and_grp": {
+        "description": "将文件夹及子文件夹中的DXP和GRP文件解包为文本格式文件",
+        "input_dir_label": "包含DXP/GRP文件的文件夹",
+        "output_dir_label": "将创建的目标文件夹，用于包含新文件，保留文件结构",
+        "keep_suffix_label": "最终DXP/GRP内的路径和名称总是带有\"water_garbage_pile_b_tex_d$hq*\"或随机Unicode字符\"u+4575\"",
+        "show_help_label": "显示帮助信息"
+      },
+      "unpack_raw_blk": {
+        "description": "将包含raw/binary blk文件的文件夹解包为它们的解包格式",
+        "input_dir_label": "包含blk文件的文件夹，子文件夹将被递归搜索",
+        "output_dir_label": "将创建的目标文件夹，用于包含新文件",
+        "format_label": "输出格式，可以是：[Json, BlkText] [默认：Json]",
+        "show_help_label": "显示帮助信息"
+      },
+      "unpack_vromf": {
+        "description": "将vromf解包为原始格式或人类可读格式，如Json或Blk",
+        "input_file_label": "单个vromf文件或Vromf文件夹。不递归子目录",
+        "output_dir_label": "将创建的目标文件夹，用于包含新文件",
+        "format_label": "输出格式，可以是：[Json, BlkText, Raw] [默认：Json]",
+        "override_label": "应用覆盖：每个json中的字段",
+        "avif2png_label": "将所有avif图像转换为png。可以是[imagemagick, ffmpeg] [默认：imagemagick]",
+        "crlf_label": "返回\\r\\n而不是\\n换行符的文件",
+        "zip_label": "将输出打包成单个zip文件",
+        "blk_extension_label": "提供时替换所有blk文件扩展名，否则保持不变",
+        "show_help_label": "显示帮助信息"
+      },
+      "version": {
+        "description": "打印版本"
+      },
+      "vromf_version": {
+        "description": "打印文件或Vromf文件夹的版本",
+        "input_file_label": "单个vromf文件或Vromf文件夹。不递归子目录",
+        "show_help_label": "显示帮助信息"
+      }
+    }
   }
 }
