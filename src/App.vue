@@ -1,62 +1,89 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { getVersion } from "@tauri-apps/api/app";
 import { open } from "@tauri-apps/api/shell";
 import BugReportDialog from "./components/dialog/BugReportDialog.vue";
+import { useI18n } from "vue-i18n";
+import { invoke } from "@tauri-apps/api";
+import { AppSettings } from "./schema";
 
 const appVersion = ref("");
 const drawer = ref(false);
 const feedbackDialog = ref(false);
 
-const homeList = [
+const { t, locale } = useI18n();
+
+const homeList = computed(() => [
   {
     icon: "mdi-home",
-    title: "主页",
+    title: t("app.nav_drawer.home"),
     to: "/",
   },
-];
+]);
 
-const wtTool = [
+const wtTool = computed(() => [
   {
     icon: "mdi-format-paint",
-    title: "自定义涂装管理",
+    title: t("app.nav_drawer.wt_skins"),
     to: "/wt-skins",
   },
   {
     icon: "mdi-crosshairs",
-    title: "自定义瞄具管理",
+    title: t("app.nav_drawer.wt_sight"),
     to: "/wt-sight",
   },
   {
     icon: "mdi-package-variant",
-    title: "解包工具",
+    title: t("app.nav_drawer.wt_ext_cli"),
     to: "/wt-ext-cli",
   },
-];
+]);
 
-const appInfo = [
+const appInfo = computed(() => [
   {
     icon: "mdi-cog",
-    title: "设置",
+    title: t("app.nav_drawer.settings"),
     to: "/setting",
   },
+  // {
+  //   icon: "mdi-information",
+  //   title: t("app.nav_drawer.about"),
+  //   to: "/about",
+  // },
+]);
+
+const followLinks = computed(() => [
   {
-    icon: "mdi-information",
-    title: "关于",
-    to: "/about",
+    text: t("app.follow_links.bilibili"),
+    url: "https://space.bilibili.com/8696650",
+    icon: "mdi-television-classic",
   },
-];
+  {
+    text: t("app.follow_links.github"),
+    url: "https://github.com/axiangcoding/WT-Toolkit",
+    icon: "mdi-github",
+  },
+]);
 
 onMounted(async () => {
   appVersion.value = await getVersion();
+  let cfg: AppSettings = await invoke("get_app_config");
+  if (cfg.language) {
+    console.log(cfg.language);
+    locale.value = cfg.language;
+  }
 });
 
-async function jumpToBiliBili() {
-  await open("https://space.bilibili.com/8696650");
+async function jumpTo(url: string) {
+  await open(url);
 }
 
-async function jumpToGithub() {
-  await open("https://github.com/axiangcoding/WT-Toolkit");
+async function switchLanguage(target: string) {
+  locale.value = target;
+  await invoke("update_app_config", {
+    key: "language",
+    value: target,
+  });
 }
 </script>
 
@@ -68,31 +95,51 @@ async function jumpToGithub() {
       </template>
 
       <v-app-bar-title>
-        战雷工具箱
+        {{ t("app.title") }}
         <v-chip color="green" variant="flat" rounded>
           v{{ appVersion }}
         </v-chip>
       </v-app-bar-title>
 
       <template v-slot:append>
-        <v-btn prepend-icon="mdi-heart" @click="jumpToBiliBili">
-          <template v-slot:prepend>
-            <v-icon color="red"></v-icon>
-          </template>
-          关注作者 - 摸鱼又开摆的三三
-        </v-btn>
         <v-btn prepend-icon="mdi-bug" @click="feedbackDialog = true">
           <template v-slot:prepend>
             <v-icon></v-icon>
           </template>
-          反馈问题
+          {{ t("app.report_bug") }}
         </v-btn>
-        <v-btn prepend-icon="mdi-github" @click="jumpToGithub">
-          <template v-slot:prepend>
-            <v-icon></v-icon>
+
+        <v-menu open-on-hover>
+          <template v-slot:activator="{ props }">
+            <v-btn v-bind="props" prepend-icon="mdi-account-group">
+              {{ t("app.follow") }}
+            </v-btn>
           </template>
-          开源项目
-        </v-btn>
+
+          <v-list>
+            <v-list-item
+              v-for="(item, index) in followLinks"
+              :key="index"
+              :value="index"
+              append-icon="mdi-open-in-new"
+              :prepend-icon="item.icon"
+              @click="jumpTo(item.url)"
+            >
+              {{ item.text }}
+            </v-list-item>
+          </v-list>
+        </v-menu>
+        <v-menu open-on-hover>
+          <template v-slot:activator="{ props }">
+            <v-btn v-bind="props" prepend-icon="mdi-translate">
+              {{ t("app.language") }}
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item @click="switchLanguage('en_us')">English</v-list-item>
+            <v-list-item @click="switchLanguage('zh_cn')">简体中文</v-list-item>
+          </v-list>
+        </v-menu>
       </template>
     </v-app-bar>
 
@@ -114,14 +161,18 @@ async function jumpToGithub() {
           <v-list-item-title>{{ item.title }}</v-list-item-title>
         </v-list-item>
 
-        <v-list-subheader>战雷小工具</v-list-subheader>
+        <v-list-subheader>
+          {{ t("app.nav_drawer.sub_header.wt_tools") }}
+        </v-list-subheader>
         <v-list-item v-for="item in wtTool" :key="item.to" :to="item.to">
           <template v-slot:prepend>
             <v-icon :icon="item.icon"></v-icon>
           </template>
           <v-list-item-title>{{ item.title }}</v-list-item-title>
         </v-list-item>
-        <v-list-subheader>APP 信息</v-list-subheader>
+        <v-list-subheader>
+          {{ t("app.nav_drawer.sub_header.app_info") }}
+        </v-list-subheader>
         <v-list-item v-for="item in appInfo" :key="item.to" :to="item.to">
           <template v-slot:prepend>
             <v-icon :icon="item.icon"></v-icon>

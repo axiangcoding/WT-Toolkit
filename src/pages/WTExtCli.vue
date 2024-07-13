@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { invoke } from "@tauri-apps/api";
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { get_error_msg } from "../error_msg";
 import CommonSnackbar from "../components/snackbar/CommonSnackbar.vue";
 import VersionCmd from "../components/wt_ext_cli_cmd_card/VersionCmd.vue";
@@ -11,23 +11,26 @@ import UnpackVromf from "../components/wt_ext_cli_cmd_card/UnpackVromf.vue";
 import VromfVersion from "../components/wt_ext_cli_cmd_card/VromfVersion.vue";
 
 import { CmdResult } from "../schema";
+import { useI18n } from "vue-i18n";
 
-const breadcrumbsItems = [
+const { t } = useI18n();
+
+const breadcrumbsItems = computed(() => [
   {
-    title: "主页",
+    title: t("app.nav_drawer.home"),
     disabled: false,
     href: "/",
   },
   {
-    title: "战雷小工具",
+    title: t("app.nav_drawer.sub_header.wt_tools"),
     disabled: true,
   },
   {
-    title: "解包工具",
+    title: t("app.nav_drawer.wt_ext_cli"),
     disabled: true,
     href: "/setting",
   },
-];
+]);
 
 const wtExtCliVersion = ref("");
 
@@ -62,50 +65,55 @@ onMounted(async () => {
       <v-col cols="12">
         <v-alert
           icon="mdi-tooltip"
-          title="使用说明"
+          :title="t('wt_ext_cli.usage.title')"
           variant="tonal"
           closable
           type="info"
         >
           <p>
-            本工具是对开源解包工具 wt_ext_cli
-            的封装，用于解包游戏资源文件，旨在降低解包门槛，提升玩家获取第一手游戏资源的能力。
+            {{ t("wt_ext_cli.usage.content1") }}
           </p>
           <p>
-            目前兼容的 wt_ext_cli 版本为 >
-            v0.5.3，如果出现不兼容的情况，请联系开发者。
+            {{ t("wt_ext_cli.usage.content2") }}
           </p>
         </v-alert>
         <v-divider class="my-1" thickness="0"></v-divider>
         <v-alert
           icon="mdi-alert-box"
-          title="免责声明"
+          :title="t('wt_ext_cli.disclaimer.title')"
           variant="tonal"
           type="warning"
           closable
         >
           <p>
-            本工具将调用 wt_ext_cli 进行解包，请自行确保你所指定的 wt_ext_cli
-            路径是正确的。我们强烈建议在游戏关闭的情况下，将游戏资源文件复制到一个新的目录中进行解包，以免解包过程中对游戏文件造成损坏。
+            {{ t("wt_ext_cli.disclaimer.content1") }}
           </p>
           <strong>
-            解包游戏资源是一项复杂的工作，如果你是一名普通玩家，而且不知道什么是解包，也不知道解包会带来什么风险，请不要使用本工具！
+            {{ t("wt_ext_cli.disclaimer.content2") }}
           </strong>
         </v-alert>
       </v-col>
       <v-col cols="12">
-        检测到 wt_ext_cli 工具，当前的版本为：
+        {{ t("wt_ext_cli.tool_detected_and_version") }}
         <v-chip color="primary">{{ wtExtCliVersion }}</v-chip>
       </v-col>
       <v-col cols="12">
         <v-card>
           <v-tabs v-model="commandTab" color="primary">
-            <v-tab value="unpackVromf">解包 Vromf 文件</v-tab>
-            <v-tab value="unpackDxpAndGrp">解包 DXP 和 GRP 文件</v-tab>
-            <v-tab value="unpackRawBlk">解包二进制 blk 文件</v-tab>
-            <v-tab value="vromfVersion">解析 Vromf 版本</v-tab>
-            <v-tab value="version">版本</v-tab>
-            <v-tab value="help">帮助</v-tab>
+            <v-tab value="unpackVromf">
+              {{ t("wt_ext_cli.tab.unpack_vromf") }}</v-tab
+            >
+            <v-tab value="unpackDxpAndGrp">
+              {{ t("wt_ext_cli.tab.unpack_dxp_and_grp") }}</v-tab
+            >
+            <v-tab value="unpackRawBlk">
+              {{ t("wt_ext_cli.tab.unpack_raw_blk") }}</v-tab
+            >
+            <v-tab value="vromfVersion">
+              {{ t("wt_ext_cli.tab.vromf_version") }}</v-tab
+            >
+            <v-tab value="version"> {{ t("wt_ext_cli.tab.version") }}</v-tab>
+            <v-tab value="help"> {{ t("wt_ext_cli.tab.help") }}</v-tab>
           </v-tabs>
 
           <v-card-text>

@@ -3,7 +3,9 @@ import { invoke } from "@tauri-apps/api";
 import { ref } from "vue";
 import { CmdResult } from "../../schema";
 import { open } from "@tauri-apps/api/dialog";
+import { useI18n } from "vue-i18n";
 
+const { t } = useI18n();
 const cmdOutput = ref<CmdResult>({} as any);
 
 const cmdArgs = ref<{
@@ -99,20 +101,26 @@ const loading = ref(false);
 <template>
   <v-list>
     <v-list-item>
-      <v-list-item-title>命令</v-list-item-title>
+      <v-list-item-title>
+        {{ t("wt_ext_cli.cmd_card.label.command") }}
+      </v-list-item-title>
       <v-chip color="primary">wt-ext-cli unpack_vromf</v-chip>
     </v-list-item>
     <v-list-item>
-      <v-list-item-title>说明</v-list-item-title>
-      将 vromf 解压为原始格式或人类可读格式，如 Json 或 Blk
+      <v-list-item-title>
+        {{ t("wt_ext_cli.cmd_card.label.description") }}
+      </v-list-item-title>
+      {{ t("wt_ext_cli.cmd_card.unpack_vromf.description") }}
     </v-list-item>
     <v-list-item>
-      <v-list-item-title>参数</v-list-item-title>
+      <v-list-item-title>
+        {{ t("wt_ext_cli.cmd_card.label.args") }}
+      </v-list-item-title>
       <v-container>
         <v-row dense>
           <v-col cols="6">
             <v-text-field
-              label="输入目录或者文件。不会递归文件夹"
+              :label="t('wt_ext_cli.cmd_card.unpack_vromf.input_file_label')"
               v-model="cmdArgs.inputDirOrFile"
               clearable
             >
@@ -124,7 +132,7 @@ const loading = ref(false);
           </v-col>
           <v-col cols="6">
             <v-text-field
-              label="输出目录。将创建的包含新文件的目标文件夹"
+              :label="t('wt_ext_cli.cmd_card.unpack_vromf.output_dir_label')"
               append-inner-icon="mdi-folder"
               v-model="cmdArgs.outputDir"
               @click:append-inner="selectOutputDir"
@@ -136,7 +144,7 @@ const loading = ref(false);
           <v-col cols="6">
             <v-select
               clearable
-              label="输出格式。可以是[Json、BlkText、Raw] 默认：Json"
+              :label="t('wt_ext_cli.cmd_card.unpack_vromf.format_label')"
               :items="['Json', 'BlkText', 'Raw']"
               v-model="cmdArgs.format"
             ></v-select>
@@ -144,14 +152,14 @@ const loading = ref(false);
           <v-col cols="6">
             <v-select
               clearable
-              label="将所有 avif 图像转换为 png 格式。可以是 [imagemagick, ffmpeg] 默认：imagemagick"
+              :label="t('wt_ext_cli.cmd_card.unpack_vromf.avif2png_label')"
               :items="['imagemagick', 'ffmpeg']"
               v-model="cmdArgs.avif2png"
             ></v-select>
           </v-col>
           <v-col cols="6">
             <v-text-field
-              label="blk扩展名。如果提供，则将所有 blk 文件的扩展名替换为该扩展名，否则保持不变"
+              :label="t('wt_ext_cli.cmd_card.unpack_vromf.blk_extension_label')"
               v-model="cmdArgs.blkExtension"
               clearable
             >
@@ -160,21 +168,21 @@ const loading = ref(false);
           <v-col cols="6">
             <v-switch
               v-model="cmdArgs.override"
-              label="在每个 json 中应用 `override:` 字段"
+              :label="t('wt_ext_cli.cmd_card.unpack_vromf.override_label')"
               color="primary"
             ></v-switch>
           </v-col>
           <v-col cols="6">
             <v-switch
               v-model="cmdArgs.crlf"
-              label="返回带有 \r\n 而不是 \n 换行符的文件"
+              :label="t('wt_ext_cli.cmd_card.unpack_vromf.crlf_label')"
               color="primary"
             ></v-switch>
           </v-col>
           <v-col cols="6">
             <v-switch
               v-model="cmdArgs.zip"
-              label="将输出文件夹压缩为 zip"
+              :label="t('wt_ext_cli.cmd_card.unpack_vromf.zip_label')"
               color="primary"
             ></v-switch>
           </v-col>
@@ -182,7 +190,7 @@ const loading = ref(false);
           <v-col cols="6">
             <v-switch
               v-model="cmdArgs.help"
-              label="展示帮助信息"
+              :label="t('wt_ext_cli.cmd_card.unpack_vromf.show_help_label')"
               color="primary"
             ></v-switch>
           </v-col>
@@ -191,10 +199,14 @@ const loading = ref(false);
     </v-list-item>
   </v-list>
   <div class="d-flex ga-2">
-    <v-btn color="primary" @click="exec">执行命令</v-btn>
-    <v-btn color="warning" @click="cleanOutput"> 清空输出</v-btn>
+    <v-btn color="primary" @click="exec">
+      {{ t("wt_ext_cli.cmd_card.button.execute") }}
+    </v-btn>
+    <v-btn color="warning" @click="cleanOutput">
+      {{ t("wt_ext_cli.cmd_card.button.clean_output") }}
+    </v-btn>
     <v-btn color="info" @click="showOutputDir" :disabled="!cmdArgs.outputDir">
-      打开输出目录
+      {{ t("wt_ext_cli.cmd_card.button.show_output_dir") }}
     </v-btn>
   </div>
 
@@ -202,19 +214,22 @@ const loading = ref(false);
 
   <v-list>
     <v-list-item>
-      <v-list-item-title>执行结果</v-list-item-title>
+      <v-list-item-title>
+        {{ t("wt_ext_cli.cmd_card.label.exec_result") }}
+      </v-list-item-title>
       <v-chip
         variant="elevated"
         color="success"
         v-if="cmdOutput.code != null && cmdOutput.code == 0"
       >
-        执行成功
+        {{ t("wt_ext_cli.cmd_card.label.exec_success") }}
       </v-chip>
       <v-chip
         variant="elevated"
         color="error"
         v-if="cmdOutput.code != null && cmdOutput.code != 0"
-        >执行失败
+      >
+        {{ t("wt_ext_cli.cmd_card.label.exec_error") }}
       </v-chip>
       <v-progress-linear
         v-if="loading"
@@ -225,7 +240,9 @@ const loading = ref(false);
       ></v-progress-linear>
     </v-list-item>
     <v-list-item>
-      <v-list-item-title>内容输出</v-list-item-title>
+      <v-list-item-title>
+        {{ t("wt_ext_cli.cmd_card.label.console_output") }}
+      </v-list-item-title>
       <v-code class="console-box border-success">
         {{ cmdOutput.stdout ? cmdOutput.stdout : cmdOutput.stderr }}
       </v-code>

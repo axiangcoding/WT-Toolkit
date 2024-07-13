@@ -1,29 +1,30 @@
+import i18n from "./i18n";
+
 export function get_error_msg(error: any): string {
   console.error("error", error);
   let err_code = error as number;
   switch (err_code) {
     case 1:
-      return "发生了未知错误";
+      return i18n.global.t("error.1");
     case 10000:
-      return "获取应用设置失败";
+      return i18n.global.t("error.10000");
     case 10001:
-      return "保存应用设置失败";
+      return i18n.global.t("error.10001");
     case 10002:
-      return "获取应用日志路径失败";
+      return i18n.global.t("error.10002");
     case 20000:
-      return "自动检测战争雷霆游戏根目录失败";
+      return i18n.global.t("error.20000");
     case 20001:
-      return "自动检测战争雷霆配置目录失败";
+      return i18n.global.t("error.20001");
     case 20002:
-      return "安装自定义涂装失败";
+      return i18n.global.t("error.20002");
     case 20003:
-      return "安装自定义瞄具失败";
+      return i18n.global.t("error.20003");
     case 20004:
-      return "获取自定义涂装失败";
+      return i18n.global.t("error.20004");
     case 20005:
-      return "获取自定义瞄具失败";
-
+      return i18n.global.t("error.20005");
     default:
-      return `未知错误: ${err_code}`;
+      return i18n.global.t("error.unknown", { err_code: err_code });
   }
 }

@@ -2,99 +2,104 @@
 import FunctionCard from "../components/card/FunctionCard.vue";
 import LinkCard from "../components/card/LinkCard.vue";
 
-const commonFunctions = [
+const { t } = useI18n();
+
+const commonFunctions = computed(() => [
   {
     key: "wt-skins",
     icon: "mdi-format-paint",
-    title: "自定义涂装管理",
-    subtitle: "管理《战争雷霆》的自定义涂装",
-    description:
-      "战雷的自定义涂装安装/卸载太麻烦？不知道游戏的目录在哪里？想快捷管理自定义涂装？试试这个工具吧",
+    title: t("home.function.wt_skins.title"),
+    subtitle: t("home.function.wt_skins.subtitle"),
+    description: t("home.function.wt_skins.description"),
   },
   {
     key: "wt-sight",
     icon: "mdi-crosshairs",
-    title: "自定义瞄具管理",
-    subtitle: "管理《战争雷霆》的自定义瞄具",
-    description: "战雷的自定义瞄具安装/卸载太麻烦？试试这个工具吧",
+    title: t("home.function.wt_sight.title"),
+    subtitle: t("home.function.wt_sight.subtitle"),
+    description: t("home.function.wt_sight.description"),
   },
   {
     key: "wt-ext-cli",
     icon: "mdi-package-variant",
-    title: "解包工具",
-    subtitle: "解包《战争雷霆》的资源文件",
-    description: "解包战雷的资源文件，可以查看游戏的一些资源文件",
+    title: t("home.function.wt_ext_cli.title"),
+    subtitle: t("home.function.wt_ext_cli.subtitle"),
+    description: t("home.function.wt_ext_cli.description"),
   },
   {
     key: "setting",
     icon: "mdi-cog",
-    title: "设置",
-    subtitle: "工具箱需要提前进行设置才能正常使用",
-    description:
-      "工具箱的正确运行需要一些设置，比如设置战雷的安装目录，设置目录等",
+    title: t("home.function.setting.title"),
+    subtitle: t("home.function.setting.subtitle"),
+    description: t("home.function.setting.description"),
   },
-  {
-    key: "about",
-    icon: "mdi-information",
-    title: "关于APP",
-    subtitle: "关于这个APP的一些信息",
-    description: "由 B站UP主 摸鱼又开摆的三三 开发的一个工具箱",
-  },
-];
+  // {
+  //   key: "about",
+  //   icon: "mdi-information",
+  //   title: t("home.function.about.title"),
+  //   subtitle: t("home.function.about.subtitle"),
+  //   description: t("home.function.about.description"),
+  // },
+]);
 
-const usefulLinks = [
+const usefulLinks = computed(() => [
   {
     key: "wtlive",
     url: "https://live.warthunder.com/",
     isOfficial: true,
-    title: "战雷官方 Live",
-    description:
-      "《战争雷霆》官方社区，玩家可以在这里分享自己的游戏截图、视频、涂装等内容",
+    title: t("home.link.wtlive.title"),
+    description: t("home.link.wtlive.description"),
   },
   {
     key: "wtwiki",
     url: "https://wiki.warthunder.com/",
     isOfficial: true,
-    title: "战雷官方百科",
-    description:
-      "《战争雷霆》官方百科，包含了游戏的各种信息，比如车辆的性能数据、战术技巧等",
+    title: t("home.link.wtwiki.title"),
+    description: t("home.link.wtwiki.description"),
   },
   {
     key: "wtforum",
     url: "https://forum.warthunder.com/",
     isOfficial: true,
-    title: "战雷官方论坛",
-    description: "《战争雷霆》官方论坛，玩家可以在这里交流游戏心得、提出建议等",
+    title: t("home.link.wtforum.title"),
+    description: t("home.link.wtforum.description"),
+  },
+  {
+    key: "wtwiki-cn",
+    url: "https://wiki.biligame.com/warthunder",
+    isOfficial: false,
+    title: t("home.link.wtwiki_cn.title"),
+    description: t("home.link.wtwiki_cn.description"),
   },
   {
     key: "wtliker",
     url: "https://wtliker.com/",
     isOfficial: false,
-    title: "战雷涂装中文站",
-    description:
-      "国内最大的《战争雷霆》玩家创作研究、交流学习和分享涂装语音包等自定义内容的专业中文社交平台",
+    title: t("home.link.wtliker.title"),
+    description: t("home.link.wtliker.description"),
   },
   {
     key: "wtdata",
     url: "https://wt.controlnet.space/",
     isOfficial: false,
-    title: "战雷分房热力图/趋势图",
-    description: "战雷分房热力图/趋势图，可以查看战局的分房热力图和趋势图",
+    title: t("home.link.wtdata.title"),
+    description: t("home.link.wtdata.description"),
   },
   {
     key: "local8111",
     url: "http://localhost:8111",
     isOfficial: true,
     isLocal: true,
-    title: "本地8111端口数据",
-    description:
-      "战雷8111端口数据，显示实时战局信息和载具的一些实时数据。只在游戏开启的情况下内容",
+    title: t("home.link.local8111.title"),
+    description: t("home.link.local8111.description"),
   },
-];
+]);
 
 import image1 from "@/assets/images/worldwar_window_bg_battle_for_caen.png";
 import image2 from "@/assets/images/worldwar_window_bg_chinese_farm.png";
 import image3 from "@/assets/images/worldwar_window_bg_el_alamein.png";
+import { computed } from "vue";
+import { useI18n } from "vue-i18n";
 
 const images = [image1, image2, image3];
 
@@ -117,20 +122,24 @@ const banner = images.map((src) => ({
   <v-container>
     <v-row>
       <v-col cols="12">
-        <span class="text-h5 border-b-lg border-primary">常用的功能</span>
+        <span class="text-h5 border-b-lg border-primary">
+          {{ t("home.common_function") }}
+        </span>
       </v-col>
       <v-col cols="4" v-for="item in commonFunctions" :key="item.key">
         <FunctionCard :data="item"></FunctionCard>
       </v-col>
       <v-col cols="12">
-        <span class="text-h5 border-b-lg border-primary">快捷链接</span>
+        <span class="text-h5 border-b-lg border-primary">
+          {{ t("home.quick_link") }}
+        </span>
       </v-col>
       <v-col cols="4" v-for="item in usefulLinks" :key="item.key">
         <LinkCard :data="item"></LinkCard>
       </v-col>
     </v-row>
     <v-footer app color="surface-light" class="justify-center">
-      <strong>由 摸鱼又开摆的三三 开发，保留所有权利</strong>
+      <strong>{{ t("home.copyright") }}</strong>
     </v-footer>
   </v-container>
 </template>

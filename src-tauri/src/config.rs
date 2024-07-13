@@ -9,6 +9,7 @@ pub struct AppConfig {
     pub wt_root_path: Option<String>,
     pub wt_setting_path: Option<String>,
     pub wt_ext_cli_path: Option<String>,
+    pub language: Option<String>,
 }
 
 const SETTING_FILE: &str = "config.json";
@@ -41,6 +42,7 @@ pub fn check_and_create_config_file(base_path: &PathBuf) -> Result<(), Box<dyn s
             wt_root_path: Some("".to_string()),
             wt_setting_path: Some("".to_string()),
             wt_ext_cli_path: Some("".to_string()),
+            language: Some("".to_string()),
         });
         let default_config_str = serde_json::to_string_pretty(&default_config)?;
         std::fs::write(&config_full_path, default_config_str)?;

@@ -1,0 +1,327 @@
+{
+  "app": {
+    "title": "战雷工具箱",
+    "follow": "关注作者",
+    "report_bug": "报告 BUG",
+    "language": "选择语言",
+    "follow_links": {
+      "bilibili": "Bilibili",
+      "github": "GitHub"
+    },
+    "nav_drawer": {
+      "sub_header": {
+        "wt_tools": "战雷工具集",
+        "app_info": "应用信息"
+      },
+      "home": "主页",
+      "wt_skins": "自定义涂装管理",
+      "wt_sight": "自定义瞄具管理",
+      "wt_ext_cli": "解包工具",
+      "settings": "设置",
+      "about": "关于"
+    }
+  },
+  "home": {
+    "common_function": "常用功能",
+    "quick_link": "快捷链接",
+    "copyright": "由axiangcoding开发，保留所有权利。",
+    "function": {
+      "wt_skins": {
+        "title": "自定义涂装管理",
+        "subtitle": "轻松管理战雷的自定义涂装。",
+        "description": "轻松安装、卸载和管理用户自定义皮肤。"
+      },
+      "wt_sight": {
+        "title": "自定义瞄具管理",
+        "subtitle": "轻松管理战雷的自定义瞄具。",
+        "description": "轻松安装、卸载和管理用户自定义瞄具。"
+      },
+      "wt_ext_cli": {
+        "title": "解包工具",
+        "subtitle": "轻松解包战雷资源文件。",
+        "description": "集成wt_ext_cli的GUI，使用GUI操作解包！"
+      },
+      "setting": {
+        "title": "设置",
+        "subtitle": "自定义应用程序设置。",
+        "description": "自定义应用程序设置，包括语言、游戏路径等。"
+      },
+      "about": {
+        "title": "关于",
+        "subtitle": "关于这个应用程序的信息。",
+        "description": "一些关于这个应用程序的信息。"
+      }
+    },
+    "link": {
+      "wtlive": {
+        "title": "WarThunder Live",
+        "description": "War Thunder官方社区，玩家可以分享游戏截图、视频、皮肤等。"
+      },
+      "wtwiki": {
+        "title": "WarThunder Wiki",
+        "description": "War Thunder官方维基，包含各种游戏信息，如车辆性能数据、战术技巧等。"
+      },
+      "wtforum": {
+        "title": "WarThunder 论坛",
+        "description": "War Thunder官方论坛，玩家可以交流游戏经验、提出建议等。"
+      },
+      "wtliker": {
+        "title": "战雷涂装中文站",
+        "description": "（中文社区）为War Thunder玩家创建、研究、交流和分享自定义内容，如皮肤和语音包。"
+      },
+      "wtdata": {
+        "title": "战雷热力图数据",
+        "description": "WarThunder 房间热图/趋势图，可以查看游戏的热图和趋势图。"
+      },
+      "local8111": {
+        "title": "本地端口 8111",
+        "description": "WarThunder 本地 8111 端口数据，显示实时游戏信息和一些车辆的实时数据。仅在游戏开启时提供内容。"
+      },
+      "wtwiki_cn": {
+        "title": "战争雷霆中文Wiki",
+        "description": "中国玩家创建的中文《战争雷霆》维基，致力于建设一个资料完善、氛围和谐的中文维基社区."
+      }
+    },
+    "link_card": {
+      "tag": {
+        "official": "官方",
+        "community": "社区",
+        "local": "本地"
+      }
+    }
+  },
+  "setting": {
+    "save_setting_success": "设置保存成功！",
+    "auto_detected_wt_root_path_success": "自动检测到 战争雷霆 安装路径！",
+    "auto_detected_wt_setting_path_success": "自动检测到 战争雷霆 设置路径！",
+    "button": {
+      "auto_detect": "自动检测",
+      "manual_select": "手动选择",
+      "open_folder": "打开文件夹",
+      "download_from_github": "从 GitHub 下载",
+      "select_folder": "选择文件夹",
+      "save": "保存",
+      "open_cfg_folder": "打开配置文件夹",
+      "open_log_folder": "打开日志文件夹"
+    },
+    "wt_root_path": {
+      "label": "战争雷霆 安装路径",
+      "placeholder": "请选择 战争雷霆 安装路径",
+      "auto_detect_tooltip": "自动检测 战争雷霆 安装路径"
+    },
+    "wt_setting_path": {
+      "label": "战争雷霆 设置路径",
+      "placeholder": "请选择 战争雷霆 设置路径",
+      "auto_detect_tooltip": "自动检测 战争雷霆 设置路径"
+    },
+    "wt_ext_cli_path": {
+      "label": "WT 资源提取器 (WT_EXT_CLI) 路径",
+      "placeholder": "请选择 WT_EXT_CLI 路径",
+      "download_from_github_tooltip": "从 GitHub 下载 WT_EXT_CLI"
+    }
+  },
+  "wt_ext_cli": {
+    "usage": {
+      "title": "用法",
+      "content1": "这个工具是开源解包工具wt_ext_cli的一个包。它旨在降低解包的门槛，提高玩家获取第一手游戏资源的能力。",
+      "content2": "当前兼容的wt_ext_cli版本是> v0.5.3，如果不兼容，请联系开发者。"
+    },
+    "disclaimer": {
+      "title": "免责声明",
+      "content1": "我们强烈建议在游戏关闭时将游戏资源文件复制到新目录进行解包，以避免在解包过程中损坏游戏文件。",
+      "content2": "解包游戏资源并不是一项复杂的工作，但需要您具备一些知识。如果您不知道如何正确使用，请谨慎操作！"
+    },
+    "tool_detected_and_version": "检测到的工具及版本为",
+    "tab": {
+      "unpack_vromf": "解包Vromf",
+      "unpack_dxp_and_grp": "解包Dxp和Grp",
+      "unpack_raw_blk": "解包Raw Blk",
+      "vromf_version": "Vromf版本",
+      "version": "版本",
+      "help": "帮助"
+    },
+    "cmd_card": {
+      "button": {
+        "execute": "执行命令",
+        "clean_output": "清理输出",
+        "show_output_dir": "显示输出目录"
+      },
+      "label": {
+        "command": "命令",
+        "description": "描述",
+        "args": "参数",
+        "none": "无",
+        "exec_result": "执行结果",
+        "exec_success": "执行成功！",
+        "exec_error": "执行错误！",
+        "console_output": "控制台输出"
+      },
+      "help": {
+        "description": "打印此消息或给定子命令的帮助信息"
+      },
+      "unpack_dxp_and_grp": {
+        "description": "将文件夹及子文件夹中的DXP和GRP文件解包为文本格式文件",
+        "input_dir_label": "包含DXP/GRP文件的文件夹",
+        "output_dir_label": "将创建的目标文件夹，用于包含新文件，保留文件结构",
+        "keep_suffix_label": "最终DXP/GRP内的路径和名称总是带有\"water_garbage_pile_b_tex_d$hq*\"或随机Unicode字符\"u+4575\"",
+        "show_help_label": "显示帮助信息"
+      },
+      "unpack_raw_blk": {
+        "description": "将包含raw/binary blk文件的文件夹解包为它们的解包格式",
+        "input_dir_label": "包含blk文件的文件夹，子文件夹将被递归搜索",
+        "output_dir_label": "将创建的目标文件夹，用于包含新文件",
+        "format_label": "输出格式，可以是：[Json, BlkText] [默认：Json]",
+        "show_help_label": "显示帮助信息"
+      },
+      "unpack_vromf": {
+        "description": "将vromf解包为原始格式或人类可读格式，如Json或Blk",
+        "input_file_label": "单个vromf文件或Vromf文件夹。不递归子目录",
+        "output_dir_label": "将创建的目标文件夹，用于包含新文件",
+        "format_label": "输出格式，可以是：[Json, BlkText, Raw] [默认：Json]",
+        "override_label": "应用覆盖：每个json中的字段",
+        "avif2png_label": "将所有avif图像转换为png。可以是[imagemagick, ffmpeg] [默认：imagemagick]",
+        "crlf_label": "返回\\r\\n而不是\\n换行符的文件",
+        "zip_label": "将输出打包成单个zip文件",
+        "blk_extension_label": "提供时替换所有blk文件扩展名，否则保持不变",
+        "show_help_label": "显示帮助信息"
+      },
+      "version": {
+        "description": "打印版本"
+      },
+      "vromf_version": {
+        "description": "打印文件或Vromf文件夹的版本",
+        "input_file_label": "单个vromf文件或Vromf文件夹。不递归子目录",
+        "show_help_label": "显示帮助信息"
+      }
+    }
+  },
+  "wt_skins": {
+    "prepare_wt_root_path": "请先配置 战争雷霆 游戏根路径",
+    "load_user_skins_success": "自定义涂装列表加载成功",
+    "file_type": {
+      "zip_files": "ZIP压缩包",
+      "all_files": "所有文件"
+    },
+    "install_skin_success": "自定义涂装安装成功",
+    "usage": {
+      "title": "使用说明",
+      "content1": "下载自定义涂装后，可以使用此工具一键安装。然而，在使用之前，您需要先前往“设置”页面，配置“战争雷霆 安装路径”，以便工具能正确管理您的自定义涂装。"
+    },
+    "disclaimer": {
+      "title": "免责声明",
+      "content1": "此工具仅会读取和写入 战争雷霆 游戏安装目录中的UserSkins文件夹，这是官方提供的功能，因此使用此工具不会导致您的游戏账户被封禁。",
+      "content2": "用户应对其安装的自定义涂装的来源和内容负责。因用户不当使用导致的任何问题，工具和作者不承担任何责任！"
+    },
+    "install_skin": "一键安装自定义涂装",
+    "loaded_skins": "已加载的自定义涂装",
+    "select_skin": "选择自定义涂装的压缩包或文件夹",
+    "select_skin_tip1": "我们支持两种形式的自定义涂装选择进行安装",
+    "select_skin_tip2": "您可以将文件夹或压缩包直接拖放到小部件上，或点击下方按钮手动选择。",
+    "select_skin_tip3": "支持的压缩包格式：zip，7z（暂不支持带密码的压缩包）",
+    "button": {
+      "select_folder": "选择文件夹",
+      "select_zip_file": "选择ZIP压缩包"
+    },
+    "empty_state": {
+      "title": "无法识别路径",
+      "content": "请检查“设置”中的“战争雷霆 安装路径”是否配置正确。",
+      "jump_to1": "跳转到",
+      "jump_to2": "检查配置项是否正确设置"
+    },
+    "total_space": "总空间占用：",
+    "filter_placeholder": "按名称筛选",
+    "dialog": {
+      "delete_user_skin": "删除自定义涂装",
+      "tip1": "删除后无法恢复，确定要删除此自定义涂装吗？我们建议您在删除前进行备份",
+      "confirm": "确认",
+      "cancel": "取消"
+    },
+    "load_dialog": {
+      "title": "您确定要加载包含的自定义涂装到游戏中吗？",
+      "selected_path": "已选择路径：",
+      "tip1": "请确保从可信任的来源安装用户自定义涂装文件，否则游戏可能无法正常运行，甚至更糟。",
+      "confirm": "确认并安装",
+      "cancel": "取消"
+    },
+    "card": {
+      "vehicle_id": "车辆标识",
+      "space_occupancy": "空间占用",
+      "show_folder": "查看涂装",
+      "delete": "删除"
+    }
+  },
+  "wt_sight": {
+    "prepare_wt_root_path": "请先配置 战争雷霆 游戏根路径",
+    "load_user_sights_success": "自定义瞄具列表加载成功",
+    "install_sight_success": "自定义瞄具安装成功",
+    "file_type": {
+      "zip_files": "ZIP压缩包",
+      "all_files": "所有文件"
+    },
+    "usage": {
+      "title": "使用说明",
+      "content1": "下载自定义瞄具后，可以使用此工具一键安装。然而，在使用之前，您需要先前往“设置”页面，配置“战争雷霆 安装路径”，以便工具能正确管理您的自定义瞄具。"
+    },
+    "disclaimer": {
+      "title": "免责声明",
+      "content1": "此工具仅会读取和写入 战争雷霆 游戏安装目录中的UserSights文件夹，这是官方提供的功能，因此使用此工具不会导致您的游戏账户被封禁。",
+      "content2": "用户应对其安装的自定义瞄具的来源和内容负责。因用户不当使用导致的任何问题，工具和作者不承担任何责任！"
+    },
+    "install_sight": "一键安装自定义瞄具",
+    "loaded_sight": "已加载的自定义瞄具",
+    "select_sight": "选择自定义瞄具的压缩包或文件夹",
+    "select_sight_tip1": "我们支持两种形式的自定义瞄具选择进行安装",
+    "select_sight_tip2": "您可以将文件夹或压缩包直接拖放到小部件上，或点击下方按钮手动选择。",
+    "select_sight_tip3": "支持的压缩包格式：zip，7z（暂不支持带密码的压缩包）",
+    "button": {
+      "select_folder": "选择文件夹",
+      "select_zip_file": "选择ZIP压缩包"
+    },
+    "empty_state": {
+      "title": "无法识别路径",
+      "content": "请检查“设置”中的“战争雷霆 安装路径”是否配置正确。",
+      "jump_to1": "跳转到",
+      "jump_to2": "检查配置项是否正确设置"
+    },
+    "total_space": "总空间占用：",
+    "filter_placeholder": "按名称筛选",
+    "dialog": {
+      "delete_user_skin": "删除自定义瞄具",
+      "tip1": "删除后无法恢复，确定要删除此自定义瞄具吗？我们建议您在删除前进行备份",
+      "confirm": "确认",
+      "cancel": "取消"
+    },
+    "load_dialog": {
+      "title": "您确定要加载包含的自定义瞄具到游戏中吗？",
+      "selected_path": "已选择路径：",
+      "tip1": "请确保从可信任的来源安装用户自定义瞄具文件，否则游戏可能无法正常运行，甚至更糟。",
+      "confirm": "确认并安装",
+      "cancel": "取消"
+    },
+    "card": {
+      "vehicle_id": "车辆标识",
+      "space_occupancy": "空间占用",
+      "included_sights": "包含的瞄具",
+      "show_folder": "查看涂装",
+      "delete": "删除"
+    }
+  },
+  "bug_report": {
+    "title": "报告 BUG",
+    "tip1": "对于大部分使用者，您可以在 GitHub 的 issue 页面上报告 BUG。对于国内使用者，您可以在 QQ 群上报告 BUG。",
+    "confirm": "确认"
+  },
+  "error": {
+    "1": "未知错误",
+    "10000": "获取应用程序设置失败",
+    "10001": "保存应用程序设置失败",
+    "10002": "获取应用程序日志路径失败",
+    "20000": "自动检测 战争雷霆 游戏安装目录失败",
+    "20001": "自动检测 战争雷霆 游戏设置目录失败",
+    "20002": "安装 自定义涂装 失败",
+    "20003": "安装 自定义瞄具 失败",
+    "20004": "获取 自定义涂装 失败",
+    "20005": "获取 自定义瞄具 失败",
+    "unknown": "未知错误：{err_code}"
+  }
+}
