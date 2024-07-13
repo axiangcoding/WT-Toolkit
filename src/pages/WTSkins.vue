@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, shallowRef, watch } from "vue";
+import { computed, onMounted, ref, shallowRef, watch } from "vue";
 import { invoke } from "@tauri-apps/api";
 import { listen } from "@tauri-apps/api/event";
 import { open } from "@tauri-apps/api/dialog";
@@ -7,23 +7,25 @@ import UserSkinCard from "../components/card/UserSkinCard.vue";
 import CommonSnackbar from "../components/snackbar/CommonSnackbar.vue";
 import LoadUserSkinDialog from "../components/dialog/LoadUserSkinDialog.vue";
 import { get_error_msg } from "../error_msg";
+import { useI18n } from "vue-i18n";
 
-const breadcrumbsItems = [
+const { t } = useI18n();
+const breadcrumbsItems = computed(() => [
   {
-    title: "主页",
+    title: t("app.nav_drawer.home"),
     disabled: false,
     href: "/",
   },
   {
-    title: "战雷小工具",
+    title: t("app.nav_drawer.sub_header.wt_tools"),
     disabled: true,
   },
   {
-    title: "自定义涂装管理",
+    title: t("app.nav_drawer.wt_skins"),
     disabled: true,
     href: "/wt-skins",
   },
-];
+]);
 
 const appSettings = ref<{
   wt_root_path: string;
@@ -53,7 +55,7 @@ onMounted(async () => {
     if (appSettings.value.wt_root_path == null) {
       snackbar.value = {
         show: true,
-        message: "请先配置战争雷霆游戏安装目录",
+        message: t("wt_skins.prepare_wt_root_path"),
         color: "warning",
       };
       return;
@@ -77,7 +79,7 @@ async function loadUserSkins() {
   countTotalSize();
   snackbar.value = {
     show: true,
-    message: "自定义涂装列表加载成功",
+    message: t("wt_skins.load_user_skins_success"),
     color: "success",
   };
 }
@@ -120,11 +122,11 @@ function countTotalSize() {
 async function selectSkinPath(directory: boolean) {
   let filters = [
     {
-      name: "压缩包",
+      name: t("wt_skins.file_type.zip_files"),
       extensions: ["zip", "7z"],
     },
     {
-      name: "文件夹",
+      name: t("wt_skins.file_type.all_files"),
       extensions: [""],
     },
   ];
@@ -150,7 +152,7 @@ async function startLoadSkin() {
     pathToLoad.value = "";
     snackbar.value = {
       show: true,
-      message: "自定义涂装安装成功",
+      message: t("wt_skins.install_skin_success"),
       color: "success",
     };
   } catch (error) {
@@ -196,32 +198,34 @@ function filterUserSkins(value: string, query: string, _item?: any) {
       <v-col cols="12">
         <v-alert
           icon="mdi-tooltip"
-          title="使用说明"
+          :title="t('wt_skins.usage.title')"
           variant="tonal"
           closable
-          text="下载了自定义涂装后，你可以使用本工具进行一键安装。不过，在使用前，你还需要进入到 “设置”页面 配置好 “战争雷霆游戏安装目录” 配置项，这样小工具才能正确管理你的自定义涂装"
           type="info"
-        ></v-alert>
+        >
+          {{ t("wt_skins.usage.content1") }}
+        </v-alert>
         <v-divider class="my-1" thickness="0"></v-divider>
         <v-alert
           icon="mdi-alert-box"
-          title="免责声明"
+          :title="t('wt_skins.disclaimer.title')"
           variant="tonal"
           type="warning"
           closable
         >
-          本工具只会读取和写入《战争雷霆》游戏安装目录下的UserSkins文件夹，这个文件夹是游戏官方提供的自定义涂装文件夹，
-          因此<strong>使用本工具不存在任何导致游戏账号被封禁的风险</strong>。
+          {{ t("wt_skins.disclaimer.content1") }}
           <div>
-            <strong
-              >用户应当对自己所安装的涂装来源和内容负责。因用户不当使用导致的任何问题，本工具和作者概不负责！</strong
-            >
+            <strong>
+              {{ t("wt_skins.disclaimer.content2") }}
+            </strong>
           </div>
         </v-alert>
       </v-col>
 
       <v-col cols="12">
-        <span class="text-h5">一键安装自定义涂装！</span>
+        <span class="text-h5">
+          {{ t("wt_skins.install_skin") }}
+        </span>
       </v-col>
       <v-col cols="12" align="center">
         <v-card
@@ -229,35 +233,36 @@ function filterUserSkins(value: string, query: string, _item?: any) {
           variant="outlined"
           :disabled="appSettings.wt_root_path == null"
         >
-          <v-card-title>选择自定义涂装的压缩包或者文件夹</v-card-title>
+          <v-card-title>
+            {{ t("wt_skins.select_skin") }}
+          </v-card-title>
           <v-card-text>
-            <div>小工具支持通过两种形式选择需要安装的自定义涂装</div>
+            <div>{{ t("wt_skins.select_skin_tip1") }}</div>
             <div>
-              你可以直接将对应的文件夹或者压缩包拖拽到小工具上，或者点击下方的按钮进行手动选择
+              {{ t("wt_skins.select_skin_tip2") }}
             </div>
             <div>
-              压缩包支持的格式有：zip, 7z
-              <strong>（暂不支持带密码压缩包）</strong>
+              {{ t("wt_skins.select_skin_tip3") }}
             </div>
           </v-card-text>
           <v-card-actions>
-            <v-btn color="primary" @click="selectSkinPath(true)"
-              >选择文件夹</v-btn
-            >
-            <v-btn color="primary" @click="selectSkinPath(false)"
-              >选择压缩包</v-btn
-            >
+            <v-btn color="primary" @click="selectSkinPath(true)">
+              {{ t("wt_skins.button.select_folder") }}
+            </v-btn>
+            <v-btn color="primary" @click="selectSkinPath(false)">
+              {{ t("wt_skins.button.select_zip_file") }}
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
       <v-col cols="12">
-        <span class="text-h5">已加载的自定义涂装</span>
+        <span class="text-h5">{{ t("wt_skins.loaded_skins") }}</span>
       </v-col>
       <v-col cols="12" v-show="showEmptyState">
         <v-empty-state
           icon="mdi-alert-circle-outline"
-          headline="无法识别目录"
-          title="请检查“设置”中的“战争雷霆游戏安装目录”是否配置正确"
+          :headline="t('wt_skins.empty_state.title')"
+          :title="t('wt_skins.empty_state.content')"
         >
           <template v-slot:media>
             <v-icon color="warning"></v-icon>
@@ -265,9 +270,11 @@ function filterUserSkins(value: string, query: string, _item?: any) {
 
           <template v-slot:text>
             <div class="">
-              跳转到
-              <v-btn to="setting" color="info" variant="text">设置</v-btn>
-              界面检查配置项是否设置正确，只有在目录正确的情况下小工具才能正确检测到您的自定义涂装目录
+              {{ t("wt_skins.empty_state.jump_to1") }}
+              <v-btn to="setting" color="info" variant="text">
+                {{ t("app.nav_drawer.settings") }}
+              </v-btn>
+              {{ t("wt_skins.empty_state.jump_to2") }}
             </div>
           </template>
         </v-empty-state>
@@ -284,13 +291,13 @@ function filterUserSkins(value: string, query: string, _item?: any) {
         >
           <template v-slot:header>
             <v-toolbar color="white">
-              <v-chip> 总空间占用：{{ sizeInStr }} </v-chip>
+              <v-chip> {{ t("wt_skins.total_space") }} {{ sizeInStr }} </v-chip>
 
               <v-spacer></v-spacer>
               <v-text-field
                 v-model="search"
                 density="comfortable"
-                placeholder="筛选"
+                :placeholder="t('wt_skins.filter_placeholder')"
                 prepend-inner-icon="mdi-magnify"
                 style="max-width: 300px"
                 variant="outlined"
@@ -333,20 +340,24 @@ function filterUserSkins(value: string, query: string, _item?: any) {
     <v-card prepend-icon="mdi-alert">
       <template v-slot:title>
         <span class="font-weight-black">
-          删除自定义涂装 {{ deleteSkinDialog.data.skin_name }}
+          {{ t("wt_skins.dialog.delete_user_skin") }}
+          {{ deleteSkinDialog.data.skin_name }}
         </span>
       </template>
       <v-card-title></v-card-title>
       <v-card-text>
-        删除后无法恢复，确定要删除这个自定义皮肤吗？我们建议您备份后再删除
+        {{ t("wt_skins.dialog.tip1") }}
       </v-card-text>
       <template v-slot:actions>
         <v-btn
           color="error"
-          text="确定"
+          :text="t('wt_skins.dialog.confirm')"
           @click="deleteSkin(deleteSkinDialog.data.full_path)"
         ></v-btn>
-        <v-btn text="取消" @click="deleteSkinDialog.show = false"></v-btn>
+        <v-btn
+          :text="t('wt_skins.dialog.cancel')"
+          @click="deleteSkinDialog.show = false"
+        ></v-btn>
       </template>
     </v-card>
   </v-dialog>

@@ -28,4 +28,3 @@ export function get_error_msg(error: any): string {
       return i18n.global.t("error.unknown", { err_code: err_code });
   }
 }
-
