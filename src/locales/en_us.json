@@ -235,6 +235,12 @@
       "tip1": "You can't recover after deletion, sure you want to delete this user skin? We recommend that you take a backup before deleting",
       "confirm": "Confirm",
       "cancel": "Cancel"
+    },
+    "card": {
+      "vehicle_id": "Vehicle ID",
+      "space_occupancy": "Space Occupancy",
+      "show_folder": "Show Folder",
+      "delete": "Delete"
     }
   },
   "error": {
