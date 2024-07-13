@@ -243,6 +243,15 @@
       "delete": "删除"
     }
   },
+  "user_sight": {
+    "card": {
+      "vehicle_id": "车辆标识",
+      "space_occupancy": "空间占用",
+      "included_sights": "包含的瞄具",
+      "show_folder": "查看涂装",
+      "delete": "删除"
+    }
+  },
   "error": {
     "1": "未知错误",
     "10000": "获取应用程序设置失败",

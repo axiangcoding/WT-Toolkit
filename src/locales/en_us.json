@@ -243,6 +243,15 @@
       "delete": "Delete"
     }
   },
+  "user_sight": {
+    "card": {
+      "vehicle_id": "Vehicle ID",
+      "space_occupancy": "Space Occupancy",
+      "included_sights": "Included sights",
+      "show_folder": "Show Folder",
+      "delete": "Delete"
+    }
+  },
   "error": {
     "1": "Unknown Error",
     "10000": "Failed to get application settings",
