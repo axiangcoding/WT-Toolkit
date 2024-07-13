@@ -236,6 +236,13 @@
       "confirm": "Confirm",
       "cancel": "Cancel"
     },
+    "load_dialog": {
+      "title": "Are you sure you want to load the contained user skin into the game?",
+      "selected_path": "Selected Path: ",
+      "tip1": "Be sure to install user skin files from trusted sources, otherwise the game may not run properly or even worse.",
+      "confirm": "Confirm And Load",
+      "cancel": "Cancel"
+    },
     "card": {
       "vehicle_id": "Vehicle ID",
       "space_occupancy": "Space Occupancy",
@@ -243,7 +250,54 @@
       "delete": "Delete"
     }
   },
-  "user_sight": {
+  "wt_sight": {
+    "prepare_wt_root_path": "Please configure the WarThunder root path first",
+    "load_user_sights_success": "User sights loaded successfully",
+    "install_sight_success": "User sight installation successful",
+    "file_type": {
+      "zip_files": "ZIP Archive",
+      "all_files": "All"
+    },
+    "usage": {
+      "title": "Usage",
+      "content1": "After downloading the user sight, you can use this tool to install it with one click. However, before using it, you need to go to the \"Settings\" page and configure the \"War Thunder Root Path\" so that the tool can manage your user sight correctly."
+    },
+    "disclaimer": {
+      "title": "Disclaimer",
+      "content1": "This tool will only read and write to the UserSights folder in the War Thunder game installation directory, which is officially provided by the game, so there is no risk of causing your game account to be banned by using this tool.",
+      "content2": "The user should be responsible for the source and content of the user sights he/she installs. The tool and the author are not responsible for any problems caused by improper use by the user!"
+    },
+    "install_sight": "One-click installation of user sight",
+    "loaded_sight": "Loaded User Sights",
+    "select_sight": "Select the zip file or folder for user sight",
+    "select_sight_tip1": "We supports the selection of user sight to be installed in two forms",
+    "select_sight_tip2": "You can drag and drop the folder or zip directly onto the widget, or click the button below to select it manually.",
+    "select_sight_tip3": "Compressed packages supported formats: zip, 7z (password compressed packages are not supported at this time)",
+    "button": {
+      "select_folder": "Select Folder",
+      "select_zip_file": "Select ZIP File"
+    },
+    "empty_state": {
+      "title": "Unable to recognise the path",
+      "content": "Please check whether the \"War Thunder Root Path\" in \"Settings\" is correctly configured.",
+      "jump_to1": "Jump to",
+      "jump_to2": "check that the configuration items are set correctly"
+    },
+    "total_space": "Total Space Occupancy:",
+    "filter_placeholder": "Filter by sight name",
+    "dialog": {
+      "delete_user_skin": "Delete User Skin",
+      "tip1": "You can't recover after deletion, sure you want to delete this user skin? We recommend that you take a backup before deleting",
+      "confirm": "Confirm",
+      "cancel": "Cancel"
+    },
+    "load_dialog": {
+      "title": "Are you sure you want to load the contained user sight into the game?",
+      "selected_path": "Selected Path: ",
+      "tip1": "Be sure to install user sight files from trusted sources, otherwise the game may not run properly or even worse.",
+      "confirm": "Confirm And Load",
+      "cancel": "Cancel"
+    },
     "card": {
       "vehicle_id": "Vehicle ID",
       "space_occupancy": "Space Occupancy",
@@ -251,6 +305,11 @@
       "show_folder": "Show Folder",
       "delete": "Delete"
     }
+  },
+  "bug_report": {
+    "title": "Bug Report",
+    "tip1": "For global user, you can report bug on GitHub issue page. And for Chinese user, you can report bug on QQ group.",
+    "confirm": "Confirm"
   },
   "error": {
     "1": "Unknown Error",

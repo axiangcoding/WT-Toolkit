@@ -236,6 +236,13 @@
       "confirm": "确认",
       "cancel": "取消"
     },
+    "load_dialog": {
+      "title": "您确定要加载包含的自定义涂装到游戏中吗？",
+      "selected_path": "已选择路径：",
+      "tip1": "请确保从可信任的来源安装用户自定义涂装文件，否则游戏可能无法正常运行，甚至更糟。",
+      "confirm": "确认并安装",
+      "cancel": "取消"
+    },
     "card": {
       "vehicle_id": "车辆标识",
       "space_occupancy": "空间占用",
@@ -243,7 +250,54 @@
       "delete": "删除"
     }
   },
-  "user_sight": {
+  "wt_sight": {
+    "prepare_wt_root_path": "请先配置 战争雷霆 游戏根路径",
+    "load_user_sights_success": "自定义瞄具列表加载成功",
+    "install_sight_success": "自定义瞄具安装成功",
+    "file_type": {
+      "zip_files": "ZIP压缩包",
+      "all_files": "所有文件"
+    },
+    "usage": {
+      "title": "使用说明",
+      "content1": "下载自定义瞄具后，可以使用此工具一键安装。然而，在使用之前，您需要先前往“设置”页面，配置“战争雷霆 安装路径”，以便工具能正确管理您的自定义瞄具。"
+    },
+    "disclaimer": {
+      "title": "免责声明",
+      "content1": "此工具仅会读取和写入 战争雷霆 游戏安装目录中的UserSights文件夹，这是官方提供的功能，因此使用此工具不会导致您的游戏账户被封禁。",
+      "content2": "用户应对其安装的自定义瞄具的来源和内容负责。因用户不当使用导致的任何问题，工具和作者不承担任何责任！"
+    },
+    "install_sight": "一键安装自定义瞄具",
+    "loaded_sight": "已加载的自定义瞄具",
+    "select_sight": "选择自定义瞄具的压缩包或文件夹",
+    "select_sight_tip1": "我们支持两种形式的自定义瞄具选择进行安装",
+    "select_sight_tip2": "您可以将文件夹或压缩包直接拖放到小部件上，或点击下方按钮手动选择。",
+    "select_sight_tip3": "支持的压缩包格式：zip，7z（暂不支持带密码的压缩包）",
+    "button": {
+      "select_folder": "选择文件夹",
+      "select_zip_file": "选择ZIP压缩包"
+    },
+    "empty_state": {
+      "title": "无法识别路径",
+      "content": "请检查“设置”中的“战争雷霆 安装路径”是否配置正确。",
+      "jump_to1": "跳转到",
+      "jump_to2": "检查配置项是否正确设置"
+    },
+    "total_space": "总空间占用：",
+    "filter_placeholder": "按名称筛选",
+    "dialog": {
+      "delete_user_skin": "删除自定义瞄具",
+      "tip1": "删除后无法恢复，确定要删除此自定义瞄具吗？我们建议您在删除前进行备份",
+      "confirm": "确认",
+      "cancel": "取消"
+    },
+    "load_dialog": {
+      "title": "您确定要加载包含的自定义瞄具到游戏中吗？",
+      "selected_path": "已选择路径：",
+      "tip1": "请确保从可信任的来源安装用户自定义瞄具文件，否则游戏可能无法正常运行，甚至更糟。",
+      "confirm": "确认并安装",
+      "cancel": "取消"
+    },
     "card": {
       "vehicle_id": "车辆标识",
       "space_occupancy": "空间占用",
@@ -251,6 +305,11 @@
       "show_folder": "查看涂装",
       "delete": "删除"
     }
+  },
+  "bug_report": {
+    "title": "报告 BUG",
+    "tip1": "对于大部分使用者，您可以在 GitHub 的 issue 页面上报告 BUG。对于国内使用者，您可以在 QQ 群上报告 BUG。",
+    "confirm": "确认"
   },
   "error": {
     "1": "未知错误",

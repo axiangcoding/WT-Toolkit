@@ -24,15 +24,15 @@ async function showSight(folder_path: string) {
 
     <v-card-text>
       <div>
-        <strong>{{ t("user_sight.card.vehicle_id") }}</strong>
+        <strong>{{ t("wt_sight.card.vehicle_id") }}</strong>
         {{ props.sightMetadata.vehicle_id }}
       </div>
       <div class="mt-1">
-        <strong>{{ t("user_sight.card.space_occupancy") }}</strong>
+        <strong>{{ t("wt_sight.card.space_occupancy") }}</strong>
         {{ (props.sightMetadata.folder_size / 1024).toFixed(2) }}KB
       </div>
 
-      <strong>{{ t("user_sight.card.included_sights") }}</strong>
+      <strong>{{ t("wt_sight.card.included_sights") }}</strong>
       <v-chip
         class="mx-1"
         variant="elevated"
@@ -48,12 +48,12 @@ async function showSight(folder_path: string) {
     <v-card-actions>
       <v-btn
         color="primary"
-        :text="t('user_sight.card.show_folder')"
+        :text="t('wt_sight.card.show_folder')"
         @click="showSight(props.sightMetadata.full_path)"
       ></v-btn>
       <v-btn
         color="error"
-        :text="t('user_sight.card.delete')"
+        :text="t('wt_sight.card.delete')"
         @click="$emit('delete-sight', props.sightMetadata)"
       ></v-btn>
     </v-card-actions>
