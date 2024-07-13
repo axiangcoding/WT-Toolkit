@@ -65,6 +65,13 @@ const usefulLinks = computed(() => [
     description: t("home.link.wtforum.description"),
   },
   {
+    key: "wtwiki-cn",
+    url: "https://wiki.biligame.com/warthunder",
+    isOfficial: false,
+    title: t("home.link.wtwiki_cn.title"),
+    description: t("home.link.wtwiki_cn.description"),
+  },
+  {
     key: "wtliker",
     url: "https://wtliker.com/",
     isOfficial: false,

@@ -76,6 +76,10 @@
       "local8111": {
         "title": "Localhost 8111",
         "description": "WarThunder 8111 port data, showing real-time game information and some real-time data of vehicles. Only content when the game is open."
+      },
+      "wtwiki_cn": {
+        "title": "WT Wiki (CN)",
+        "description": "Chinese War Thunder Wiki created by Chinese players, dedicated to building a Chinese wiki community with complete information and a harmonious atmosphere."
       }
     },
     "link_card": {
