@@ -18,13 +18,21 @@ For version before v0.0.6, the change log is not available.
 
 -->
 
-## [v0.1.0] - ????
+## [v0.1.0] - 2024-07-14
 
 ### Added
 
+- Add English and Chinese language support! You can now switch between English and Chinese.
+- Add new useful links to the main page
+
 ### Changed
 
+- Refactor the code to support multiple languages
+- Adjust some text to make it more readable
+
 ### Removed
+
+- Hide the about page
 
 ### Fixed
 
@@ -47,7 +55,6 @@ For version before v0.0.6, the change log is not available.
 ### Fixed
 
 - Upgraded versions of dependency libraries to improve security
-
 
 [v0.1.0]: https://github.com/axiangcoding/WT-Toolkit/compare/v0.0.6...v0.1.0
 [v0.0.6]: https://github.com/axiangcoding/WT-Toolkit/compare/v0.0.5...v0.0.6
