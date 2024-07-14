@@ -18,6 +18,12 @@ For version before v0.0.6, the change log is not available.
 
 -->
 
+## [v0.1.1] - ????
+
+### Fixed
+
+- fix crashing on non-windows systems when auto-dectecting the game setting path
+
 ## [v0.1.0] - 2024-07-14
 
 ### Added
@@ -56,5 +62,6 @@ For version before v0.0.6, the change log is not available.
 
 - Upgraded versions of dependency libraries to improve security
 
+[v0.1.1]: https://github.com/axiangcoding/WT-Toolkit/compare/v0.1.0...v0.1.1
 [v0.1.0]: https://github.com/axiangcoding/WT-Toolkit/compare/v0.0.6...v0.1.0
 [v0.0.6]: https://github.com/axiangcoding/WT-Toolkit/compare/v0.0.5...v0.0.6
