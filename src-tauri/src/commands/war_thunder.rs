@@ -44,7 +44,10 @@ pub fn auto_detected_wt_root_path() -> Result<String, RetCode> {
 
 #[tauri::command]
 pub fn auto_detected_wt_setting_path() -> Result<String, RetCode> {
-    let user_profile = std::env::var("USERPROFILE").unwrap();
+    let user_profile = match std::env::var("USERPROFILE") {
+        Ok(val) => val,
+        Err(_) => return Err(RetCode::AutoDetectedWtSettingPathFailed),
+    };
     let path = std::path::Path::new(&user_profile)
         .join("Documents")
         .join("My Games")
@@ -79,6 +82,7 @@ pub fn install_user_skin(
     // 如果涂装文件夹不存在，则创建
     let skin_base_path = Path::new(&wt_root_path).join("UserSkins");
     if !skin_base_path.exists() {
+        warn!("Skin folder not found: {:?}", skin_base_path);
         fs::create_dir_all(skin_base_path).unwrap();
     }
     // 首先检查path是路径还是文件夹
