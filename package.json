@@ -24,7 +24,7 @@
     "@mdi/font": "^7.4.47",
     "@tauri-apps/cli": "^1.6.0",
     "@vitejs/plugin-vue": "^5.0.4",
-    "prettier": "3.3.2",
+    "prettier": "3.3.3",
     "sass": "^1.77.6",
     "typescript": "^5.5.3",
     "vite": "^5.3.3",
