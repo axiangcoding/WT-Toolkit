@@ -28,6 +28,12 @@ You can install the toolkit by downloading the latest release from the [release 
 
 **Document is still working in progress.**
 
+## Screenshots
+<!-- TODO: Make sure to update -->
+![home](https://raw.githubusercontent.com/axiangcoding/WT-Toolkit/lf/screenshots/home.png)
+![wt live](https://raw.githubusercontent.com/axiangcoding/WT-Toolkit/lf/screenshots/live.png)
+![ext](https://raw.githubusercontent.com/axiangcoding/WT-Toolkit/lf/screenshots/ext.png)
+
 ## Contributing
 
 **Document is still working in progress.**

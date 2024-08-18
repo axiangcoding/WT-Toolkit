@@ -14,7 +14,10 @@
 import { ref, onMounted } from "vue";
 import LivePostCard from "../components/card/LivePostCard.vue";
 import { useI18n } from "vue-i18n";
+import { getVersion } from "@tauri-apps/api/app";
 
+const appVersion = ref("");
+await getVersion().then((v) => (appVersion.value = v));
 const { t } = useI18n();
 
 const data = ref<{ list: any[] }>({ list: [] });
@@ -39,6 +42,9 @@ const fetchData = async (): Promise<void> => {
       {
         method: "POST",
         body: formdata,
+        headers: {
+          "User-Agent": `WT-Toolkit/${appVersion.value}`,
+        },
       },
     );
     const result = await response.json();
@@ -55,7 +61,7 @@ onMounted(fetchData);
 </script>
 
 <style scoped>
-/* TODO: Fix card height being funny. Also make text wrap work properly */
+/* TODO: Fix card height being funny. Also make text wrap work properly with links */
 .cards-grid {
   display: flex;
   flex-wrap: wrap;
