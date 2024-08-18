@@ -26,6 +26,12 @@
 
 **文档仍在编写中。**
 
+## 截图
+
+![家](https://raw.githubusercontent.com/axiangcoding/WT-Toolkit/lf/screenshots/zh/home.png)
+![居住](https://raw.githubusercontent.com/axiangcoding/WT-Toolkit/lf/screenshots/zh/live.png)
+![扩展](https://raw.githubusercontent.com/axiangcoding/WT-Toolkit/lf/screenshots/zh/ext.png)
+
 ## 贡献
 
 **文档仍在编写中。**

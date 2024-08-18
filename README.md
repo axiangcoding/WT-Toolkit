@@ -30,9 +30,9 @@ You can install the toolkit by downloading the latest release from the [release 
 
 ## Screenshots
 <!-- TODO: Make sure to update -->
-![home](https://raw.githubusercontent.com/axiangcoding/WT-Toolkit/lf/screenshots/home.png)
-![wt live](https://raw.githubusercontent.com/axiangcoding/WT-Toolkit/lf/screenshots/live.png)
-![ext](https://raw.githubusercontent.com/axiangcoding/WT-Toolkit/lf/screenshots/ext.png)
+![home](https://raw.githubusercontent.com/axiangcoding/WT-Toolkit/lf/screenshots/en/home.png)
+![wt live](https://raw.githubusercontent.com/axiangcoding/WT-Toolkit/lf/screenshots/en/live.png)
+![ext](https://raw.githubusercontent.com/axiangcoding/WT-Toolkit/lf/screenshots/en/ext.png)
 
 ## Contributing
 
