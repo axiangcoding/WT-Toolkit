@@ -8,7 +8,7 @@ import { invoke } from "@tauri-apps/api";
 import { AppSettings } from "./schema";
 
 const appVersion = ref("");
-//const latestVersion = ref("");
+const latestVersion = ref("");
 const isOutdated = ref(false);
 const drawer = ref(false);
 const feedbackDialog = ref(false);
@@ -144,14 +144,8 @@ async function switchLanguage(target: string) {
           </template>
 
           <v-list>
-            <v-list-item
-              v-for="(item, index) in followLinks"
-              :key="index"
-              :value="index"
-              append-icon="mdi-open-in-new"
-              :prepend-icon="item.icon"
-              @click="jumpTo(item.url)"
-            >
+            <v-list-item v-for="(item, index) in followLinks" :key="index" :value="index" append-icon="mdi-open-in-new"
+              :prepend-icon="item.icon" @click="jumpTo(item.url)">
               {{ item.text }}
             </v-list-item>
           </v-list>
@@ -170,17 +164,8 @@ async function switchLanguage(target: string) {
       </template>
     </v-app-bar>
 
-    <v-navigation-drawer
-      v-model="drawer"
-      :location="$vuetify.display.mobile ? 'bottom' : undefined"
-      temporary
-    >
-      <v-list
-        nav
-        active-strategy="single-leaf"
-        activated="wt-skins"
-        color="primary"
-      >
+    <v-navigation-drawer v-model="drawer" :location="$vuetify.display.mobile ? 'bottom' : undefined" temporary>
+      <v-list nav active-strategy="single-leaf" activated="wt-skins" color="primary">
         <v-list-item v-for="item in homeList" :key="item.to" :to="item.to">
           <template v-slot:prepend>
             <v-icon :icon="item.icon"></v-icon>
