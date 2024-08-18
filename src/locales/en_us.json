@@ -53,7 +53,7 @@
         "description": "About the application, some information about this application."
       },
       "wt_live": {
-        "title": "WT Live",
+        "title": "WT Live Browser",
         "subtitle": "Browse and download from WT Live.",
         "description": "Easily view, download and install models, skins, missions and more from War Thunder Live."
       }
@@ -315,8 +315,8 @@
   "wt_live": {
     "title": "War Thunder Live",
     "loading": "Loading...",
-    "download": "View File"
-
+    "download": "View File",
+    "open_browser": "Open in Browser"
   },
   "bug_report": {
     "title": "Bug Report",

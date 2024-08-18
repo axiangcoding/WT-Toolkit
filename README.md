@@ -16,6 +16,8 @@ This is a toolkit designed for War Thunder players to provide some useful featur
 - [x] User customised skin management
 - [x] User customised sight management
 - [x] GUI support for [wt_ext_cli](https://github.com/Warthunder-Open-Source-Foundation/wt_ext_cli)
+- [ ] WT Live browser with auto-install
+- [ ] Built in userstat tools
 - [ ] Multi-language support
 
 ## Installation
