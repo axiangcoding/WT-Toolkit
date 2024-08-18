@@ -26,6 +26,15 @@ const commonFunctions = computed(() => [
     subtitle: t("home.function.wt_ext_cli.subtitle"),
     description: t("home.function.wt_ext_cli.description"),
   },
+  // TODO: Fix Chinese locale
+  // TODO: Also finish/fix us_en refactor
+  {
+    key: "wt-live",
+    icon: "mdi-web",
+    title: t("home.function.wt_live.title"),
+    subtitle: t("home.function.wt_live.subtitle"),
+    description: t("home.function.wt_live.description"),
+  },
   {
     key: "setting",
     icon: "mdi-cog",
@@ -33,6 +42,7 @@ const commonFunctions = computed(() => [
     subtitle: t("home.function.setting.subtitle"),
     description: t("home.function.setting.description"),
   },
+
   // {
   //   key: "about",
   //   icon: "mdi-information",

@@ -17,24 +17,25 @@
       "wt_skins": "WT User Skins Manager",
       "wt_sight": "WT User Sights Manager",
       "wt_ext_cli": "WT Resource Extractor",
+      "wt_live": "WT Live Browser",
       "settings": "Settings",
       "about": "About"
     }
   },
   "home": {
-    "common_function": "Common Function",
-    "quick_link": "Quick Link",
-    "copyright": "Developed by axiangcoding, All rights reserved.",
+    "common_function": "Common Functions",
+    "quick_link": "Quick Links",
+    "copyright": "Developed by axiangcoding & llama-for3ver, All rights reserved. All trademarks belong to their respective owners. Licensed under GPL-3.0.",
     "function": {
       "wt_skins": {
         "title": "WT User Skins Manager",
         "subtitle": "Manage your WT user skins easily.",
-        "description": "Easily install, uninstall and manage user custom skins."
+        "description": "Easily install, uninstall and manage custom user skins."
       },
       "wt_sight": {
         "title": "WT User Sights Manager",
         "subtitle": "Manage your WT user sights easily.",
-        "description": "Easily install, uninstall and manage user custom sights."
+        "description": "Easily install, uninstall and manage custom user sights."
       },
       "wt_ext_cli": {
         "title": "WT Resource Extractor",
@@ -50,20 +51,25 @@
         "title": "About",
         "subtitle": "About the application.",
         "description": "About the application, some information about this application."
+      },
+      "wt_live": {
+        "title": "WT Live",
+        "subtitle": "Browse and download from WT Live.",
+        "description": "Easily view, download and install models, skins, missions and more from War Thunder Live."
       }
     },
     "link": {
       "wtlive": {
         "title": "WarThunder Live",
-        "description": "Official community of War Thunder, where players can share their game screenshots, videos, skins, etc."
+        "description": "Official community of War Thunder, where players can share their custom models, skins, missions etc."
       },
       "wtwiki": {
         "title": "WarThunder Wiki",
-        "description": "Official wiki of War Thunder, containing various information about the game, such as vehicle performance data, tactical skills, etc."
+        "description": "Official wiki of War Thunder, with vehicle data, game informations, guides and more."
       },
       "wtforum": {
         "title": "WarThunder Forum",
-        "description": "Official forum of War Thunder, where players can exchange game experience, make suggestions, etc."
+        "description": "Official forum of War Thunder, where players can make suggestions, exchange ideas and talk about the game."
       },
       "wtliker": {
         "title": "WT Skins (CN)",
@@ -71,15 +77,15 @@
       },
       "wtdata": {
         "title": "WT Heat Map",
-        "description": "WarThunder room heat map/trend map, you can view the heat map and trend map of the game."
+        "description": "War thunder heat maps and charts, with information such as win rate, kill/death ratio, etc."
       },
       "local8111": {
         "title": "Localhost 8111",
-        "description": "WarThunder 8111 port data, showing real-time game information and some real-time data of vehicles. Only content when the game is open."
+        "description": "Data from the local 8111 server, with current vehicle information, minimap, and chat. Only available when the game is open."
       },
       "wtwiki_cn": {
         "title": "WT Wiki (CN)",
-        "description": "WT Wiki (CN) created by Chinese players, dedicated to building a Chinese wiki community with complete information and a harmonious atmosphere."
+        "description": "WT Wiki (CN) created by Chinese players, dedicated to building a Chinese wiki community similar to the Official Wiki."
       }
     },
     "link_card": {
@@ -91,12 +97,12 @@
     }
   },
   "setting": {
-    "save_setting_success": "Save setting success!",
-    "auto_detected_wt_root_path_success": "Auto detected WarThunder root path success!",
-    "auto_detected_wt_setting_path_success": "Auto detected WarThunder setting path success!",
+    "save_setting_success": "Successfully saved settings!",
+    "auto_detected_wt_root_path_success": "Detected WarThunder root path successfully!",
+    "auto_detected_wt_setting_path_success": "Detected WarThunder setting path successfully!",
     "button": {
       "auto_detect": "Auto Detect",
-      "manual_select": "Manual Select",
+      "manual_select": "Select Manually",
       "open_folder": "Open Folder",
       "download_from_github": "Download from GitHub",
       "select_folder": "Select Folder",
@@ -111,8 +117,8 @@
     },
     "wt_setting_path": {
       "label": "WarThunder Setting Path",
-      "placeholder": "Please select WarThunder setting path",
-      "auto_detect_tooltip": "Auto detect WarThunder setting path"
+      "placeholder": "Please select WarThunder settings path",
+      "auto_detect_tooltip": "Auto detect WarThunder settings path"
     },
     "wt_ext_cli_path": {
       "label": "WT Resource Extractor (WT_EXT_CLI) Path",
@@ -123,8 +129,8 @@
   "wt_ext_cli": {
     "usage": {
       "title": "Usage",
-      "content1": "This tool is a package for the open source unpacking tool wt_ext_cli. It aims to lower the threshold of unpacking and improve the ability of players to get first-hand game resources.",
-      "content2": "The current compatible version of wt_ext_cli is > v0.5.3, please contact the developer in case of incompatibility."
+      "content1": "This tool is a GUI for the open source program wt_ext_cli. It aims to make it easier to unpack game resources, for later analysis.",
+      "content2": "The current compatible version of wt_ext_cli is > v0.5.3, please create an issue if it is not compatible."
     },
     "disclaimer": {
       "title": "Disclaimer",
@@ -133,9 +139,9 @@
     },
     "tool_detected_and_version": "Tool detected and version is",
     "tab": {
-      "unpack_vromf": "Unpack Vromf",
-      "unpack_dxp_and_grp": "Unpack Dxp And Grp",
-      "unpack_raw_blk": "Unpack Raw Blk",
+      "unpack_vromf": "Unpack vromf",
+      "unpack_dxp_and_grp": "Unpack dxp And grp",
+      "unpack_raw_blk": "Unpack raw blk",
       "vromf_version": "Vromf Version",
       "version": "Version",
       "help": "Help"
@@ -151,23 +157,23 @@
         "description": "Description",
         "args": "Arguments",
         "none": "None",
-        "exec_result": "Execution Result",
+        "exec_result": "Execution result",
         "exec_success": "Execution success!",
         "exec_error": "Execution error!",
-        "console_output": "Console Output"
+        "console_output": "Console output"
       },
       "help": {
         "description": "Print this message or the help of the given subcommand(s)"
       },
       "unpack_dxp_and_grp": {
-        "description": "Unpacks folder and subfolder DXP and GRP files to text-formatted file",
-        "input_dir_label": "Folder with DXP/GRP files inside",
+        "description": "Unpacks a folder and subfolders of dxp and grp files to text-formatted file",
+        "input_dir_label": "Folder with dxp/grp files inside",
         "output_dir_label": "Target folder that will be created to contain new files, preserving file structure",
-        "keep_suffix_label": "Paths and Names inside the final DXP/GRP are always followed by \"water_garbage_pile_b_tex_d$hq*\" or random unicode chars \"u+4575\"",
+        "keep_suffix_label": "Paths and Names inside the final dxp/grp are always followed by \"water_garbage_pile_b_tex_d$hq*\" or random unicode chars \"u+4575\"",
         "show_help_label": "Show help message"
       },
       "unpack_raw_blk": {
-        "description": "Unpacks a folder of raw/binary blk files into their unpacked format",
+        "description": "Unpacks a folder of raw/binary blk files.",
         "input_dir_label": "Folder containing blk files, sub-folders will be recursively searched",
         "output_dir_label": "Target folder that will be created to contain new files",
         "format_label": "Output format, can be one of: [Json, BlkText] [default: Json]",
@@ -228,7 +234,7 @@
       "jump_to1": "Jump to",
       "jump_to2": "check that the configuration items are set correctly"
     },
-    "total_space": "Total Space Occupancy:",
+    "total_space": "Total Space Used:",
     "filter_placeholder": "Filter by skin name",
     "dialog": {
       "delete_user_skin": "Delete User Skin",
@@ -305,6 +311,12 @@
       "show_folder": "Show Folder",
       "delete": "Delete"
     }
+  },
+  "wt_live": {
+    "title": "War Thunder Live",
+    "loading": "Loading...",
+    "download": "View File"
+
   },
   "bug_report": {
     "title": "Bug Report",

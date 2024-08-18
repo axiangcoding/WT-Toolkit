@@ -17,6 +17,7 @@
       "wt_skins": "自定义涂装管理",
       "wt_sight": "自定义瞄具管理",
       "wt_ext_cli": "解包工具",
+      "wt_live": "战雷直播 (英语)",
       "settings": "设置",
       "about": "关于"
     }
@@ -46,6 +47,11 @@
         "subtitle": "自定义应用程序设置。",
         "description": "自定义应用程序设置，包括语言、游戏路径等。"
       },
+      "wt_live": {
+        "title": "战雷直播 (英语)",
+        "subtitle": "从 WT Live 浏览和下载。",
+        "description": "轻松从 War Thunder Live 查看和下载模型、皮肤、任务等。"
+      },
       "about": {
         "title": "关于",
         "subtitle": "关于这个应用程序的信息。",
@@ -54,7 +60,7 @@
     },
     "link": {
       "wtlive": {
-        "title": "WarThunder Live",
+        "title": "战争雷霆直播",
         "description": "War Thunder官方社区，玩家可以分享游戏截图、视频、皮肤等。"
       },
       "wtwiki": {
@@ -305,6 +311,11 @@
       "show_folder": "查看涂装",
       "delete": "删除"
     }
+  },
+  "wt_live": {
+    "title": "战争雷霆直播 (英语)",
+    "loading": "加载中...",
+    "download": "查看文件"
   },
   "bug_report": {
     "title": "报告 BUG",

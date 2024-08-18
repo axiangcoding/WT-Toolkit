@@ -8,6 +8,8 @@ import { invoke } from "@tauri-apps/api";
 import { AppSettings } from "./schema";
 
 const appVersion = ref("");
+const latestVersion = ref("");
+const isOutdated = ref(false);
 const drawer = ref(false);
 const feedbackDialog = ref(false);
 
@@ -37,6 +39,11 @@ const wtTool = computed(() => [
     title: t("app.nav_drawer.wt_ext_cli"),
     to: "/wt-ext-cli",
   },
+  {
+    icon: "mdi-web",
+    title: t("app.nav_drawer.wt_live"),
+    to: "/wt-live",
+  },
 ]);
 
 const appInfo = computed(() => [
@@ -45,11 +52,6 @@ const appInfo = computed(() => [
     title: t("app.nav_drawer.settings"),
     to: "/setting",
   },
-  // {
-  //   icon: "mdi-information",
-  //   title: t("app.nav_drawer.about"),
-  //   to: "/about",
-  // },
 ]);
 
 const followLinks = computed(() => [
@@ -67,6 +69,31 @@ const followLinks = computed(() => [
 
 onMounted(async () => {
   appVersion.value = await getVersion();
+
+  // check if the app is outdated
+  /*
+  try {
+    function normalizeVersion(version: string): string {
+      return version.replace(/^v/, "").trim();
+    }
+    const rawAppVersion = await getVersion();
+    appVersion.value = normalizeVersion(rawAppVersion);
+    const response = await fetch("https://api.github.com/repos/axiangcoding/WT-Toolkit/releases/latest");
+    const data = await response.json();
+    latestVersion.value = normalizeVersion(data.tag_name);
+
+    if (appVersion.value !== latestVersion.value) {
+      isOutdated.value = true;
+      console.log(`Outdated! The latest version is v${latestVersion.value} - current version is v${appVersion.value}`);
+    } else {
+      isOutdated.value = false;
+      console.log(`Up to date. The latest version is v${latestVersion.value} - current version is v${appVersion.value}`);
+    }
+  } catch (error) {
+    console.error("Failed to fetch the latest version:", error);
+  }
+    */
+
   let cfg: AppSettings = await invoke("get_app_config");
   if (cfg.language) {
     console.log(cfg.language);
@@ -96,7 +123,7 @@ async function switchLanguage(target: string) {
 
       <v-app-bar-title>
         {{ t("app.title") }}
-        <v-chip color="green" variant="flat" rounded>
+        <v-chip :color="isOutdated ? 'red' : 'green'" variant="flat" rounded>
           v{{ appVersion }}
         </v-chip>
       </v-app-bar-title>
@@ -117,14 +144,8 @@ async function switchLanguage(target: string) {
           </template>
 
           <v-list>
-            <v-list-item
-              v-for="(item, index) in followLinks"
-              :key="index"
-              :value="index"
-              append-icon="mdi-open-in-new"
-              :prepend-icon="item.icon"
-              @click="jumpTo(item.url)"
-            >
+            <v-list-item v-for="(item, index) in followLinks" :key="index" :value="index" append-icon="mdi-open-in-new"
+              :prepend-icon="item.icon" @click="jumpTo(item.url)">
               {{ item.text }}
             </v-list-item>
           </v-list>
@@ -143,17 +164,8 @@ async function switchLanguage(target: string) {
       </template>
     </v-app-bar>
 
-    <v-navigation-drawer
-      v-model="drawer"
-      :location="$vuetify.display.mobile ? 'bottom' : undefined"
-      temporary
-    >
-      <v-list
-        nav
-        active-strategy="single-leaf"
-        activated="wt-skins"
-        color="primary"
-      >
+    <v-navigation-drawer v-model="drawer" :location="$vuetify.display.mobile ? 'bottom' : undefined" temporary>
+      <v-list nav active-strategy="single-leaf" activated="wt-skins" color="primary">
         <v-list-item v-for="item in homeList" :key="item.to" :to="item.to">
           <template v-slot:prepend>
             <v-icon :icon="item.icon"></v-icon>

@@ -1,3 +1,4 @@
+import { path } from "@tauri-apps/api";
 import { createMemoryHistory, createRouter } from "vue-router";
 
 const routes = [
@@ -27,6 +28,11 @@ const routes = [
     name: "setting",
     component: () => import("@/pages/Setting.vue"),
   },
+  {
+    path: "/wt-live",
+    name: "wt-live",
+    component: () => import("@/pages/WTLiveBrowser.vue"),
+  }
 ];
 
 const router = createRouter({
