@@ -37,6 +37,11 @@ const wtTool = computed(() => [
     title: t("app.nav_drawer.wt_ext_cli"),
     to: "/wt-ext-cli",
   },
+  {
+    icon: "mdi-web",
+    title: t("app.nav_drawer.wt_live"),
+    to: "/wt-live",
+  },
 ]);
 
 const appInfo = computed(() => [
