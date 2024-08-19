@@ -103,6 +103,13 @@ const usefulLinks = computed(() => [
     title: t("home.link.local8111.title"),
     description: t("home.link.local8111.description"),
   },
+  // {
+  //   key: "rooikat",
+  //   url: "https://rooik.at",
+  //   isOfficial: false,
+  //   title: t("home.link.rooikat.title"),
+  //   description: t("home.link.rooikat.description"),
+  // },
 ]);
 
 import image1 from "@/assets/images/worldwar_window_bg_battle_for_caen.png";

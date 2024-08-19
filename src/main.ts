@@ -7,6 +7,9 @@ import "@/styles/global.css";
 import { createVuetify } from "vuetify";
 import router from "./router";
 
+// Posthog
+import posthogPlugin from "./plugins/posthog";
+
 // Components
 import App from "./App.vue";
 import { md3 } from "vuetify/blueprints";
@@ -16,4 +19,4 @@ const vuetify = createVuetify({ blueprint: md3 });
 
 const app = createApp(App);
 
-app.use(vuetify).use(i18n).use(router).mount("#app");
+app.use(vuetify).use(i18n).use(router).use(posthogPlugin).mount("#app");
